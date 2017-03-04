@@ -48,11 +48,12 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1654993792695622}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71e6638669e365340b4ce6454743cf5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myCreator: {fileID: 0}
 --- !u!198 &198745640353747564
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -108,7 +109,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 976511310
+  randomSeed: -1216800878
   InitialModule:
     serializedVersion: 3
     enabled: 1

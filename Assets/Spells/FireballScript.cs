@@ -1,11 +1,14 @@
 ﻿using System.Collections;
+using UnityEngine.Networking;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FireballScript : MonoBehaviour {
+public class FireballScript : NetworkBehaviour {
 
     private ParticleSystem ps;
     private float speed = 0;
+    [HideInInspector]
+    public NetworkedPlayerScript creator;
 
     private void Awake()
     {
@@ -21,7 +24,7 @@ public class FireballScript : MonoBehaviour {
 
     private void FixedUpdate()
     {
-        //transform.Translate(Vector3.forward);
+        transform.Translate(Vector3.forward * Time.deltaTime * 10);
     }
 
     public void Remove()
@@ -33,5 +36,14 @@ public class FireballScript : MonoBehaviour {
     {
         yield return new WaitForSeconds(5.0f);
         Destroy(gameObject);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Player" && other.gameObject.GetComponent<NetworkedPlayerScript>().netId.Value != creator.netId.Value)
+        {
+            other.gameObject.GetComponent<NetworkedPlayerScript>().RpcResolveHit((int)(10 * (transform.localScale.x * 5)));
+            Destroy(gameObject);
+        }
     }
 }

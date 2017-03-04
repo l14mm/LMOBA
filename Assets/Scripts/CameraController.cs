@@ -4,25 +4,56 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour {
 
-    float minFov = 15f;
-    float maxFov = 90f;
-    float sensitivity = 10f;
+    private float minFov = 15f;
+    private float maxFov = 90f;
+    private float scrollSensitivity = 10f;
+    private float moveSensitivity = 10f;
 
     private Camera me;
+
+    private bool cameraLocked = true;
+    [HideInInspector]
+    public Transform myPlayer;
+    private Vector3 initialPosition;
+
 
     private void Awake()
     {
         me = GetComponent<Camera>();
+        initialPosition = transform.position;
+    }
+
+    public void SetPlayer(Transform _myPlayer)
+    {
+        myPlayer = _myPlayer;
     }
 
     void Update ()
     {
         float fov = me.fieldOfView;
-        fov += Input.GetAxis("Mouse ScrollWheel") * -sensitivity;
+        fov += Input.GetAxis("Mouse ScrollWheel") * -scrollSensitivity;
         fov = Mathf.Clamp(fov, minFov, maxFov);
         me.fieldOfView = fov;
+        
+        if(Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
+        {
+            cameraLocked = false;
+            Vector3 translation = new Vector3(Input.GetAxis("Horizontal") * Time.deltaTime * moveSensitivity, 0, Input.GetAxis("Vertical") * Time.deltaTime * moveSensitivity);
+            transform.position = transform.position + translation;
+        }
 
-        Vector3 trans = new Vector3(Input.GetAxis("Horizontal") * Time.deltaTime, Input.GetAxis("Vertical") * Time.deltaTime, 0);
-        transform.Translate(trans);
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            cameraLocked = !cameraLocked;
+        }
+
+        if(cameraLocked && myPlayer)
+        {
+            transform.position = initialPosition + myPlayer.position;
+        }
+        else
+        {
+
+        }
     }
 }

@@ -29,18 +29,38 @@ public class NetworkedPlayerScript : NetworkBehaviour
     public string names;
 
     public SyncListString namesList;
-    private Transform spawnPoint;
+    public Vector3 spawnPoint;
 
     public Camera p_Camera;
-    private Camera myCamera;
+    [HideInInspector]
+    public Camera myCamera;
 
+    //[HideInInspector]
     //[SyncVar]
-    //public List<string> namesList;
+    public NetworkInstanceId id;
+    //[SyncVar]
+    public float idfloat;
+
+    public bool isAI;
+
+    void Awake()
+    {
+
+        renderers = GetComponentsInChildren<Renderer>();
+        health = 100;
+
+        healthBarHUD = GameObject.Find("HealthHUD").GetComponent<Transform>();
+
+        namesList = new SyncListString();
+
+        spawnPoint = transform.position;
+
+    }
 
     private void FixedUpdate()
     {
         if (health < 100)
-            health += 0.5f;
+            health += 0.01f;
     }
 
     void Update()
@@ -49,12 +69,16 @@ public class NetworkedPlayerScript : NetworkBehaviour
         nameTag.text = playerName;
         skin.GetComponent<Renderer>().material.color = playerColour;
 
-        // Hit Screen
-
-
         // Healthbar
-        //healthBar.localScale = new Vector3(health * 0.005f, 0.2f, 1);
-        //healthBarHUD.localScale = new Vector3(health * 0.005f, 0.2f, 1);
+        //healthBar.transform.LookAt(myCamera.transform);
+        //healthBar.transform.up = myCamera.transform.position + transform.position;
+        //healthBar.transform.forward = Vector3.Normalize(myCamera.transform.position - healthBar.transform.position);
+        healthBar.transform.forward = Vector3.up;
+        healthBar.transform.position = transform.position + Vector3.forward;
+        //healthBar.transform.position = transform.position;
+        healthBar.localScale = new Vector3(health * 0.005f, 0.2f, 1);
+        if(isLocalPlayer)
+            healthBarHUD.localScale = new Vector3(health * 0.005f, 0.2f, 1);
 
         if (namesList != null && false)
         {
@@ -69,30 +93,6 @@ public class NetworkedPlayerScript : NetworkBehaviour
             if (namesList.Count == 4)
                 playersList.text = "Players: " + playerCount.ToString() + "\n" + namesList[0].ToString() + "\n" + namesList[1].ToString() + "\n" + namesList[2].ToString() + "\n" + namesList[3].ToString();
         }
-
-        //Debug.Log("namesList Length: " + namesList.Count);
-
-        //if (!isLocalPlayer)
-            //return;
-
-        //Debug.Log("playerName: " + playerName.ToString());
-        //Debug.Log("names: " + names.ToString());
-
-    }
-
-    void Awake()
-    {
-
-        renderers = GetComponentsInChildren<Renderer>();
-        health = 100;
-
-        //healthBarHUD = GameObject.Find("HealthHUD").GetComponent<Transform>();
-        //playersList = GameObject.Find("Players").GetComponent<Text>();
-
-        namesList = new SyncListString();
-
-        if(spawnPoint == null)
-            spawnPoint = transform;
     }
 
     [Command]
@@ -114,8 +114,12 @@ public class NetworkedPlayerScript : NetworkBehaviour
 
         //Debug.Log("playerNameStart: " + playerName.ToString());
         CmdSendName(playerName);
-        Debug.Log("creating camera");
+        //Debug.Log("creating camera");
         myCamera = Instantiate(p_Camera);
+        myCamera.GetComponent<CameraController>().SetPlayer(transform);
+
+        id = netId;
+        idfloat = netId.Value;
 
         base.OnStartLocalPlayer();        
     }
@@ -134,11 +138,12 @@ public class NetworkedPlayerScript : NetworkBehaviour
     [ClientRpc]
     public void RpcResolveHit(int damage)
     {
-        Debug.Log("ouch");
+        //Debug.Log("ouch");
         health -= damage;
         if (health <= 0)
         {
             //ToggleRenderer(false);
+            transform.position = spawnPoint;
             gameObject.SetActive(false);
 
             if (isLocalPlayer)
@@ -157,8 +162,6 @@ public class NetworkedPlayerScript : NetworkBehaviour
     {
         //ToggleRenderer(true);
         gameObject.SetActive(true);
-        transform.position = spawnPoint.position;
-        transform.rotation = spawnPoint.rotation;
         health = 100;
 
         if (isLocalPlayer)

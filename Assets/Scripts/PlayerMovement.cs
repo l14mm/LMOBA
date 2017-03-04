@@ -1,9 +1,10 @@
 ﻿using System.Collections;
+using UnityEngine.Networking;
 using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(UnityEngine.AI.NavMeshAgent))]
-public class PlayerMovement : MonoBehaviour {
+public class PlayerMovement : NetworkBehaviour {
 
     private CharacterController controller;
     public float speed = 1;
@@ -19,6 +20,9 @@ public class PlayerMovement : MonoBehaviour {
 	
 	void Update ()
     {
+        if (!isLocalPlayer)
+            return;
+
         if(waypoint != null && waypoint != transform.position)
         {
             agent.SetDestination(waypoint);
@@ -27,7 +31,7 @@ public class PlayerMovement : MonoBehaviour {
         if (Input.GetMouseButton(1))
         {
             RaycastHit hit;
-            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit))
+            if (Physics.Raycast(GetComponent<NetworkedPlayerScript>().myCamera.ScreenPointToRay(Input.mousePosition), out hit))
             {
                 //Debug.DrawLine(hit.point, Input.mousePosition, Color.red);
                 waypoint = hit.point;
