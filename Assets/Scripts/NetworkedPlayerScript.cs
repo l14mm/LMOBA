@@ -43,6 +43,10 @@ public class NetworkedPlayerScript : NetworkBehaviour
 
     public bool isAI;
 
+    public Material outlineMaterial;
+    private Material originalMaterial;
+    public Renderer myRenderer;
+
     void Awake()
     {
 
@@ -55,6 +59,17 @@ public class NetworkedPlayerScript : NetworkBehaviour
 
         spawnPoint = transform.position;
 
+        originalMaterial = myRenderer.material;
+    }
+
+    public void Select()
+    {
+        myRenderer.material = outlineMaterial;
+    }
+
+    public void DeSelect()
+    {
+        myRenderer.material = originalMaterial;
     }
 
     private void FixedUpdate()
@@ -70,13 +85,10 @@ public class NetworkedPlayerScript : NetworkBehaviour
         skin.GetComponent<Renderer>().material.color = playerColour;
 
         // Healthbar
-        //healthBar.transform.LookAt(myCamera.transform);
-        //healthBar.transform.up = myCamera.transform.position + transform.position;
-        //healthBar.transform.forward = Vector3.Normalize(myCamera.transform.position - healthBar.transform.position);
         healthBar.transform.forward = Vector3.up;
         healthBar.transform.position = transform.position + Vector3.forward;
-        //healthBar.transform.position = transform.position;
         healthBar.localScale = new Vector3(health * 0.005f, 0.2f, 1);
+
         if(isLocalPlayer)
             healthBarHUD.localScale = new Vector3(health * 0.005f, 0.2f, 1);
 

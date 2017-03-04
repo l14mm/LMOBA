@@ -633,6 +633,8 @@ MonoBehaviour:
   myCamera: {fileID: 0}
   idfloat: 0
   isAI: 1
+  outlineMaterial: {fileID: 2100000, guid: 64e61e91a822d6e4fa6d588e4fca1247, type: 2}
+  myRenderer: {fileID: 23773400970278974}
 --- !u!119 &119633458650669390
 Projector:
   m_ObjectHideFlags: 1
