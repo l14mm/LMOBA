@@ -12,6 +12,7 @@ TagManager:
   - Siren
   - Alarm
   - DangerSpell
+  - Floor
   layers:
   - Default
   - TransparentFX

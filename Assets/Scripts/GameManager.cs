@@ -10,7 +10,7 @@ public class GameManager : NetworkBehaviour {
 
     void Start()
     {
-        int numAI = 2;
+        int numAI = 3;
         for(int i = 1; i < numAI + 1; i++)
         {
             GameObject aiPlayer = Instantiate(p_AIPlayer, spawns[i].transform.position, spawns[i].transform.rotation);            

@@ -33,7 +33,7 @@ public class ServerScript : NetworkBehaviour {
         //Debug.Log("network name: " + name);
         names = name;
         namesList.Add(name);
-        Debug.Log("list: " + namesList[0].ToString());
+        //Debug.Log("list: " + namesList[0].ToString());
 
         GetComponent<NetworkedPlayerScript>().playerCount = playerCount;
         //Debug.Log("network names: " + names);

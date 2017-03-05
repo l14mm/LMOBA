@@ -9,7 +9,8 @@ public class PlayerMovement : NetworkBehaviour {
     private CharacterController controller;
     public float speed = 1;
     public UnityEngine.AI.NavMeshAgent agent { get; private set; }
-    private Vector3 waypoint;
+    [HideInInspector]
+    public Vector3 waypoint;
 
     private void Start ()
     {
@@ -23,32 +24,45 @@ public class PlayerMovement : NetworkBehaviour {
         if (!isLocalPlayer)
             return;
 
-        if(waypoint != null && waypoint != transform.position)
+        if(GetComponent<ShootingScript>().target)
         {
+            if(Vector3.Distance(transform.position, GetComponent<ShootingScript>().target.position) >= GetComponent<ShootingScript>().autoRange)
+            {
+                //Debug.Log("too far away to auto, moving closer");
+                agent.SetDestination(GetComponent<ShootingScript>().target.position);
+            }
+        }
+        else if (GetComponent<ShootingScript>().isCasting)
+        {
+            agent.SetDestination(transform.position);
+            agent.updateRotation = false;
+            
+            // Lerp rotation to face target
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(GetComponent<ShootingScript>().autoTarget - transform.position), Time.deltaTime * 10);
+        }
+        else if(waypoint != null && waypoint != transform.position)
+        {
+            if(!agent.updateRotation)
+                agent.updateRotation = true;
+
             agent.SetDestination(waypoint);
-            //transform.LookAt(waypoint);
         }
         if (Input.GetMouseButton(1))
         {
             RaycastHit hit;
             if (Physics.Raycast(GetComponent<NetworkedPlayerScript>().myCamera.ScreenPointToRay(Input.mousePosition), out hit))
             {
-                //Debug.DrawLine(hit.point, Input.mousePosition, Color.red);
-                waypoint = hit.point;
-            }
-            else
-            {
-                //Debug.Log("didnt hit");
+                if(hit.transform.tag == "Floor")
+                {
+                    waypoint = hit.point;
+                    // If we click somewhere else on the map, we want to remove our target
+                    if(GetComponent<ShootingScript>().target)
+                    {
+                        GetComponent<ShootingScript>().target = null;
+                    }
+                }
             }
         }
-        /*
-        float horizontal = Input.GetAxis("Horizontal") * speed * Time.deltaTime;
-        float vertical = Input.GetAxis("Vertical") * speed * Time.deltaTime;
-
-        //controller.SimpleMove(new Vector3(horizontal, 0, vertical));
-        transform.Translate(new Vector3(horizontal, 0, vertical));
-        */
-
     }
 
     private void OnDrawGizmos()

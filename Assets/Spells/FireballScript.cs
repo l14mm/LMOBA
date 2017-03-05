@@ -6,9 +6,10 @@ using UnityEngine;
 public class FireballScript : NetworkBehaviour {
 
     private ParticleSystem ps;
-    private float speed = 0;
+    private float speed = 10;
     [HideInInspector]
     public NetworkedPlayerScript creator;
+    public GameObject p_FireExplosion;
 
     private void Awake()
     {
@@ -24,7 +25,7 @@ public class FireballScript : NetworkBehaviour {
 
     private void FixedUpdate()
     {
-        transform.Translate(Vector3.forward * Time.deltaTime * 10);
+        transform.Translate(Vector3.forward * Time.deltaTime * speed);
     }
 
     public void Remove()
@@ -40,9 +41,31 @@ public class FireballScript : NetworkBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Player" && other.gameObject.GetComponent<NetworkedPlayerScript>().netId.Value != creator.netId.Value)
+        if (other.transform.parent && other.transform.parent.tag == "Player" && other.GetComponentInParent<NetworkedPlayerScript>().netId == creator.netId)
+        {
+
+        }
+        else if (other.transform.tag == "Player" && other.GetComponent<NetworkedPlayerScript>().netId == creator.netId)
+        {
+
+        }
+        else if (other.transform.parent && other.transform.parent.tag == "Player" && other.GetComponentInParent<NetworkedPlayerScript>().netId != creator.netId)
+        {
+            other.transform.parent.GetComponent<NetworkedPlayerScript>().RpcResolveHit((int)(10 * (transform.localScale.x * 5)));
+            Instantiate(p_FireExplosion, transform.position, transform.rotation);
+            Destroy(gameObject);
+        }
+        else if (other.gameObject.tag == "Player" && other.GetComponent<NetworkedPlayerScript>().netId != creator.netId)
         {
             other.gameObject.GetComponent<NetworkedPlayerScript>().RpcResolveHit((int)(10 * (transform.localScale.x * 5)));
+            Instantiate(p_FireExplosion, transform.position, transform.rotation);
+            Destroy(gameObject);
+        }
+        else
+        {
+            //Debug.Log("hit: " + other.gameObject.name);
+            //Destroy(other);
+            Instantiate(p_FireExplosion, transform.position, transform.rotation);
             Destroy(gameObject);
         }
     }

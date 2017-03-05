@@ -272,7 +272,7 @@ MeshRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1214999885310466}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_MotionVectors: 1
@@ -386,7 +386,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!65 &65988538174717854
 BoxCollider:
@@ -513,6 +513,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 2
+  waypoint: {x: 0, y: 0, z: 0}
 --- !u!114 &114068738455251542
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -569,7 +570,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bf8d12a240315a42b4bac78e102f485, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  target: {fileID: 0}
   state: 0
+  previousPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &114511169290404636
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -588,6 +591,14 @@ MonoBehaviour:
   p_fireball: {fileID: 1829482528203904, guid: 5f3f2ca07532a8940bb2475d653c5c8a, type: 2}
   p_fire: {fileID: 1654993792695622, guid: d0795d1f08c793c4e8798c13dba25a29, type: 2}
   t_shoot: {fileID: 4957054928313310}
+  p_AutoAttack: {fileID: 1972102020535790, guid: 761a90b00ba93b04eaaf9d21be7545d9,
+    type: 2}
+  autoTarget: {x: 0, y: 0, z: 0}
+  autoRange: 20
+  target: {fileID: 0}
+  isCasting: 0
+  p_Lightning: {fileID: 1852028179912878, guid: a3fd54b0bdd9ece4b9811da979f751c2,
+    type: 2}
 --- !u!114 &114581609748477834
 MonoBehaviour:
   m_ObjectHideFlags: 1

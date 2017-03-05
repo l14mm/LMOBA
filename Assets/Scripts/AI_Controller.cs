@@ -4,14 +4,22 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(ShootingScript))]
-public class AI_Controller : NetworkBehaviour {
-
-    private Transform target;
-    private ShootingScript shootingScript;
-    public State state;
-
+public class AI_Controller : NetworkBehaviour
+{
     public UnityEngine.AI.NavMeshAgent agent { get; private set; }
     public UnityStandardAssets.Characters.ThirdPerson.ThirdPersonCharacter character { get; private set; }
+
+    public Transform target;
+    private ShootingScript shootingScript;
+    public State state;
+    public Vector3 previousPosition;
+
+    // Wander stuff
+    private float wanderRadius = 50;
+    private float wanderTimer = 5;
+
+    private Transform wanderTarget;
+    private float timer;
 
     public enum State
     {
@@ -33,14 +41,17 @@ public class AI_Controller : NetworkBehaviour {
         shootingScript = GetComponent<ShootingScript>();
         StartCoroutine(FindTarget());
         state = State.attack;
+
+        timer = wanderTimer;
         
-        InvokeRepeating("LookAndShoot", 1, 1);
     }
 
     private void Update()
     {
         // Avoid spells
         Transform spellToAvoid = null;
+        bool moveRight = true;
+        float closestDistance = 11;
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, 20);
         for (int i = 0; i < hitColliders.Length; i++)
         {
@@ -52,28 +63,82 @@ public class AI_Controller : NetworkBehaviour {
                 Vector3 directionToUs = (transform.position - temp.transform.position).normalized;
                 // Check angle between two vectors/direcitons
                 float angle = Vector3.Angle(spellDirection, directionToUs);
-                if(angle <  20)
-                {
-                    //Debug.Log("Incoming spell");
-                    spellToAvoid = temp.transform;
-                }
+                // Check if it is negative
+                Vector3 cross = Vector3.Cross(spellDirection, directionToUs);
+                if (cross.y < 0) angle = -angle;
 
+                // If angle is positive, the spell is on the right of us, so we should move to the left
+                if (angle <  20 && angle > -20)
+                {
+                    if (angle > 0) moveRight = false;
+                    else moveRight = true;
+
+                    // Calculate distance to spell, we only want to avoid the closest spell at the moment
+                    float distance = Vector3.Distance(transform.position, temp.transform.position);
+                    if(distance < closestDistance)
+                    {
+                        spellToAvoid = temp.transform;
+                        closestDistance = distance;
+                    }
+                }
             }
         }
 
-        if (spellToAvoid)
+        if (spellToAvoid && state != State.avoid)
         {
+            //Debug.Log("current position: " + transform.position);
+            previousPosition = transform.position;
             state = State.avoid;
         }
 
         if (state == State.wander)
         {
-            transform.Translate(Vector3.forward * Time.deltaTime);
+            //transform.Translate(Vector3.forward * Time.deltaTime);
+            timer += Time.deltaTime;
+
+            if (timer >= wanderTimer)
+            {
+                Vector3 newPos = RandomNavSphere(transform.position, wanderRadius, -1);
+                agent.SetDestination(newPos);
+                timer = 0;
+            }
+
+            StartCoroutine(FindTarget());
+
         }
-        else if (state == State.attack && target != null)
+        else if (state == State.attack)
         {
-            agent.SetDestination(target.position);
-            transform.LookAt(target.position);
+            if(target)
+            {
+                agent.stoppingDistance = 10;
+                //agent.SetDestination(target.position);
+                //transform.LookAt(target.position);
+            }
+            if (Vector3.Distance(transform.position, previousPosition) > 1)
+            {
+                agent.stoppingDistance = 1;
+                agent.SetDestination(previousPosition);
+                transform.LookAt(previousPosition);
+            }
+            // We only want to shoot if we can see the player (the line of sight is clear)
+            if (target)
+            {
+                RaycastHit hit;
+                Vector3 rayDirection = target.position - transform.position;
+                if (Physics.Raycast(transform.position, rayDirection, out hit))
+                {
+                    if (hit.transform == target)
+                    {
+                        // enemy can see the player!
+                        LookAndShoot();
+                    }
+                    else
+                    {
+                        // there is something obstructing the view
+                        state = State.wander;
+                    }
+                }
+            }
         }
         else if(state == State.avoid)
         {
@@ -81,28 +146,62 @@ public class AI_Controller : NetworkBehaviour {
             {
                 Vector3 spellDirection = spellToAvoid.forward;
                 Vector3 avoidDirection = spellToAvoid.right.normalized * 25;
+                if (moveRight) avoidDirection *= -1;
                 agent.SetDestination(transform.position + avoidDirection);
-                transform.LookAt(target.position);
+                //transform.LookAt(target.position);
+                transform.LookAt(transform.position + avoidDirection);
             }
             else
                 state = State.attack;
         }
     }
 
+    public static Vector3 RandomNavSphere(Vector3 origin, float dist, int layermask)
+    {
+        Vector3 randDirection = Random.insideUnitSphere * dist;
+
+        randDirection += origin;
+
+        UnityEngine.AI.NavMeshHit navHit;
+
+        UnityEngine.AI.NavMesh.SamplePosition(randDirection, out navHit, dist, layermask);
+
+        return navHit.position;
+    }
+
     private IEnumerator FindTarget()
     {
         yield return new WaitForSeconds(0.1f);
-
-        //target = GameObject.Find("LOCAL Player").transform;
+        
+        float closestDistance = 51;
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, 50);
         for (int i = 0; i < hitColliders.Length; i++)
         {
             GameObject temp = hitColliders[i].gameObject;
-            if (temp.tag == "Player" && temp.GetComponent<NetworkedPlayerScript>().netId.Value != netId.Value && temp.GetComponent<NetworkedPlayerScript>().isAI)
+            if (temp.tag == "Player" && temp.GetComponent<NetworkedPlayerScript>().netId != netId && temp.GetComponent<NetworkedPlayerScript>().isAI)
             {
-                //Debug.Log("my id: " + netId.Value);
-                //Debug.Log("their id: " + temp.GetComponent<NetworkedPlayerScript>().netId.Value);
-                target = temp.transform;
+                float distance = Vector3.Distance(transform.position, temp.transform.position);
+                if(distance < closestDistance)
+                {
+                    closestDistance = distance;
+                    target = temp.transform;
+
+                    RaycastHit hit;
+                    Vector3 rayDirection = target.position - transform.position;
+                    if (Physics.Raycast(transform.position, rayDirection, out hit))
+                    {
+                        if (hit.transform == target)
+                        {
+                            // We can see the target
+                            //LookAndShoot();
+                            state = State.attack;
+                        }
+                        else
+                        {
+                            // there is something obstructing the view
+                        }
+                    }
+                }
             }
         }
 
@@ -115,8 +214,23 @@ public class AI_Controller : NetworkBehaviour {
     {
         if (target)
         {
+            //transform.LookAt(target.position);
+            // Calculate where target will be
+            Vector3 estimatedPosition = target.position + target.forward * Vector3.Distance(transform.position, target.position + target.forward) * 0.5f;
+            estimatedPosition = target.position;
+
+            transform.LookAt(estimatedPosition);
             shootingScript.CreateFire();
-            shootingScript.CreateFireBall(target.transform);
+            shootingScript.CreateFireBallAI(estimatedPosition);
+        }
+    }
+
+    void OnDrawGizmos()
+    {
+        if(target)
+        {
+            //Vector3 estimatedPosition = target.position + target.forward * Vector3.Distance(transform.position, target.position + target.forward) * 0.5f;
+            //Gizmos.DrawLine(target.position, estimatedPosition);
         }
     }
 }
