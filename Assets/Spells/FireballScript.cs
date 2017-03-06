@@ -6,7 +6,7 @@ using UnityEngine;
 public class FireballScript : NetworkBehaviour {
 
     private ParticleSystem ps;
-    private float speed = 10;
+    private float speed = 20;
     [HideInInspector]
     public NetworkedPlayerScript creator;
     public GameObject p_FireExplosion;

@@ -8,6 +8,8 @@ public class GameManager : NetworkBehaviour {
     public GameObject p_AIPlayer;
     public List<NetworkStartPosition> spawns;
 
+    public List<string> playerList = new List<string>();
+
     void Start()
     {
         int numAI = 3;

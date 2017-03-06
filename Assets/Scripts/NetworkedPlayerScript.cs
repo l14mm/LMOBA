@@ -9,7 +9,10 @@ public class NetworkedPlayerScript : NetworkBehaviour
     public GameObject skin;
     public TextMesh nameTag;
     public Transform healthBar;
-    Transform healthBarHUD;
+    private Transform healthBarHUD;
+    private Transform manaBarHUD;
+
+    public Canvas tabCanvas;
 
     Text playersList;
 
@@ -21,6 +24,8 @@ public class NetworkedPlayerScript : NetworkBehaviour
     public Color playerColour;
     [SyncVar]
     public float health;
+    [SyncVar]
+    public float mana;
 
     [SyncVar]
     public int playerCount;
@@ -47,19 +52,32 @@ public class NetworkedPlayerScript : NetworkBehaviour
     private Material originalMaterial;
     public Renderer myRenderer;
 
+    private GameManager gManager;
+
     void Awake()
     {
 
         renderers = GetComponentsInChildren<Renderer>();
         health = 100;
+        mana = 100;
 
         healthBarHUD = GameObject.Find("HealthHUD").GetComponent<Transform>();
+        manaBarHUD = GameObject.Find("ManaHUD").GetComponent<Transform>();
 
         namesList = new SyncListString();
 
         spawnPoint = transform.position;
 
         originalMaterial = myRenderer.material;
+
+        tabCanvas = GameObject.Find("TabCanvas").GetComponent<Canvas>();
+        tabCanvas.enabled = false;
+
+        gManager = GameObject.Find("Server").GetComponent<GameManager>();
+        if(isAI)
+            gManager.playerList.Add("AI player");
+        else
+            gManager.playerList.Add("Player");
     }
 
     public void Select()
@@ -76,6 +94,8 @@ public class NetworkedPlayerScript : NetworkBehaviour
     {
         if (health < 100)
             health += 0.01f;
+        if (mana < 100)
+            mana += 0.05f;
     }
 
     void Update()
@@ -89,8 +109,11 @@ public class NetworkedPlayerScript : NetworkBehaviour
         healthBar.transform.position = transform.position + Vector3.forward;
         healthBar.localScale = new Vector3(health * 0.005f, 0.2f, 1);
 
-        if(isLocalPlayer)
-            healthBarHUD.localScale = new Vector3(health * 0.005f, 0.2f, 1);
+        if (isLocalPlayer)
+        {
+            healthBarHUD.localScale = new Vector3(health * 0.01f, 0.4f, 2);
+            manaBarHUD.localScale = new Vector3(mana * 0.01f, 0.4f, 2);
+        }
 
         if (namesList != null && false)
         {
@@ -104,6 +127,18 @@ public class NetworkedPlayerScript : NetworkBehaviour
                 playersList.text = "Players: " + playerCount.ToString() + "\n" + namesList[0].ToString() + "\n" + namesList[1].ToString() + "\n" + namesList[2].ToString();
             if (namesList.Count == 4)
                 playersList.text = "Players: " + playerCount.ToString() + "\n" + namesList[0].ToString() + "\n" + namesList[1].ToString() + "\n" + namesList[2].ToString() + "\n" + namesList[3].ToString();
+        }
+        if (isLocalPlayer)
+        {
+            if (Input.GetKeyDown(KeyCode.Tab))
+            {
+                tabCanvas.enabled = true;
+            }
+
+            if (Input.GetKeyUp(KeyCode.Tab))
+            {
+                tabCanvas.enabled = false;
+            }
         }
     }
 
@@ -148,7 +183,7 @@ public class NetworkedPlayerScript : NetworkBehaviour
     }
 
     [ClientRpc]
-    public void RpcResolveHit(int damage)
+    public void RpcResolveHit(float damage)
     {
         //Debug.Log("ouch");
         health -= damage;

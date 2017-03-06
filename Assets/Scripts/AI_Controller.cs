@@ -130,7 +130,7 @@ public class AI_Controller : NetworkBehaviour
                     if (hit.transform == target)
                     {
                         // enemy can see the player!
-                        LookAndShoot();
+                        StartCoroutine(LookShootFireball());
                     }
                     else
                     {
@@ -178,7 +178,8 @@ public class AI_Controller : NetworkBehaviour
         for (int i = 0; i < hitColliders.Length; i++)
         {
             GameObject temp = hitColliders[i].gameObject;
-            if (temp.tag == "Player" && temp.GetComponent<NetworkedPlayerScript>().netId != netId && temp.GetComponent<NetworkedPlayerScript>().isAI)
+            //if (temp.tag == "Player" && temp.GetComponent<NetworkedPlayerScript>().netId != netId && temp.GetComponent<NetworkedPlayerScript>().isAI)
+            if (temp.tag == "Player" && temp.GetComponent<NetworkedPlayerScript>().netId != netId)
             {
                 float distance = Vector3.Distance(transform.position, temp.transform.position);
                 if(distance < closestDistance)
@@ -210,17 +211,18 @@ public class AI_Controller : NetworkBehaviour
             StartCoroutine(FindTarget());
     }
 
-    private void LookAndShoot()
+    private IEnumerator LookShootFireball()
     {
         if (target)
         {
             //transform.LookAt(target.position);
             // Calculate where target will be
-            Vector3 estimatedPosition = target.position + target.forward * Vector3.Distance(transform.position, target.position + target.forward) * 0.5f;
-            estimatedPosition = target.position;
+            Vector3 estimatedPosition = target.position + target.forward * Vector3.Distance(transform.position, target.position + target.forward) * 0.15f;
+            //estimatedPosition = target.position;
 
             transform.LookAt(estimatedPosition);
             shootingScript.CreateFire();
+            yield return new WaitForSeconds(0.5f);
             shootingScript.CreateFireBallAI(estimatedPosition);
         }
     }
@@ -229,8 +231,8 @@ public class AI_Controller : NetworkBehaviour
     {
         if(target)
         {
-            //Vector3 estimatedPosition = target.position + target.forward * Vector3.Distance(transform.position, target.position + target.forward) * 0.5f;
-            //Gizmos.DrawLine(target.position, estimatedPosition);
+            Vector3 estimatedPosition = target.position + target.forward * Vector3.Distance(transform.position, target.position + target.forward) * 0.15f;
+            Gizmos.DrawLine(target.position, estimatedPosition);
         }
     }
 }

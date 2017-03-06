@@ -22,7 +22,7 @@ public class ShootingScript : NetworkBehaviour
     private GameObject fireball;
 
     private float lastCastTime = 0;
-    private float castDelay = 0.5f;
+    private float castDelay = 1.0f;
 
     private float lastAutoTime = 0;
     private float autoDelay = 1;
@@ -58,6 +58,8 @@ public class ShootingScript : NetworkBehaviour
             {
                 lightning.transform.FindChild("LightningStart").transform.position = transform.position;
                 lightning.transform.FindChild("LightningEnd").transform.position = lightningTarget.position;
+                lightningTarget.GetComponent<NetworkedPlayerScript>().RpcResolveHit(0.25f);
+                GetComponent<NetworkedPlayerScript>().mana -= 0.2f;
             }
         }
         if (Input.GetKeyDown("2"))
@@ -105,7 +107,8 @@ public class ShootingScript : NetworkBehaviour
                 AutoAttack(target);
                 autoTarget = target.position;
                 StartCoroutine(StopCasting(0.5f));
-                //target = null;
+                //
+                target = null;
             }
             else
             {
@@ -162,8 +165,9 @@ public class ShootingScript : NetworkBehaviour
         if (!fire)
             return;
 
-        if (fire != null && fireScale < 2)
+        if (fire != null && fireScale < 2 && GetComponent<NetworkedPlayerScript>().mana > 0)
         {
+            GetComponent<NetworkedPlayerScript>().mana -= 0.5f;
             fireScale += Time.deltaTime * 0.5f;
             fire.transform.localScale = new Vector3(fireScale, fireScale, fireScale);
         }
