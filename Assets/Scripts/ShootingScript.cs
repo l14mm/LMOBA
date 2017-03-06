@@ -42,10 +42,22 @@ public class ShootingScript : NetworkBehaviour
     GameObject lightning;
     Transform lightningTarget;
 
+    public GameObject p_BlinkLight;
+    private Text blinkTimer;
+    private float blinkTimeValue = 0;
+
+    private void Awake()
+    {
+        blinkTimer = GameObject.Find("BlinkTimer").GetComponent<Text>();
+    }
+
     void Update()
     {
         if (!isLocalPlayer)
             return;
+
+        blinkTimer.text = (Mathf.RoundToInt(blinkTimeValue)).ToString();
+        if (blinkTimeValue > 0) blinkTimeValue -= Time.deltaTime;
 
         if(lightningCasting)
         {
@@ -88,7 +100,17 @@ public class ShootingScript : NetworkBehaviour
         {
             CreateFireBall();
         }
-        if(Input.GetMouseButtonDown(1))
+        // Flash
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            RaycastHit hit;
+            if (Physics.Raycast(GetComponent<NetworkedPlayerScript>().myCamera.ScreenPointToRay(Input.mousePosition), out hit))
+            {
+                Vector3 direction = (hit.point - transform.position);
+                Blink(direction);
+            }
+        }
+        if (Input.GetMouseButtonDown(1))
         {
             RaycastHit hit;
             if (Physics.Raycast(GetComponent<NetworkedPlayerScript>().myCamera.ScreenPointToRay(Input.mousePosition), out hit))
@@ -115,6 +137,17 @@ public class ShootingScript : NetworkBehaviour
                 // If we are not in range to auto attack, move closer to target
                 //GetComponent<PlayerMovement>().waypoint = target.position;
             }
+        }
+    }
+
+    public void Blink(Vector3 direction)
+    {
+        if (blinkTimeValue <= 0)
+        {
+            Instantiate(p_BlinkLight, transform.position, transform.rotation);
+            transform.position = transform.position + direction.normalized * 5;
+            Instantiate(p_BlinkLight, transform.position, transform.rotation);
+            blinkTimeValue = 5;
         }
     }
 

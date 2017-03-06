@@ -599,6 +599,8 @@ MonoBehaviour:
   isCasting: 0
   p_Lightning: {fileID: 1852028179912878, guid: a3fd54b0bdd9ece4b9811da979f751c2,
     type: 2}
+  p_BlinkLight: {fileID: 1104383894011408, guid: c6ec315a33d00c64eb99cc7a4c64558b,
+    type: 2}
 --- !u!114 &114581609748477834
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -634,9 +636,11 @@ MonoBehaviour:
   skin: {fileID: 1842820440059432}
   nameTag: {fileID: 102655862597414786}
   healthBar: {fileID: 4585689218367896}
+  tabCanvas: {fileID: 0}
   playerName: 
   playerColour: {r: 0, g: 0, b: 0, a: 0}
   health: 0
+  mana: 0
   playerCount: 0
   names: 
   spawnPoint: {x: 0, y: 0, z: 0}

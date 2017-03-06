@@ -66,7 +66,7 @@ public class AI_Controller : NetworkBehaviour
                 // Check if it is negative
                 Vector3 cross = Vector3.Cross(spellDirection, directionToUs);
                 if (cross.y < 0) angle = -angle;
-
+                
                 // If angle is positive, the spell is on the right of us, so we should move to the left
                 if (angle <  20 && angle > -20)
                 {
@@ -146,10 +146,19 @@ public class AI_Controller : NetworkBehaviour
             {
                 Vector3 spellDirection = spellToAvoid.forward;
                 Vector3 avoidDirection = spellToAvoid.right.normalized * 25;
+
+                if (Vector3.Distance(spellToAvoid.position, transform.position) < 2)
+                {
+                    GetComponent<ShootingScript>().Blink(avoidDirection);
+                }
+                else
+                {
+                    
                 if (moveRight) avoidDirection *= -1;
                 agent.SetDestination(transform.position + avoidDirection);
                 //transform.LookAt(target.position);
                 transform.LookAt(transform.position + avoidDirection);
+                }
             }
             else
                 state = State.attack;

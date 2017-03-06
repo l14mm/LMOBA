@@ -40,7 +40,7 @@ public class AutoAttackScript : NetworkBehaviour
         }
         else
         {
-            Destroy(gameObject);
+            //Destroy(gameObject);
         }
     }
 }
