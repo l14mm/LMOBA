@@ -2910,9 +2910,10 @@ GameObject:
   - component: {fileID: 2146231034}
   - component: {fileID: 2146231036}
   - component: {fileID: 2146231035}
+  - component: {fileID: 2146231037}
   m_Layer: 5
-  m_Name: RawImage
-  m_TagString: Untagged
+  m_Name: MinimapTexture
+  m_TagString: MinimapTexture
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2967,3 +2968,17 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2146231033}
+--- !u!114 &2146231037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2146231033}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b82a1ea05fb7dc4c968abbcad4cbf21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minimapCamera: {fileID: 0}
+  mainCamera: {fileID: 0}
+  division: 25

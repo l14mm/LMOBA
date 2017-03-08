@@ -13,6 +13,7 @@ TagManager:
   - Alarm
   - DangerSpell
   - Floor
+  - MinimapTexture
   layers:
   - Default
   - TransparentFX

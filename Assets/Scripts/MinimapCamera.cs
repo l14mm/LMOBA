@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class MinimapCamera : MonoBehaviour
 {
-
-    public GameObject mainCamera;
-    public float horizontalExtent;
+    public Camera mainCamera;
 
     private void Start()
     {
@@ -18,7 +16,9 @@ public class MinimapCamera : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
 
 
-        mainCamera = GameObject.Find("PlayerCamera(Clone)");
+        GameObject temp = GameObject.Find("PlayerCamera(Clone)");
+        if (temp)
+            mainCamera = temp.GetComponent<Camera>();
 
         if (!mainCamera)
             StartCoroutine(FindMainCamera());
@@ -26,22 +26,17 @@ public class MinimapCamera : MonoBehaviour
 
     private void Update()
     {
-        //if (mainCamera)
-        //transform.position = new Vector3(mainCamera.transform.position.x, transform.position.y, mainCamera.transform.position.z);
-        if(mainCamera)
-        {
-            horizontalExtent = mainCamera.GetComponent<Camera>().orthographicSize * Screen.width / Screen.height;
-        }
+
     }
 
     private void OnGUI()
     {
 
-        GUI.Label(new Rect(25, 25, 100, 30), "hi");
     }
 
     private void OnGizmos()
     {
-
+        Gizmos.color = Color.red;
+        Gizmos.DrawCube(Vector3.zero, new Vector3(50, 50, 50));
     }
 }
