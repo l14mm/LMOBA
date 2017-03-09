@@ -123,19 +123,27 @@ public class AI_Controller : NetworkBehaviour
             // We only want to shoot if we can see the player (the line of sight is clear)
             if (target)
             {
-                RaycastHit hit;
-                Vector3 rayDirection = target.position - transform.position;
-                if (Physics.Raycast(transform.position, rayDirection, out hit))
+                float distanceToTarget = Vector3.Distance(transform.position, target.transform.position);
+                if (distanceToTarget < shootingScript.autoRange)
                 {
-                    if (hit.transform == target)
+                    shootingScript.AutoAttack(target);
+                }
+                else
+                {
+                    RaycastHit hit;
+                    Vector3 rayDirection = target.position - transform.position;
+                    if (Physics.Raycast(transform.position, rayDirection, out hit))
                     {
-                        // enemy can see the player!
-                        StartCoroutine(LookShootFireball());
-                    }
-                    else
-                    {
-                        // there is something obstructing the view
-                        state = State.wander;
+                        if (hit.transform == target)
+                        {
+                            // enemy can see the player!
+                            StartCoroutine(LookShootFireball());
+                        }
+                        else
+                        {
+                            // there is something obstructing the view
+                            state = State.wander;
+                        }
                     }
                 }
             }
@@ -149,7 +157,7 @@ public class AI_Controller : NetworkBehaviour
 
                 if (Vector3.Distance(spellToAvoid.position, transform.position) < 2)
                 {
-                    GetComponent<ShootingScript>().Blink(avoidDirection);
+                    shootingScript.Blink(avoidDirection);
                 }
                 else
                 {

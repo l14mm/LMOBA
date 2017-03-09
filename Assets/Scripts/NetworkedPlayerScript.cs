@@ -93,7 +93,7 @@ public class NetworkedPlayerScript : NetworkBehaviour
     private void FixedUpdate()
     {
         if (health < 100)
-            health += 0.01f;
+            health += 1f;
         if (mana < 100)
             mana += 0.05f;
     }

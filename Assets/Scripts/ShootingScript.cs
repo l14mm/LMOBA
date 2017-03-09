@@ -241,4 +241,9 @@ public class ShootingScript : NetworkBehaviour
         fireball.GetComponent<FireballScript>().creator = GetComponent<NetworkedPlayerScript>();
         GetComponent<UnityEngine.AI.NavMeshAgent>().speed *= 2.0f;
     }
+
+    private void OnDrawGizmos()
+    {
+        //Gizmos.DrawWireSphere(transform.position, autoRange);
+    }
 }
