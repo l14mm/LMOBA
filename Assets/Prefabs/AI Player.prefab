@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 33028940328908422}
   - component: {fileID: 65988538174717854}
   - component: {fileID: 23773400970278974}
-  m_Layer: 11
+  m_Layer: 14
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49,7 +49,7 @@ GameObject:
   - component: {fileID: 114049658582458622}
   - component: {fileID: 195660517787490612}
   - component: {fileID: 114289564807392812}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: AI Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -64,7 +64,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4957054928313310}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: ShootPosition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -81,7 +81,7 @@ GameObject:
   - component: {fileID: 4800495399148128}
   - component: {fileID: 23561521385901808}
   - component: {fileID: 102655862597414786}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: PlayerName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,7 +97,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4960404367642188}
   - component: {fileID: 119633458650669390}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: BlobLightProjector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -113,7 +113,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4585689218367896}
   - component: {fileID: 212038908468308984}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Health
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -131,7 +131,7 @@ GameObject:
   - component: {fileID: 33828772096933602}
   - component: {fileID: 136654949439504286}
   - component: {fileID: 23251686449151462}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: CapsulePerson
   m_TagString: Untagged
   m_Icon: {fileID: 0}

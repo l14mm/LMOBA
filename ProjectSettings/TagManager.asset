@@ -14,6 +14,7 @@ TagManager:
   - DangerSpell
   - Floor
   - MinimapTexture
+  - FogOfWar
   layers:
   - Default
   - TransparentFX
@@ -27,9 +28,9 @@ TagManager:
   - Extents
   - Locked
   - IgnoreProjector
-  - 
-  - 
-  - 
+  - FogOfWar
+  - Obstacle
+  - Target
   - 
   - 
   - 

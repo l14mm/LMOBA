@@ -69,5 +69,7 @@ public class PlayerMovement : NetworkBehaviour {
     {
         Gizmos.color = Color.red;
         Gizmos.DrawSphere(waypoint, 0.5f);
+        if(GetComponent<NetworkedPlayerScript>().myCamera)
+            Gizmos.DrawLine(GetComponent<NetworkedPlayerScript>().myCamera.transform.position, waypoint);
     }
 }

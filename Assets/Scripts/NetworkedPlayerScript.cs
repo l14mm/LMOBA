@@ -37,7 +37,7 @@ public class NetworkedPlayerScript : NetworkBehaviour
     public Vector3 spawnPoint;
 
     public Camera p_Camera;
-    [HideInInspector]
+    //[HideInInspector]
     public Camera myCamera;
 
     //[HideInInspector]

@@ -11,7 +11,7 @@ public class CameraController : MonoBehaviour {
 
     private Camera me;
 
-    private bool cameraLocked = true;
+    public bool cameraLocked = true;
     [HideInInspector]
     public Transform myPlayer;
     private Vector3 initialPosition;
@@ -28,7 +28,7 @@ public class CameraController : MonoBehaviour {
         myPlayer = _myPlayer;
     }
 
-    void Update ()
+    private void Update ()
     {
         float fov = me.fieldOfView;
         fov += Input.GetAxis("Mouse ScrollWheel") * -scrollSensitivity;
@@ -44,6 +44,7 @@ public class CameraController : MonoBehaviour {
 
         if(Input.GetKeyDown(KeyCode.Space))
         {
+            Debug.Log("space");
             cameraLocked = !cameraLocked;
         }
 
