@@ -49,6 +49,7 @@ GameObject:
   - component: {fileID: 114049658582458622}
   - component: {fileID: 195660517787490612}
   - component: {fileID: 114289564807392812}
+  - component: {fileID: 114946041514784480}
   m_Layer: 14
   m_Name: AI Player
   m_TagString: Player
@@ -579,7 +580,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1214999885310466}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 081ade0d399f16b4eb730b2788951371, type: 3}
   m_Name: 
@@ -588,13 +589,14 @@ MonoBehaviour:
   _gunAudio: {fileID: 0}
   _impactPrefab: {fileID: 146406, guid: 146739eb4cbbc6043a50a5500e55a191, type: 2}
   cameraTransform: {fileID: 0}
+  isCastingSpell: 0
   p_fireball: {fileID: 1829482528203904, guid: 5f3f2ca07532a8940bb2475d653c5c8a, type: 2}
   p_fire: {fileID: 1654993792695622, guid: d0795d1f08c793c4e8798c13dba25a29, type: 2}
   t_shoot: {fileID: 4957054928313310}
+  fireballTimeValue: 0
   p_AutoAttack: {fileID: 1972102020535790, guid: 761a90b00ba93b04eaaf9d21be7545d9,
     type: 2}
   autoTarget: {x: 0, y: 0, z: 0}
-  autoRange: 20
   target: {fileID: 0}
   isCasting: 0
   p_Lightning: {fileID: 1852028179912878, guid: a3fd54b0bdd9ece4b9811da979f751c2,
@@ -632,7 +634,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f65cdf85b2185b4fb9e2b63c986ebc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shootingScript: {fileID: 114511169290404636}
   skin: {fileID: 1842820440059432}
   nameTag: {fileID: 102655862597414786}
   healthBar: {fileID: 4585689218367896}
@@ -641,6 +642,8 @@ MonoBehaviour:
   playerColour: {r: 0, g: 0, b: 0, a: 0}
   health: 0
   mana: 0
+  attackDamge: 0
+  armour: 0
   playerCount: 0
   names: 
   spawnPoint: {x: 0, y: 0, z: 0}
@@ -650,6 +653,17 @@ MonoBehaviour:
   isAI: 1
   outlineMaterial: {fileID: 2100000, guid: 64e61e91a822d6e4fa6d588e4fca1247, type: 2}
   myRenderer: {fileID: 23773400970278974}
+--- !u!114 &114946041514784480
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1214999885310466}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1987921e55b987f418ba4ad80b3054c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!119 &119633458650669390
 Projector:
   m_ObjectHideFlags: 1

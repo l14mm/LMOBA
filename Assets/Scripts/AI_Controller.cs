@@ -110,7 +110,8 @@ public class AI_Controller : NetworkBehaviour
         {
             if(target)
             {
-                agent.stoppingDistance = 10;
+                // Stop just outside of auto attack range
+                agent.stoppingDistance = shootingScript.autoRange;
                 //agent.SetDestination(target.position);
                 //transform.LookAt(target.position);
             }
@@ -230,16 +231,16 @@ public class AI_Controller : NetworkBehaviour
 
     private IEnumerator LookShootFireball()
     {
-        if (target)
+        if (target && !shootingScript.isCastingSpell && shootingScript.fireballTimeValue <= 0)
         {
-            //transform.LookAt(target.position);
             // Calculate where target will be
             Vector3 estimatedPosition = target.position + target.forward * Vector3.Distance(transform.position, target.position + target.forward) * 0.15f;
-            //estimatedPosition = target.position;
-
+            //Debug.Log("is casting: " + shootingScript.isCasting);
             transform.LookAt(estimatedPosition);
+            //Debug.Log("create fire");
             shootingScript.CreateFire();
             yield return new WaitForSeconds(0.5f);
+            //Debug.Log("create fireball");
             shootingScript.CreateFireBallAI(estimatedPosition);
         }
     }

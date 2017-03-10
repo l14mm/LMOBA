@@ -10,9 +10,16 @@ public class ShootingScript : NetworkBehaviour
     public GameObject _impactPrefab;
     public Transform cameraTransform;
 
+    [HideInInspector]
+    public bool isCastingSpell = false;
+
     public GameObject p_fireball;
     public GameObject p_fire;
     public Transform t_shoot;
+    private Text fireballTimer;
+    [HideInInspector]
+    public float fireballTimeValue = 0;
+    private RawImage fireballIcon;
 
     public GameObject p_AutoAttack;
 
@@ -21,16 +28,13 @@ public class ShootingScript : NetworkBehaviour
     private float fireScale = 1;
     private GameObject fireball;
 
-    private float lastCastTime = 0;
-    private float castDelay = 1.0f;
-
     private float lastAutoTime = 0;
     private float autoDelay = 1;
     [HideInInspector]
     public Vector3 autoTarget;
     [HideInInspector]
-    public float autoRange = 5;
-    [HideInInspector]
+    public float autoRange { get; private set; }
+    //[HideInInspector]
     public Transform target = null;
     [HideInInspector]
     public bool isCasting = false;
@@ -44,22 +48,74 @@ public class ShootingScript : NetworkBehaviour
 
     public GameObject p_BlinkLight;
     private Text blinkTimer;
+    private RawImage blinkIcon;
     private float blinkTimeValue = 0;
+
+    public MeshRenderer attackRangeMesh;
+    public float tt = 0.2f;
 
     private void Awake()
     {
         blinkTimer = GameObject.Find("BlinkTimer").GetComponent<Text>();
+        blinkIcon = GameObject.Find("BlinkIcon").GetComponent<RawImage>();
+        fireballTimer = GameObject.Find("FireballTimer").GetComponent<Text>();
+        fireballIcon = GameObject.Find("FireballIcon").GetComponent<RawImage>();
+
+        autoRange = 10;
+
+        if (!isLocalPlayer)
+            return;
+
+        attackRangeMesh.enabled = false;
+    }
+
+    public override void OnStartLocalPlayer()
+    {
+
     }
 
     void Update()
     {
-        if (!isLocalPlayer)
-            return;
 
-        blinkTimer.text = (Mathf.RoundToInt(blinkTimeValue)).ToString();
-        if (blinkTimeValue > 0) blinkTimeValue -= Time.deltaTime;
+        if (isLocalPlayer)  blinkTimer.text = (Mathf.Ceil(blinkTimeValue)).ToString();
+        if (blinkTimeValue > 0)
+        {
+            blinkTimeValue -= Time.deltaTime;
+            if (isLocalPlayer)
+            {
+                blinkTimer.enabled = true;
+                blinkIcon.color = new Color(0.1f, 0.1f, 0.1f, 1);
+            }
+        }
+        else
+        {
+            if (isLocalPlayer)
+            {
+                blinkIcon.color = new Color(1, 1, 1, 1);
+                blinkTimer.enabled = false;
+            }
+        }
 
-        if(lightningCasting)
+        if (isLocalPlayer) fireballTimer.text = (Mathf.Ceil(fireballTimeValue)).ToString();
+        if (fireballTimeValue > 0)
+        {
+            fireballTimeValue -= Time.deltaTime;
+            if (isLocalPlayer)
+            {
+                fireballTimer.enabled = true;
+                fireballIcon.color = new Color(0.1f, 0.1f, 0.1f, 1);
+            }
+        }
+        else
+        {
+            if (isLocalPlayer)
+            {
+                fireballIcon.color = new Color(1, 1, 1, 1);
+                fireballTimer.enabled = false;
+            }
+        }
+
+        if (lightningCasting)
         {
             if(Time.time > lightningStartTime + lightningCastTime)
             {
@@ -74,6 +130,55 @@ public class ShootingScript : NetworkBehaviour
                 GetComponent<NetworkedPlayerScript>().mana -= 0.2f;
             }
         }
+
+
+        if (!isLocalPlayer)
+            return;
+
+        attackRangeMesh.transform.localScale = new Vector3(autoRange * 0.226f, 1, autoRange * 0.226f);
+        
+        if (Input.GetMouseButtonDown(0))
+        {
+            // Attack move
+            if (attackRangeMesh.enabled)
+            {
+                // Find closest enemy that we can see
+                RaycastHit hit;
+                if (Physics.Raycast(GetComponent<NetworkedPlayerScript>().myCamera.ScreenPointToRay(Input.mousePosition), out hit))
+                {
+                    Transform closestEnemy = null;
+                    float closestDistance = 21;
+                    Collider[] hitColliders = Physics.OverlapSphere(hit.point, 20);
+                    for (int i = 0; i < hitColliders.Length; i++)
+                    {
+                        GameObject temp = hitColliders[i].gameObject;
+                        if (temp.GetComponent<NetworkedPlayerScript>() && temp.GetComponent<NetworkedPlayerScript>().netId.Value != GetComponent<NetworkedPlayerScript>().netId.Value)
+                        {
+                            float distance = Vector3.Distance(transform.position, temp.transform.position);
+                            if (distance < closestDistance)
+                            {
+                                closestDistance = distance;
+                                closestEnemy = temp.transform;
+                            }
+                        }
+                    }
+                    if (closestEnemy)
+                    {
+                        target = closestEnemy.transform;
+                    }
+                }
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            attackRangeMesh.enabled = true;
+        }
+        else if (Input.anyKeyDown)
+        {
+            attackRangeMesh.enabled = false;
+        }
+
         if (Input.GetKeyDown("2"))
         {
             if (!lightningCasting)
@@ -112,6 +217,7 @@ public class ShootingScript : NetworkBehaviour
         }
         if (Input.GetMouseButtonDown(1))
         {
+            // Set target
             RaycastHit hit;
             if (Physics.Raycast(GetComponent<NetworkedPlayerScript>().myCamera.ScreenPointToRay(Input.mousePosition), out hit))
             {
@@ -184,12 +290,14 @@ public class ShootingScript : NetworkBehaviour
 
     public void CreateFire()
     {
-        if (Time.time > lastCastTime + castDelay)
+        //if (Time.time > lastCastTime + castDelay)
+        if (fireballTimeValue <= 0 && !isCastingSpell)
         {
+            isCastingSpell = true;
             fireScale = 0.5f;
             fire = Instantiate(p_fire, t_shoot.position, t_shoot.rotation, transform);
             GetComponent<UnityEngine.AI.NavMeshAgent>().speed *= 0.5f;
-            lastCastTime = Time.time;
+            //lastCastTime = Time.time;
         }
     }
 
@@ -224,6 +332,8 @@ public class ShootingScript : NetworkBehaviour
         fireball.GetComponent<FireballScript>().Remove();
         fireball.GetComponent<FireballScript>().creator = GetComponent<NetworkedPlayerScript>();
         GetComponent<UnityEngine.AI.NavMeshAgent>().speed *= 2.0f;
+        fireballTimeValue = 2;
+        isCastingSpell = false;
     }
 
     public void CreateFireBallAI(Vector3 pos)
@@ -240,10 +350,12 @@ public class ShootingScript : NetworkBehaviour
         fireball.GetComponent<FireballScript>().Remove();
         fireball.GetComponent<FireballScript>().creator = GetComponent<NetworkedPlayerScript>();
         GetComponent<UnityEngine.AI.NavMeshAgent>().speed *= 2.0f;
+        fireballTimeValue = 2;
+        isCastingSpell = false;
     }
 
     private void OnDrawGizmos()
     {
-        //Gizmos.DrawWireSphere(transform.position, autoRange);
+        Gizmos.DrawWireSphere(transform.position, autoRange);
     }
 }

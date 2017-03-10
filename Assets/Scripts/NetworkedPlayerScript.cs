@@ -5,7 +5,6 @@ using System.Collections.Generic;
 
 public class NetworkedPlayerScript : NetworkBehaviour
 {
-    public ShootingScript shootingScript;
     public GameObject skin;
     public TextMesh nameTag;
     public Transform healthBar;
@@ -26,6 +25,10 @@ public class NetworkedPlayerScript : NetworkBehaviour
     public float health;
     [SyncVar]
     public float mana;
+    [SyncVar]
+    public float attackDamge;
+    [SyncVar]
+    public float armour;
 
     [SyncVar]
     public int playerCount;
@@ -93,7 +96,7 @@ public class NetworkedPlayerScript : NetworkBehaviour
     private void FixedUpdate()
     {
         if (health < 100)
-            health += 1f;
+            health += 1.025f;
         if (mana < 100)
             mana += 0.05f;
     }
@@ -151,10 +154,6 @@ public class NetworkedPlayerScript : NetworkBehaviour
 
     public override void OnStartLocalPlayer()
     {
-        //fpsController.enabled = true;
-        shootingScript.enabled = true;
-        //candyMaterialSwitcher.SwitchMaterial(true);
-
         gameObject.name = "LOCAL Player";
 
         playerName = "Liam";
@@ -179,7 +178,7 @@ public class NetworkedPlayerScript : NetworkBehaviour
 
     void ToggleControls(bool isAlive)
     {
-        shootingScript.enabled = isAlive;
+        GetComponent<ShootingScript>().enabled = isAlive;
     }
 
     [ClientRpc]

@@ -7,7 +7,8 @@ public class MinimapTextureScript : MonoBehaviour, IPointerClickHandler
 {
     public Camera minimapCamera;
     public Camera mainCamera;
-    private float division = 8;
+    public float divisionX = 13.5f;
+    public float divisionZ = 100;
 
     public void OnPointerClick(PointerEventData eventData)
     {
@@ -18,7 +19,11 @@ public class MinimapTextureScript : MonoBehaviour, IPointerClickHandler
             RectTransformUtility.ScreenPointToLocalPointInRectangle(GetComponent<RectTransform>(), eventData.position, eventData.pressEventCamera, out point);
             
             Vector3 newPosition = point;
-            mainCamera.transform.position = new Vector3(newPosition.x / division, mainCamera.transform.position.y, newPosition.y / division);
+            mainCamera.transform.position = new Vector3(newPosition.x / divisionX, mainCamera.transform.position.y, newPosition.y / divisionZ);
+
+            Vector3 one = mainCamera.transform.position;
+            Vector3 two = new Vector3(newPosition.x, mainCamera.transform.position.y, newPosition.y);
+            Debug.DrawRay(one, two, Color.red, 10);
         }
     }
 
