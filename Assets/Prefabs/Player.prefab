@@ -72,9 +72,7 @@ GameObject:
   - component: {fileID: 114725930085158870}
   - component: {fileID: 195141524917969594}
   - component: {fileID: 114575780396019872}
-  - component: {fileID: 114666999621598926}
   - component: {fileID: 114442167626611992}
-  - component: {fileID: 114842631959265014}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -897,17 +895,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c9e1b0e4c0eec14bbb0b3ccc8a8cb56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114666999621598926
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 196972}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba7136689cabbeb478f1b4bf2103edb0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114725930085158870
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -921,18 +908,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 2
   waypoint: {x: 0, y: 0, z: 0}
---- !u!114 &114842631959265014
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 196972}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5edd27945d2bb0a49a8386f5dc2e760b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  radius: 5
 --- !u!119 &119451601409156608
 Projector:
   m_ObjectHideFlags: 1
