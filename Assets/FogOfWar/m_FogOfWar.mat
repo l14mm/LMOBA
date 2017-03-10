@@ -6,8 +6,8 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: m_NewFogOfWar
-  m_Shader: {fileID: 4800000, guid: 4b7634fc6576e8f438bde274a1ca5e7d, type: 3}
+  m_Name: m_FogOfWar
+  m_Shader: {fileID: 4800000, guid: d18f9a0c6412510458b741cec6553759, type: 3}
   m_ShaderKeywords: _EMISSION
   m_LightmapFlags: 1
   m_CustomRenderQueue: -1

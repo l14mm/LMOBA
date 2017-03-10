@@ -74,6 +74,7 @@ GameObject:
   - component: {fileID: 114575780396019872}
   - component: {fileID: 114666999621598926}
   - component: {fileID: 114442167626611992}
+  - component: {fileID: 114842631959265014}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -592,7 +593,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1577277379889524
 GameObject:
   m_ObjectHideFlags: 0
@@ -618,7 +619,7 @@ GameObject:
   - component: {fileID: 4673987921777238}
   - component: {fileID: 33558888101944008}
   - component: {fileID: 23055963788403052}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: View Visualization
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -734,7 +735,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 8278aace5d44b2f469cb7b9b92db7acf, type: 2}
+  - {fileID: 2100000, guid: 6c8609be81353044db01f34ade2efda2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -873,7 +874,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   viewRadius: 20
-  viewAngle: 66
+  viewAngle: 360
   targetMask:
     serializedVersion: 2
     m_Bits: 16384
@@ -902,13 +903,11 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 196972}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ba7136689cabbeb478f1b4bf2103edb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FogOfWarPlane: {fileID: 0}
-  Number: 1
 --- !u!114 &114725930085158870
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -922,6 +921,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 2
   waypoint: {x: 0, y: 0, z: 0}
+--- !u!114 &114842631959265014
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 196972}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5edd27945d2bb0a49a8386f5dc2e760b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 5
 --- !u!119 &119451601409156608
 Projector:
   m_ObjectHideFlags: 1
