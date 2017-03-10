@@ -10,7 +10,7 @@ public class FogOfWarPlayer : MonoBehaviour
     // Use this for initialization
     void Awake()
     {
-        FogOfWarPlane = GameObject.Find("FogOfWarPlane").transform;
+        //FogOfWarPlane = GameObject.Find("FogOfWarPlane").transform;
     }
 
     // Update is called once per frame
