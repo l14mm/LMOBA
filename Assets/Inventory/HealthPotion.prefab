@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4972552924277430}
   - component: {fileID: 114211784456260880}
   m_Layer: 0
-  m_Name: Sword
+  m_Name: HealthPotion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -51,7 +51,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f13f605b9410264688e0e808b5a8056, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sprite: {fileID: 21300000, guid: c71dde93b4db5a44eb4b11860b8737cb, type: 3}
-  type: 0
+  sprite: {fileID: 21300000, guid: 9fc9860bdc1faeb4f9ea8b898683f15a, type: 3}
+  type: 2
   attack: 10
   armour: 0
+  isConsumable: 1
+  player: {fileID: 0}

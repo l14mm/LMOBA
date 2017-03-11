@@ -105,6 +105,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraLocked: 1
   myPlayer: {fileID: 0}
+  boundary: 200
+  speed: 20
 --- !u!124 &124253850720457534
 Behaviour:
   m_ObjectHideFlags: 1

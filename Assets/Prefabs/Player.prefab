@@ -960,6 +960,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1987921e55b987f418ba4ad80b3054c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  InvImg1: {fileID: 0}
+  InvImg2: {fileID: 0}
+  InvImg3: {fileID: 0}
+  InvImg4: {fileID: 0}
+  InvImg5: {fileID: 0}
+  InvImg6: {fileID: 0}
+  Item1: {fileID: 114211784456260880, guid: 6fd5bf33ea2692447b530bbd51069243, type: 2}
+  Item2: {fileID: 114211784456260880, guid: 49135f230be296a42830bcfd66dbad19, type: 2}
+  Item3: {fileID: 114211784456260880, guid: ec9f636d95a13ba42be7e76680cf697d, type: 2}
+  Item4: {fileID: 114211784456260880, guid: 6c9be3a291a1f5243a084369464d74b9, type: 2}
+  Item5: {fileID: 0}
+  Item6: {fileID: 0}
 --- !u!114 &114442167626611992
 MonoBehaviour:
   m_ObjectHideFlags: 1

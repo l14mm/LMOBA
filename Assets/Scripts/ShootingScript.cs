@@ -170,7 +170,7 @@ public class ShootingScript : NetworkBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Z))
+        if (Input.GetKeyDown(KeyCode.A))
         {
             attackRangeMesh.enabled = true;
         }
@@ -179,7 +179,7 @@ public class ShootingScript : NetworkBehaviour
             attackRangeMesh.enabled = false;
         }
 
-        if (Input.GetKeyDown("2"))
+        if (Input.GetKeyDown(KeyCode.W))
         {
             if (!lightningCasting)
             {
@@ -193,15 +193,15 @@ public class ShootingScript : NetworkBehaviour
                 }
             }
         }
-        if (Input.GetKeyDown("1"))
+        if (Input.GetKeyDown(KeyCode.Q))
         {
             CreateFire();
         }
-        if (Input.GetKey("1"))
+        if (Input.GetKey(KeyCode.Q))
         {
             IncreaseFire();
         }
-        if (Input.GetKeyUp("1"))
+        if (Input.GetKeyUp(KeyCode.Q))
         {
             CreateFireBall();
         }

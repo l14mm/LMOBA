@@ -7,7 +7,7 @@ public class Item : MonoBehaviour {
 
     public enum ItemType
     {
-        sword, shield
+        sword, shield, healthPotion, manaPotion
     }
 
     public Sprite sprite;
@@ -15,13 +15,22 @@ public class Item : MonoBehaviour {
     public float attack;
     public float armour;
 
-    // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public bool isConsumable = false;
+
+    public void Consume(NetworkedPlayerScript player)
+    {
+        if (!isConsumable || !player)
+            return;
+
+        if(type == ItemType.healthPotion)
+        {
+            player.health += 20;
+            if (player.health > 100) player.health = 100;
+        }
+        if (type == ItemType.manaPotion)
+        {
+            player.mana += 20;
+            if (player.mana > 100) player.mana = 100;
+        }
+    }
 }

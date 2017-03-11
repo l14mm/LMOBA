@@ -31,7 +31,57 @@ public class InventoryManager : MonoBehaviour {
 	
 	void Update ()
     {
-		if(Item1)
+        if(Input.GetKeyDown("1"))
+        {
+            if(Item1)
+            {
+                Item1.Consume(GetComponent<NetworkedPlayerScript>());
+                Item1 = null;
+            }
+        }
+        if (Input.GetKeyDown("2"))
+        {
+            if (Item2)
+            {
+                Item2.Consume(GetComponent<NetworkedPlayerScript>());
+                Item2 = null;
+            }
+        }
+        if (Input.GetKeyDown("3"))
+        {
+            if (Item3)
+            {
+                Item3.Consume(GetComponent<NetworkedPlayerScript>());
+                Item3 = null;
+            }
+        }
+        if (Input.GetKeyDown("4"))
+        {
+            if (Item4)
+            {
+                Item4.Consume(GetComponent<NetworkedPlayerScript>());
+                Item4 = null;
+            }
+        }
+        if (Input.GetKeyDown("5"))
+        {
+            if (Item5)
+            {
+                Item5.Consume(GetComponent<NetworkedPlayerScript>());
+                Item5 = null;
+            }
+        }
+        if (Input.GetKeyDown("6"))
+        {
+            if (Item6)
+            {
+                Item6.Consume(GetComponent<NetworkedPlayerScript>());
+                Item6 = null;
+            }
+        }
+
+
+        if (Item1)
         {
             InvImg1.enabled = true;
             InvImg1.sprite = Item1.sprite;
