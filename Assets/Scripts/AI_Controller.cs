@@ -21,6 +21,8 @@ public class AI_Controller : NetworkBehaviour
     private Transform wanderTarget;
     private float timer;
 
+    private float viewRadius = 20;
+
     public enum State
     {
         wander,
@@ -192,7 +194,7 @@ public class AI_Controller : NetworkBehaviour
         yield return new WaitForSeconds(0.1f);
         
         float closestDistance = 51;
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, 50);
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, viewRadius);
         for (int i = 0; i < hitColliders.Length; i++)
         {
             GameObject temp = hitColliders[i].gameObject;

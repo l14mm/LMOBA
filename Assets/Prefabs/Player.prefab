@@ -966,12 +966,16 @@ MonoBehaviour:
   InvImg4: {fileID: 0}
   InvImg5: {fileID: 0}
   InvImg6: {fileID: 0}
-  Item1: {fileID: 114211784456260880, guid: 6fd5bf33ea2692447b530bbd51069243, type: 2}
-  Item2: {fileID: 114211784456260880, guid: 49135f230be296a42830bcfd66dbad19, type: 2}
-  Item3: {fileID: 114211784456260880, guid: ec9f636d95a13ba42be7e76680cf697d, type: 2}
-  Item4: {fileID: 114211784456260880, guid: 6c9be3a291a1f5243a084369464d74b9, type: 2}
+  Item1: {fileID: 0}
+  Item2: {fileID: 0}
+  Item3: {fileID: 0}
+  Item4: {fileID: 0}
   Item5: {fileID: 0}
   Item6: {fileID: 0}
+  startingItem1: {fileID: 114211784456260880, guid: 6fd5bf33ea2692447b530bbd51069243,
+    type: 2}
+  startingItem2: {fileID: 114211784456260880, guid: 49135f230be296a42830bcfd66dbad19,
+    type: 2}
 --- !u!114 &114442167626611992
 MonoBehaviour:
   m_ObjectHideFlags: 1

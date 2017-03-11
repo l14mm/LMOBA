@@ -19,7 +19,15 @@ public class InventoryManager : MonoBehaviour {
     public Item Item5;
     public Item Item6;
 
-    void Awake ()
+    private int inventoryCount = 0;
+
+    private Text attackDamgeText;
+    private Text armourText;
+
+    public Item startingItem1;
+    public Item startingItem2;
+
+    private void Awake ()
     {
         InvImg1 = GameObject.Find("InvSlot1").GetComponent<Image>();
         InvImg2 = GameObject.Find("InvSlot2").GetComponent<Image>();
@@ -27,13 +35,45 @@ public class InventoryManager : MonoBehaviour {
         InvImg4 = GameObject.Find("InvSlot4").GetComponent<Image>();
         InvImg5 = GameObject.Find("InvSlot5").GetComponent<Image>();
         InvImg6 = GameObject.Find("InvSlot6").GetComponent<Image>();
+
+        attackDamgeText = GameObject.Find("AttackDamageValue").GetComponent<Text>();
+        armourText = GameObject.Find("ArmourValue").GetComponent<Text>();
+        
+        AddItem(startingItem1);
+        AddItem(startingItem2);
+    }
+
+    public void AddItem(Item item)
+    {
+        if (inventoryCount == 0)
+            Item1 = item;
+        else if (inventoryCount == 1)
+            Item2 = item;
+        else if (inventoryCount == 2)
+            Item3 = item;
+        else if (inventoryCount == 3)
+            Item4 = item;
+        else if (inventoryCount == 4)
+            Item5 = item;
+        else if (inventoryCount == 5)
+            Item6 = item;
+
+        if (item.type == Item.ItemType.sword)
+            GetComponent<NetworkedPlayerScript>().attackDamge += 20;
+        else if (item.type == Item.ItemType.shield)
+            GetComponent<NetworkedPlayerScript>().armour += 20;
+
+        inventoryCount++;
     }
 	
-	void Update ()
+	private void Update ()
     {
-        if(Input.GetKeyDown("1"))
+        attackDamgeText.text = GetComponent<NetworkedPlayerScript>().attackDamge.ToString();
+        armourText.text = GetComponent<NetworkedPlayerScript>().armour.ToString();
+
+        if (Input.GetKeyDown("1"))
         {
-            if(Item1)
+            if(Item1 && Item1.isConsumable)
             {
                 Item1.Consume(GetComponent<NetworkedPlayerScript>());
                 Item1 = null;
@@ -41,7 +81,7 @@ public class InventoryManager : MonoBehaviour {
         }
         if (Input.GetKeyDown("2"))
         {
-            if (Item2)
+            if (Item2 && Item2.isConsumable)
             {
                 Item2.Consume(GetComponent<NetworkedPlayerScript>());
                 Item2 = null;
@@ -49,7 +89,7 @@ public class InventoryManager : MonoBehaviour {
         }
         if (Input.GetKeyDown("3"))
         {
-            if (Item3)
+            if (Item3 && Item3.isConsumable)
             {
                 Item3.Consume(GetComponent<NetworkedPlayerScript>());
                 Item3 = null;
@@ -57,7 +97,7 @@ public class InventoryManager : MonoBehaviour {
         }
         if (Input.GetKeyDown("4"))
         {
-            if (Item4)
+            if (Item4 && Item4.isConsumable)
             {
                 Item4.Consume(GetComponent<NetworkedPlayerScript>());
                 Item4 = null;
@@ -65,7 +105,7 @@ public class InventoryManager : MonoBehaviour {
         }
         if (Input.GetKeyDown("5"))
         {
-            if (Item5)
+            if (Item5 && Item5.isConsumable)
             {
                 Item5.Consume(GetComponent<NetworkedPlayerScript>());
                 Item5 = null;
@@ -73,7 +113,7 @@ public class InventoryManager : MonoBehaviour {
         }
         if (Input.GetKeyDown("6"))
         {
-            if (Item6)
+            if (Item6 && Item6.isConsumable)
             {
                 Item6.Consume(GetComponent<NetworkedPlayerScript>());
                 Item6 = null;

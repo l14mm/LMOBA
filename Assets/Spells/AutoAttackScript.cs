@@ -6,7 +6,7 @@ using UnityEngine;
 public class AutoAttackScript : NetworkBehaviour
 {
 
-    private float speed = 40;
+    public float speed = 5;
     [HideInInspector]
     public NetworkedPlayerScript creator;
     public Transform target;
@@ -18,7 +18,7 @@ public class AutoAttackScript : NetworkBehaviour
         {
             transform.LookAt(target);
             //transform.position = Vector3.Lerp(transform.position, target.position, 0.01f);
-            transform.position = Vector3.MoveTowards(transform.position, target.position, 0.1f);
+            transform.position = Vector3.MoveTowards(transform.position, target.position, 0.1f * speed);
         }
     }
 
