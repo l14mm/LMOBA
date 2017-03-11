@@ -1,18 +1,89 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InventoryManager : MonoBehaviour {
 
-    public 
+    public Image InvImg1;
+    public Image InvImg2;
+    public Image InvImg3;
+    public Image InvImg4;
+    public Image InvImg5;
+    public Image InvImg6;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
+    public Item Item1;
+    public Item Item2;
+    public Item Item3;
+    public Item Item4;
+    public Item Item5;
+    public Item Item6;
+
+    void Awake ()
+    {
+        InvImg1 = GameObject.Find("InvSlot1").GetComponent<Image>();
+        InvImg2 = GameObject.Find("InvSlot2").GetComponent<Image>();
+        InvImg3 = GameObject.Find("InvSlot3").GetComponent<Image>();
+        InvImg4 = GameObject.Find("InvSlot4").GetComponent<Image>();
+        InvImg5 = GameObject.Find("InvSlot5").GetComponent<Image>();
+        InvImg6 = GameObject.Find("InvSlot6").GetComponent<Image>();
+    }
 	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+	void Update ()
+    {
+		if(Item1)
+        {
+            InvImg1.enabled = true;
+            InvImg1.sprite = Item1.sprite;
+        }
+        else
+        {
+            InvImg1.enabled = false;
+        }
+        if (Item2)
+        {
+            InvImg2.enabled = true;
+            InvImg2.sprite = Item2.sprite;
+        }
+        else
+        {
+            InvImg2.enabled = false;
+        }
+        if (Item3)
+        {
+            InvImg3.enabled = true;
+            InvImg3.sprite = Item3.sprite;
+        }
+        else
+        {
+            InvImg3.enabled = false;
+        }
+        if (Item4)
+        {
+            InvImg4.enabled = true;
+            InvImg4.sprite = Item4.sprite;
+        }
+        else
+        {
+            InvImg4.enabled = false;
+        }
+        if (Item5)
+        {
+            InvImg5.enabled = true;
+            InvImg5.sprite = Item5.sprite;
+        }
+        else
+        {
+            InvImg5.enabled = false;
+        }
+        if (Item6)
+        {
+            InvImg6.enabled = true;
+            InvImg6.sprite = Item6.sprite;
+        }
+        else
+        {
+            InvImg6.enabled = false;
+        }
+    }
 }
