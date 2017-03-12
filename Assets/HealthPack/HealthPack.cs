@@ -11,11 +11,9 @@ public class HealthPack : MonoBehaviour {
         if (col.tag == "Player")
         { 
             NetworkedPlayerScript player = col.GetComponent<NetworkedPlayerScript>();
-            if (player.health < 100)
+            if (player.health < player.maxHealth)
             {
                 player.health += 20;
-                if (player.health > 100)
-                    player.health = 100;
                 //Destroy(gameObject);
                 gameObject.SetActive(false);
                 Invoke("Respawn", respawnTime);

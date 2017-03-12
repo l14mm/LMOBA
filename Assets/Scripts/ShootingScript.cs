@@ -283,6 +283,7 @@ public class ShootingScript : NetworkBehaviour
         {
             GameObject autoAttack = Instantiate(p_AutoAttack, t_shoot.position, t_shoot.rotation, null);
             autoAttack.GetComponent<AutoAttackScript>().target = targetT;
+            autoAttack.GetComponent<AutoAttackScript>().damage = GetComponent<NetworkedPlayerScript>().attackDamge;
             autoAttack.GetComponent<AutoAttackScript>().creator = GetComponent<NetworkedPlayerScript>();
             lastAutoTime = Time.time;
         }

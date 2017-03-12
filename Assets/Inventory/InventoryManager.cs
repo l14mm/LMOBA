@@ -27,8 +27,13 @@ public class InventoryManager : MonoBehaviour {
     public Item startingItem1;
     public Item startingItem2;
 
+    private Canvas shopCanvas;
+
     private void Awake ()
     {
+        shopCanvas = GameObject.Find("ShopCanvas").GetComponent<Canvas>();
+        //shopCanvas.enabled = false;
+
         InvImg1 = GameObject.Find("InvSlot1").GetComponent<Image>();
         InvImg2 = GameObject.Find("InvSlot2").GetComponent<Image>();
         InvImg3 = GameObject.Find("InvSlot3").GetComponent<Image>();
@@ -70,6 +75,11 @@ public class InventoryManager : MonoBehaviour {
     {
         attackDamgeText.text = GetComponent<NetworkedPlayerScript>().attackDamge.ToString();
         armourText.text = GetComponent<NetworkedPlayerScript>().armour.ToString();
+
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            shopCanvas.enabled = !shopCanvas.enabled;
+        }
 
         if (Input.GetKeyDown("1"))
         {

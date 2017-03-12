@@ -7,6 +7,7 @@ public class AutoAttackScript : NetworkBehaviour
 {
 
     public float speed = 5;
+    public float damage = 10;
     [HideInInspector]
     public NetworkedPlayerScript creator;
     public Transform target;
@@ -34,7 +35,7 @@ public class AutoAttackScript : NetworkBehaviour
         }
         else if (other.transform.parent && other.transform.parent.tag == "Player" && other.GetComponentInParent<NetworkedPlayerScript>().netId != creator.netId)
         {
-            other.GetComponentInParent<NetworkedPlayerScript>().RpcResolveHit(10);
+            other.GetComponentInParent<NetworkedPlayerScript>().RpcResolveHit(damage);
             //Debug.Log("auto hit enemy");
             Destroy(gameObject);
         }

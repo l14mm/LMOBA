@@ -9,7 +9,13 @@ public class NetworkedPlayerScript : NetworkBehaviour
     public TextMesh nameTag;
     public Transform healthBar;
     private Transform healthBarHUD;
+    private Text healthText;
     private Transform manaBarHUD;
+    private Text manaText;
+
+    private Image hitScreen;
+    public float hitScreenAlpha = 0;
+    private Color hitScreenColour;
 
     public Canvas tabCanvas;
 
@@ -22,7 +28,13 @@ public class NetworkedPlayerScript : NetworkBehaviour
     [SyncVar]
     public Color playerColour;
     [SyncVar]
+    public float maxHealth;
+    [SyncVar]
+    public float healthRegen;
+    [SyncVar]
     public float health;
+    [SyncVar]
+    public float maxMana;
     [SyncVar]
     public float mana;
     [SyncVar]
@@ -61,11 +73,22 @@ public class NetworkedPlayerScript : NetworkBehaviour
     {
 
         renderers = GetComponentsInChildren<Renderer>();
+        maxHealth = 200;
+        healthRegen = 0.1f;
+        maxMana = 100;
         health = 100;
         mana = 100;
+        attackDamge = 10;
+        armour = 10;
 
         healthBarHUD = GameObject.Find("HealthHUD").GetComponent<Transform>();
+        healthText = GameObject.Find("HealthText").GetComponent<Text>();
         manaBarHUD = GameObject.Find("ManaHUD").GetComponent<Transform>();
+        manaText = GameObject.Find("ManaText").GetComponent<Text>();
+
+        hitScreen = GameObject.Find("HitScreen").GetComponent<Image>();
+        hitScreen.enabled = true;
+        hitScreenColour = hitScreen.color;
 
         namesList = new SyncListString();
 
@@ -95,9 +118,9 @@ public class NetworkedPlayerScript : NetworkBehaviour
 
     private void FixedUpdate()
     {
-        if (health < 100)
-            health += 1.025f;
-        if (mana < 100)
+        if (health < maxHealth)
+            health += healthRegen;
+        if (mana < maxMana)
             mana += 0.05f;
     }
 
@@ -107,15 +130,22 @@ public class NetworkedPlayerScript : NetworkBehaviour
         nameTag.text = playerName;
         skin.GetComponent<Renderer>().material.color = playerColour;
 
+        if (health > maxHealth) health = maxHealth;
         // Healthbar
         healthBar.transform.forward = Vector3.up;
         healthBar.transform.position = transform.position + Vector3.forward;
-        healthBar.localScale = new Vector3(health * 0.005f, 0.2f, 1);
+        healthBar.localScale = new Vector3(((health * 100) / maxHealth) * 0.005f, 0.2f, 1);
 
         if (isLocalPlayer)
         {
-            healthBarHUD.localScale = new Vector3(health * 0.01f, 0.4f, 2);
-            manaBarHUD.localScale = new Vector3(mana * 0.01f, 0.4f, 2);
+            healthBarHUD.localScale = new Vector3(((health * 100) / maxHealth) * 0.01f, 0.4f, 2);
+            healthText.text = (int)health + " / " + maxHealth;
+            manaBarHUD.localScale = new Vector3(((mana * 100) / maxMana) * 0.01f, 0.4f, 2);
+            manaText.text = (int)mana + " / " + maxMana;
+
+            if (hitScreenAlpha > 0) hitScreenAlpha -= 0.02f;
+            hitScreenColour.a = hitScreenAlpha;
+            hitScreen.color = hitScreenColour;
         }
 
         if (namesList != null && false)
@@ -184,8 +214,9 @@ public class NetworkedPlayerScript : NetworkBehaviour
     [ClientRpc]
     public void RpcResolveHit(float damage)
     {
-        //Debug.Log("ouch");
-        health -= damage;
+        //Debug.Log("took: " + (damage * (1 - (armour / 100))) + " damage");
+        health -= (damage * (1 - (armour / 100)));
+        hitScreenAlpha = 0.5f;
         if (health <= 0)
         {
             //ToggleRenderer(false);
