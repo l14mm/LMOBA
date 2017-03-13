@@ -8,9 +8,9 @@ public class RangeIndicatorScript : MonoBehaviour {
     Mesh mesh;
     public Material material;
 
-    float angle_fov = 40;
+    float angle_fov = 5;
 
-    float dist_min = 5.0f;
+    float dist_min = 2.0f;
     float dist_max = 15.0f;
 
     void Start()
@@ -34,73 +34,111 @@ public class RangeIndicatorScript : MonoBehaviour {
 
     void Update()
     {
-        float angle_lookat = GetEnemyAngle();
-        Debug.Log(angle_lookat);
-
-        float angle_start = angle_lookat - angle_fov;
-        float angle_end = angle_lookat + angle_fov;
-        float angle_delta = (angle_end - angle_start) / quality;
-
-        float angle_curr = angle_start;
-        float angle_next = angle_start + angle_delta;
-
-        Vector3 pos_curr_min = Vector3.zero;
-        Vector3 pos_curr_max = Vector3.zero;
-
-        Vector3 pos_next_min = Vector3.zero;
-        Vector3 pos_next_max = Vector3.zero;
-
-        Vector3[] vertices = new Vector3[4 * quality];   // Could be of size [2 * quality + 2] if circle segment is continuous
-        int[] triangles = new int[3 * 2 * quality];
-
-        for (int i = 0; i < quality; i++)
+        if (Input.GetKey(KeyCode.Q) && transform.parent.GetComponent<ShootingScript>().fireballTimeValue <= 0)
         {
-            Vector3 sphere_curr = new Vector3(
-            Mathf.Sin(Mathf.Deg2Rad * (angle_curr)), 0,   // Left handed CW
-            Mathf.Cos(Mathf.Deg2Rad * (angle_curr)));
+            //material.color = new Color(transform.parent.GetComponent<ShootingScript>().fireScale / 2, 0.3f, 0.3f, 1);
+            //material.color = new Color(1, 0, 0, 1);
+            //Debug.Log(material.color);
+            float angle_lookat = GetEnemyAngle();
+            //Debug.Log(angle_lookat);
 
-            Vector3 sphere_next = new Vector3(
-            Mathf.Sin(Mathf.Deg2Rad * (angle_next)), 0,
-            Mathf.Cos(Mathf.Deg2Rad * (angle_next)));
+            float angle_start = angle_lookat - angle_fov;
+            float angle_end = angle_lookat + angle_fov;
+            float angle_delta = (angle_end - angle_start) / quality;
 
-            pos_curr_min = transform.position + sphere_curr * dist_min;
-            pos_curr_max = transform.position + sphere_curr * dist_max;
+            float angle_curr = angle_start;
+            float angle_next = angle_start + angle_delta;
 
-            pos_next_min = transform.position + sphere_next * dist_min;
-            pos_next_max = transform.position + sphere_next * dist_max;
+            Vector3 pos_curr_min = Vector3.zero;
+            Vector3 pos_curr_max = Vector3.zero;
 
-            int a = 4 * i;
-            int b = 4 * i + 1;
-            int c = 4 * i + 2;
-            int d = 4 * i + 3;
+            Vector3 pos_next_min = Vector3.zero;
+            Vector3 pos_next_max = Vector3.zero;
 
-            vertices[a] = pos_curr_min;
-            vertices[b] = pos_curr_max;
-            vertices[c] = pos_next_max;
-            vertices[d] = pos_next_min;
+            Vector3[] vertices = new Vector3[4 * quality];   // Could be of size [2 * quality + 2] if circle segment is continuous
+            Color[] colours = new Color[4 * quality];   // Could be of size [2 * quality + 2] if circle segment is continuous
+            int[] triangles = new int[3 * 2 * quality];
 
-            triangles[6 * i] = a;       // Triangle1: abc
-            triangles[6 * i + 1] = b;
-            triangles[6 * i + 2] = c;
-            triangles[6 * i + 3] = c;   // Triangle2: cda
-            triangles[6 * i + 4] = d;
-            triangles[6 * i + 5] = a;
+            for (int i = 0; i < quality; i++)
+            {
+                Vector3 sphere_curr = new Vector3(
+                Mathf.Sin(Mathf.Deg2Rad * (angle_curr)), 0,   // Left handed CW
+                Mathf.Cos(Mathf.Deg2Rad * (angle_curr)));
 
-            angle_curr += angle_delta;
-            angle_next += angle_delta;
+                Vector3 sphere_next = new Vector3(
+                Mathf.Sin(Mathf.Deg2Rad * (angle_next)), 0,
+                Mathf.Cos(Mathf.Deg2Rad * (angle_next)));
 
+                pos_curr_min = transform.position + sphere_curr * dist_min;
+                pos_curr_max = transform.position + sphere_curr * dist_max;
+
+                pos_next_min = transform.position + sphere_next * dist_min;
+                pos_next_max = transform.position + sphere_next * dist_max;
+
+                int a = 4 * i;
+                int b = 4 * i + 1;
+                int c = 4 * i + 2;
+                int d = 4 * i + 3;
+
+                vertices[a] = pos_curr_min;
+                vertices[b] = pos_curr_max;
+                vertices[c] = pos_next_max;
+                vertices[d] = pos_next_min;
+
+                //Debug.Log(sphere_curr);
+                /*
+                colours[a] = new Color(Vector3.Distance(transform.position, sphere_curr * dist_max) / 100, 0, 0);
+                colours[b] = new Color(Vector3.Distance(transform.position, sphere_curr * dist_max) / 100, 0, 0);
+                colours[c] = new Color(Vector3.Distance(transform.position, sphere_curr * dist_max) / 100, 0, 0);
+                colours[d] = new Color(Vector3.Distance(transform.position, sphere_curr * dist_max) / 100, 0, 0);
+
+                colours[a] = new Color((float)((float)i / 10), 0, 0);
+                colours[b] = new Color((float)((float)i / 10), 0, 0);
+                colours[c] = new Color((float)((float)i / 10), 0, 0);
+                colours[d] = new Color((float)((float)i / 10), 0, 0);
+                */
+                triangles[6 * i] = a;       // Triangle1: abc
+                triangles[6 * i + 1] = b;
+                triangles[6 * i + 2] = c;
+                triangles[6 * i + 3] = c;   // Triangle2: cda
+                triangles[6 * i + 4] = d;
+                triangles[6 * i + 5] = a;
+
+                angle_curr += angle_delta;
+                angle_next += angle_delta;
+            }
+
+            mesh.vertices = vertices;
+            mesh.triangles = triangles;
+            //mesh.colors = colours;
+
+            Graphics.DrawMesh(mesh, Vector3.zero, Quaternion.identity, material, 0);
         }
-
-        mesh.vertices = vertices;
-        mesh.triangles = triangles;
-
-        Graphics.DrawMesh(mesh, Vector3.zero, Quaternion.identity, material, 0);
     }
 
     float GetEnemyAngle()
     {
+        //return (Mathf.Sin(Time.time) + 1) * 180;
         //return 90 - Mathf.Rad2Deg * Mathf.Atan2(transform.forward.z, transform.forward.x); // Left handed CW. z = angle 0, x = angle 
         //return 90 - Mathf.Rad2Deg * Mathf.Atan2((Input.mousePosition.z - transform.position.z), (Input.mousePosition.x - transform.position.x)); // Left handed CW. z = angle 0, x = angle 90
-        return Vector3.Angle(transform.position, GameObject.Find("PlayerCamera(Clone)").GetComponent<Camera>().ScreenToWorldPoint(Input.mousePosition)); // Left handed CW. z = angle 0, x = angle 90
+        Vector3 pos;
+        RaycastHit hit;
+        if (Physics.Raycast(transform.parent.GetComponent<NetworkedPlayerScript>().myCamera.ScreenPointToRay(Input.mousePosition), out hit))
+        {
+            pos = hit.point;
+            Debug.DrawLine(transform.parent.GetComponent<NetworkedPlayerScript>().myCamera.transform.position, hit.point, Color.red);
+            //return Vector3.Angle(transform.parent.position, pos);
+            //float angle = Vector3.Angle(transform.parent.forward, pos - transform.position);
+            //Vector3 cross = Vector3.Cross(transform.parent.forward, pos - transform.position);
+            float angle = Vector3.Angle(Vector3.forward, pos - transform.position);
+            Vector3 cross = Vector3.Cross(Vector3.forward, pos - transform.position);
+            if (cross.y < 0) angle = -angle;
+
+            dist_max = Vector3.Distance(transform.position, pos);
+
+            return angle;
+        }
+        else
+            return 0;
     }
 }

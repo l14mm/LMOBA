@@ -45,7 +45,6 @@ public class AI_Controller : NetworkBehaviour
         state = State.attack;
 
         timer = wanderTimer;
-        
     }
 
     private void Update()

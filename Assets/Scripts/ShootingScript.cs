@@ -25,7 +25,7 @@ public class ShootingScript : NetworkBehaviour
 
     private GameObject fire;
     ParticleSystem.Particle[] m_Particles;
-    private float fireScale = 1;
+    public float fireScale { get; private set ;}
     private GameObject fireball;
 
     private float lastAutoTime = 0;
@@ -72,6 +72,7 @@ public class ShootingScript : NetworkBehaviour
     public override void OnStartLocalPlayer()
     {
 
+        attackRangeMesh.enabled = false;
     }
 
     void Update()
