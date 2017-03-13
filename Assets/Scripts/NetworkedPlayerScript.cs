@@ -104,6 +104,18 @@ public class NetworkedPlayerScript : NetworkBehaviour
             gManager.playerList.Add("AI player");
         else
             gManager.playerList.Add("Player");
+
+        if(!isAI)
+        {
+            myCamera.GetComponent<CameraController>().SetPlayer(transform);
+            //myCamera.transform.parent = null;
+            myCamera.name = "PlayerCamera(Clone)";
+        }
+
+        if (!isLocalPlayer)
+        {
+            //Destroy(myCamera);
+        }
     }
 
     public void Select()
@@ -191,8 +203,8 @@ public class NetworkedPlayerScript : NetworkBehaviour
         //Debug.Log("playerNameStart: " + playerName.ToString());
         CmdSendName(playerName);
         //Debug.Log("creating camera");
-        myCamera = Instantiate(p_Camera);
-        myCamera.GetComponent<CameraController>().SetPlayer(transform);
+        //myCamera = Instantiate(p_Camera);
+        //myCamera.GetComponent<CameraController>().SetPlayer(transform);
 
         id = netId;
         idfloat = netId.Value;

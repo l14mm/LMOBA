@@ -24,7 +24,10 @@ public class CameraController : MonoBehaviour {
     private void Awake()
     {
         me = GetComponent<Camera>();
-        initialPosition = transform.position;
+
+        myPlayer = transform.parent;
+        initialPosition = transform.position - myPlayer.position;
+        transform.parent = null;
 
         screenWidth = Screen.width;
         screenHeight = Screen.height;
@@ -34,7 +37,7 @@ public class CameraController : MonoBehaviour {
 
     public void SetPlayer(Transform _myPlayer)
     {
-        myPlayer = _myPlayer;
+        //myPlayer = _myPlayer;
     }
 
     private void Update ()
@@ -52,7 +55,7 @@ public class CameraController : MonoBehaviour {
             transform.position = transform.position + translation;
         }
         */
-
+        /*
         float x = 0;
         float z = 0;
         if (Input.mousePosition.x > screenWidth - boundary)
@@ -84,7 +87,7 @@ public class CameraController : MonoBehaviour {
             z -= speed * Time.deltaTime * multiplier; // move on -Z axis
         }
         transform.position = transform.position + new Vector3(x, 0, z);
-
+        */
         if (Input.GetKeyDown(KeyCode.Space))
         {
             cameraLocked = !cameraLocked;
