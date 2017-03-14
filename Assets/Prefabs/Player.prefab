@@ -473,10 +473,17 @@ MonoBehaviour:
   spawnPoint: {x: 0, y: 0, z: 0}
   p_Camera: {fileID: 20598216097670410, guid: 1e9bc231e817d0a4b8a218e4bad739da, type: 2}
   myCamera: {fileID: 20372700463839452}
+  team: 1
   idfloat: 0
   isAI: 0
-  outlineMaterial: {fileID: 2100000, guid: 64e61e91a822d6e4fa6d588e4fca1247, type: 2}
+  outlineMaterialTeam1: {fileID: 2100000, guid: 64e61e91a822d6e4fa6d588e4fca1247,
+    type: 2}
+  outlineMaterialTeam2: {fileID: 2100000, guid: 2879cc688ea8ffa428ab77657460c6f0,
+    type: 2}
+  materialTeam1: {fileID: 2100000, guid: 0e788488b359cdc4faed75aa242eb60d, type: 2}
+  materialTeam2: {fileID: 2100000, guid: cc6533618889efb45a1932185410857e, type: 2}
   myRenderer: {fileID: 23581073555446500}
+  viewVisualization: {fileID: 23055963788403052}
 --- !u!136 &13635468
 CapsuleCollider:
   m_ObjectHideFlags: 1
@@ -855,7 +862,7 @@ Transform:
   m_GameObject: {fileID: 1332460600244956}
   m_LocalRotation: {x: 0, y: 0.7071068, z: -0.7071068, w: 0}
   m_LocalPosition: {x: 0, y: -0, z: 0.382}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_Children: []
   m_Father: {fileID: 4250002268083354}
   m_RootOrder: 0
@@ -1018,7 +1025,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294934527
+    m_Bits: 4294148095
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0

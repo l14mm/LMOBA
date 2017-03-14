@@ -54,24 +54,26 @@ public class NetworkedPlayerScript : NetworkBehaviour
     public Camera p_Camera;
     //[HideInInspector]
     public Camera myCamera;
-
-    //[HideInInspector]
-    //[SyncVar]
+    
     public NetworkInstanceId id;
-    //[SyncVar]
+    [SyncVar]
+    public float team = 0;
     public float idfloat;
 
     public bool isAI;
 
-    public Material outlineMaterial;
-    private Material originalMaterial;
+    public Material outlineMaterialTeam1;
+    public Material outlineMaterialTeam2;
+    public Material materialTeam1;
+    public Material materialTeam2;
     public Renderer myRenderer;
 
     private GameManager gManager;
 
+    public MeshRenderer viewVisualization;
+
     void Awake()
     {
-
         renderers = GetComponentsInChildren<Renderer>();
         maxHealth = 200;
         healthRegen = 0.1f;
@@ -94,12 +96,11 @@ public class NetworkedPlayerScript : NetworkBehaviour
 
         spawnPoint = transform.position;
 
-        originalMaterial = myRenderer.material;
-
         tabCanvas = GameObject.Find("TabCanvas").GetComponent<Canvas>();
         tabCanvas.enabled = false;
 
         gManager = GameObject.Find("Server").GetComponent<GameManager>();
+
         if(isAI)
             gManager.playerList.Add("AI player");
         else
@@ -108,7 +109,6 @@ public class NetworkedPlayerScript : NetworkBehaviour
         if(!isAI)
         {
             myCamera.GetComponent<CameraController>().SetPlayer(transform);
-            //myCamera.transform.parent = null;
             myCamera.name = "PlayerCamera(Clone)";
         }
 
@@ -116,16 +116,58 @@ public class NetworkedPlayerScript : NetworkBehaviour
         {
             //Destroy(myCamera);
         }
+
+        SetTeam(1);
+    }
+
+    public void SetTeam(float _team)
+    {
+        team = _team;
+        if(_team == 1)
+        {
+            myRenderer.material.color = Color.red;
+            myRenderer.material.SetColor("_EmissionColor", Color.red);
+            // Add layer to culling mask, leave everything else alone
+            if(!isAI)
+                myCamera.GetComponent<CameraController>().fowCamera.cullingMask |= (1 <<  LayerMask.NameToLayer("FogOfWarTeam1"));
+            // Set layer for fow area
+            viewVisualization.gameObject.layer = LayerMask.NameToLayer("FogOfWarTeam1");
+
+        }
+        else if (_team == 2)
+        {
+            myRenderer.material.color = Color.blue;
+            myRenderer.material.SetColor("_EmissionColor", Color.blue);
+            if (!isAI)
+                myCamera.GetComponent<CameraController>().fowCamera.cullingMask |= (1 << LayerMask.NameToLayer("FogOfWarTeam2"));
+            viewVisualization.gameObject.layer = LayerMask.NameToLayer("FogOfWarTeam2");
+
+        }
     }
 
     public void Select()
     {
-        myRenderer.material = outlineMaterial;
+        //originalMaterial = myRenderer.material;
+        if(team == 1)
+        {
+            myRenderer.material = outlineMaterialTeam1;
+        }
+        else if (team == 2)
+        {
+            myRenderer.material = outlineMaterialTeam2;
+        }
     }
 
     public void DeSelect()
     {
-        myRenderer.material = originalMaterial;
+        if (team == 1)
+        {
+            myRenderer.material = materialTeam1;
+        }
+        else if (team == 2)
+        {
+            myRenderer.material = materialTeam2;
+        }
     }
 
     private void FixedUpdate()

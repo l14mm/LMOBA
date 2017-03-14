@@ -63,6 +63,9 @@ public class InventoryManager : MonoBehaviour {
         else if (inventoryCount == 5)
             Item6 = item;
 
+        if (GetComponent<NetworkedPlayerScript>().isAI)
+            return;
+
         if (item.type == Item.ItemType.sword)
             GetComponent<NetworkedPlayerScript>().attackDamge += 20;
         else if (item.type == Item.ItemType.shield)

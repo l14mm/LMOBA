@@ -13,10 +13,14 @@ public class GameManager : NetworkBehaviour {
 
     void Start()
     {
-        for(int i = 1; i < numAI + 1; i++)
+        for(int i = 1; i <= numAI; i++)
         {
             GameObject aiPlayer = Instantiate(p_AIPlayer, spawns[i].transform.position, spawns[i].transform.rotation);            
             NetworkServer.Spawn(aiPlayer);
+            if(i % 2 == 0)
+                aiPlayer.GetComponent<NetworkedPlayerScript>().SetTeam(1);
+            else
+                aiPlayer.GetComponent<NetworkedPlayerScript>().SetTeam(2);
         }
     }
 }

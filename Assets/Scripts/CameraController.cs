@@ -39,7 +39,7 @@ public class CameraController : MonoBehaviour {
         Cursor.lockState = CursorLockMode.Confined;
 
         me.fieldOfView = 74;
-        fowCamera.fieldOfView = 100;
+        fowCamera.fieldOfView = 138;
 
         oldPos = myPlayer.position;
     }

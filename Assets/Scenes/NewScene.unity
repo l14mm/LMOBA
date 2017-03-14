@@ -461,8 +461,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1920, y: 1080}
+  m_AnchoredPosition: {x: -4, y: 1}
+  m_SizeDelta: {x: 2070, y: 1033}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &111593928
 MonoBehaviour:
@@ -887,52 +887,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 198032422}
---- !u!1001 &214812590
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 461326, guid: 65c3b5643599ed543bfe71c145121290, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: -30.54
-      objectReference: {fileID: 0}
-    - target: {fileID: 461326, guid: 65c3b5643599ed543bfe71c145121290, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0.38
-      objectReference: {fileID: 0}
-    - target: {fileID: 461326, guid: 65c3b5643599ed543bfe71c145121290, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 3.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 461326, guid: 65c3b5643599ed543bfe71c145121290, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 461326, guid: 65c3b5643599ed543bfe71c145121290, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 461326, guid: 65c3b5643599ed543bfe71c145121290, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 461326, guid: 65c3b5643599ed543bfe71c145121290, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 461326, guid: 65c3b5643599ed543bfe71c145121290, type: 2}
-      propertyPath: m_RootOrder
-      value: 17
-      objectReference: {fileID: 0}
-    - target: {fileID: 196972, guid: 65c3b5643599ed543bfe71c145121290, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: 65c3b5643599ed543bfe71c145121290, type: 2}
-  m_IsPrefabParent: 0
 --- !u!1001 &215833592
 Prefab:
   m_ObjectHideFlags: 0
@@ -1019,7 +973,7 @@ MonoBehaviour:
   - {fileID: 1847110365}
   - {fileID: 1230351784}
   - {fileID: 634885612}
-  numAI: 1
+  numAI: 5
   playerList: []
 --- !u!114 &217345358
 MonoBehaviour:
@@ -3945,7 +3899,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294963199
+    m_Bits: 4294176767
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0

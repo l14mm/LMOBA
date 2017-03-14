@@ -198,7 +198,7 @@ public class AI_Controller : NetworkBehaviour
         {
             GameObject temp = hitColliders[i].gameObject;
             //if (temp.tag == "Player" && temp.GetComponent<NetworkedPlayerScript>().netId != netId && temp.GetComponent<NetworkedPlayerScript>().isAI)
-            if (temp.tag == "Player" && temp.GetComponent<NetworkedPlayerScript>().netId != netId)
+            if (temp.tag == "Player" && temp.GetComponent<NetworkedPlayerScript>().netId != netId && temp.GetComponent<NetworkedPlayerScript>().team != GetComponent<NetworkedPlayerScript>().team)
             {
                 float distance = Vector3.Distance(transform.position, temp.transform.position);
                 if(distance < closestDistance)
