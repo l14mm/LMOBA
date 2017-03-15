@@ -125,10 +125,11 @@ public class NetworkedPlayerScript : NetworkBehaviour
         team = _team;
         if(_team == 1)
         {
-            myRenderer.material.color = Color.red;
-            myRenderer.material.SetColor("_EmissionColor", Color.red);
+            //myRenderer.material.color = Color.red;
+            //myRenderer.material.SetColor("_EmissionColor", Color.red);
+            myRenderer.material = materialTeam1;
             // Add layer to culling mask, leave everything else alone
-            if(!isAI)
+            if (!isAI)
                 myCamera.GetComponent<CameraController>().fowCamera.cullingMask |= (1 <<  LayerMask.NameToLayer("FogOfWarTeam1"));
             // Set layer for fow area
             viewVisualization.gameObject.layer = LayerMask.NameToLayer("FogOfWarTeam1");
@@ -136,8 +137,9 @@ public class NetworkedPlayerScript : NetworkBehaviour
         }
         else if (_team == 2)
         {
-            myRenderer.material.color = Color.blue;
-            myRenderer.material.SetColor("_EmissionColor", Color.blue);
+            //myRenderer.material.color = Color.blue;
+            //myRenderer.material.SetColor("_EmissionColor", Color.blue);
+            myRenderer.material = materialTeam2;
             if (!isAI)
                 myCamera.GetComponent<CameraController>().fowCamera.cullingMask |= (1 << LayerMask.NameToLayer("FogOfWarTeam2"));
             viewVisualization.gameObject.layer = LayerMask.NameToLayer("FogOfWarTeam2");
