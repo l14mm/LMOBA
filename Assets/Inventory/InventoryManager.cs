@@ -27,12 +27,14 @@ public class InventoryManager : MonoBehaviour {
     public Item startingItem1;
     public Item startingItem2;
 
-    private Canvas shopCanvas;
+    public Canvas shopCanvas;
 
     private void Awake ()
     {
+        if (GetComponent<NetworkedPlayerScript>().isAI)
+            Destroy(this);
+
         shopCanvas = GameObject.Find("ShopCanvas").GetComponent<Canvas>();
-        //shopCanvas.enabled = false;
 
         InvImg1 = GameObject.Find("InvSlot1").GetComponent<Image>();
         InvImg2 = GameObject.Find("InvSlot2").GetComponent<Image>();

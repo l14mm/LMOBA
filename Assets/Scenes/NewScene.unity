@@ -1048,7 +1048,7 @@ MonoBehaviour:
   - {fileID: 1847110365}
   - {fileID: 1230351784}
   - {fileID: 634885612}
-  numAI: 5
+  numAI: 1
   playerList: []
 --- !u!114 &217345358
 MonoBehaviour:
@@ -3855,20 +3855,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1166333641}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53c6313d90a1c4f4e9c683a09f564481, type: 3}
+  m_Script: {fileID: 11500000, guid: 9b20393d246f10546a4c4aa7772e7995, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerList:
-  - {fileID: 537156198}
-  - {fileID: 405126112}
-  - {fileID: 1776744531}
-  - {fileID: 2113081112}
-  - {fileID: 126346196}
-  - {fileID: 1905263712}
-  - {fileID: 1607039253}
-  - {fileID: 1008255689}
-  - {fileID: 1931520041}
-  - {fileID: 1597913400}
 --- !u!222 &1166333643
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4948,7 +4937,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: Health Potion
 --- !u!222 &1492763527
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6712,7 +6701,7 @@ Canvas:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1902028471}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_RenderMode: 0
   m_Camera: {fileID: 0}
@@ -7628,7 +7617,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2141504054}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1166333642}
+        m_MethodName: BuyItem
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 114211784456260880, guid: ec9f636d95a13ba42be7e76680cf697d,
+            type: 2}
+          m_ObjectArgumentAssemblyTypeName: Item, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &2141504054

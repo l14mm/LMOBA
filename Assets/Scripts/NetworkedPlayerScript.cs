@@ -41,6 +41,9 @@ public class NetworkedPlayerScript : NetworkBehaviour
     public float attackDamge;
     [SyncVar]
     public float armour;
+    [SyncVar]
+    public float money;
+    private Text moneyText;
 
     [SyncVar]
     public int playerCount;
@@ -82,11 +85,13 @@ public class NetworkedPlayerScript : NetworkBehaviour
         mana = 100;
         attackDamge = 10;
         armour = 10;
+        money = 100;
 
         healthBarHUD = GameObject.Find("HealthHUD").GetComponent<Transform>();
         healthText = GameObject.Find("HealthText").GetComponent<Text>();
         manaBarHUD = GameObject.Find("ManaHUD").GetComponent<Transform>();
         manaText = GameObject.Find("ManaText").GetComponent<Text>();
+        moneyText = GameObject.Find("MoneyText").GetComponent<Text>();
 
         hitScreen = GameObject.Find("HitScreen").GetComponent<Image>();
         hitScreen.enabled = true;
@@ -198,6 +203,8 @@ public class NetworkedPlayerScript : NetworkBehaviour
             healthText.text = (int)health + " / " + maxHealth;
             manaBarHUD.localScale = new Vector3(((mana * 100) / maxMana) * 0.01f, 0.4f, 2);
             manaText.text = (int)mana + " / " + maxMana;
+
+            moneyText.text = "Money: $" + money;
 
             if (hitScreenAlpha > 0) hitScreenAlpha -= 0.02f;
             hitScreenColour.a = hitScreenAlpha;
