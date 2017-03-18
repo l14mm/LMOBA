@@ -19,7 +19,7 @@ public class InventoryManager : MonoBehaviour {
     public Item Item5;
     public Item Item6;
 
-    private int inventoryCount = 0;
+    public int inventoryCount = 0;
 
     private Text attackDamgeText;
     private Text armourText;
@@ -35,6 +35,7 @@ public class InventoryManager : MonoBehaviour {
             Destroy(this);
 
         shopCanvas = GameObject.Find("ShopCanvas").GetComponent<Canvas>();
+        shopCanvas.GetComponent<ShopMenuScript>().player = GetComponent<NetworkedPlayerScript>();
 
         InvImg1 = GameObject.Find("InvSlot1").GetComponent<Image>();
         InvImg2 = GameObject.Find("InvSlot2").GetComponent<Image>();

@@ -25,12 +25,10 @@ public class Item : MonoBehaviour {
         if(type == ItemType.healthPotion)
         {
             player.health += 20;
-            if (player.health > 100) player.health = 100;
         }
         if (type == ItemType.manaPotion)
         {
             player.mana += 20;
-            if (player.mana > 100) player.mana = 100;
         }
     }
 }

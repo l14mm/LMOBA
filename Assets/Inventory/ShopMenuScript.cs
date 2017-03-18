@@ -4,21 +4,22 @@ using UnityEngine;
 
 public class ShopMenuScript : MonoBehaviour {
 
+    public NetworkedPlayerScript player;
+    
+    void Awake()
+    {
+        if (GetComponent<Canvas>().enabled)
+            GetComponent<Canvas>().enabled = false;
 
-
-    // Use this for initialization
-    void Start() {
-
-    }
-
-    // Update is called once per frame
-    void Update() {
-
+        
     }
 
     public void BuyItem(Item item)
     {
-        GameObject.Find("LOCAL Player").GetComponent<InventoryManager>().AddItem(item);
-        GameObject.Find("LOCAL Player").GetComponent<NetworkedPlayerScript>().money -= 20;
+        if(player.money >= 20 && player.GetComponent<InventoryManager>().inventoryCount < 6)
+        {
+            player.GetComponent<InventoryManager>().AddItem(item);
+            player.money -= 20;
+        }
     }
 }
