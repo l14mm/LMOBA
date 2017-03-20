@@ -38,6 +38,9 @@ public class ShopMenuScript : MonoBehaviour {
 
     public void SellItem(int slot)
     {
+        player.money += 20;
+        player.GetComponent<InventoryManager>().RemoveItem(slot);
+        return;
         if (slot == 1)
         {
             player.GetComponent<InventoryManager>().Item1 = null;
@@ -69,7 +72,6 @@ public class ShopMenuScript : MonoBehaviour {
 
         }
 
-        player.money += 20;
     }
 
     void Update()

@@ -53,6 +53,7 @@ public class InventoryManager : MonoBehaviour {
 
     public void AddItem(Item item)
     {
+        ///*
         if (inventoryCount == 0)
             Item1 = item;
         else if (inventoryCount == 1)
@@ -65,6 +66,8 @@ public class InventoryManager : MonoBehaviour {
             Item5 = item;
         else if (inventoryCount == 5)
             Item6 = item;
+            //*/
+
 
         if (GetComponent<NetworkedPlayerScript>().isAI)
             return;
@@ -75,6 +78,55 @@ public class InventoryManager : MonoBehaviour {
             GetComponent<NetworkedPlayerScript>().armour += 20;
 
         inventoryCount++;
+    }
+
+    public void RemoveItem(int slot)
+    {
+        if (slot == 1)
+        {
+            Item1 = null;
+            Item1 = Item2;
+            Item2 = Item3;
+            Item3 = Item4;
+            Item4 = Item5;
+            Item5 = Item6;
+        }
+        else if (slot == 2)
+        {
+            Item2 = null;
+            Item2 = Item3;
+            Item3 = Item4;
+            Item4 = Item5;
+            Item5 = Item6;
+
+        }
+        else if (slot == 3)
+        {
+            Item3 = null;
+            Item3 = Item4;
+            Item4 = Item5;
+            Item5 = Item6;
+
+        }
+        else if (slot == 4)
+        {
+            Item4 = null;
+            Item4 = Item5;
+            Item5 = Item6;
+
+        }
+        else if (slot == 5)
+        {
+            Item5 = null;
+            Item5 = Item6;
+
+        }
+        else if (slot == 6)
+        {
+            Item6 = null;
+
+        }
+        inventoryCount--;
     }
 	
 	private void Update ()
