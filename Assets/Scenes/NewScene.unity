@@ -4494,7 +4494,7 @@ Canvas:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1166333641}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_RenderMode: 0
   m_Camera: {fileID: 0}
@@ -7454,13 +7454,13 @@ Camera:
   far clip plane: 1000
   field of view: 76
   orthographic: 1
-  orthographic size: 0
+  orthographic size: 30
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294017023
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 0}
+  m_TargetTexture: {fileID: 8400000, guid: bf3a6320bb1bb7241be0614eb6b3b37b, type: 2}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 0

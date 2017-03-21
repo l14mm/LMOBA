@@ -40,38 +40,6 @@ public class ShopMenuScript : MonoBehaviour {
     {
         player.money += 20;
         player.GetComponent<InventoryManager>().RemoveItem(slot);
-        return;
-        if (slot == 1)
-        {
-            player.GetComponent<InventoryManager>().Item1 = null;
-
-        }
-        else if (slot == 2)
-        {
-            player.GetComponent<InventoryManager>().Item2 = null;
-
-        }
-        else if (slot == 3)
-        {
-            player.GetComponent<InventoryManager>().Item3 = null;
-
-        }
-        else if (slot == 4)
-        {
-            player.GetComponent<InventoryManager>().Item4 = null;
-
-        }
-        else if (slot == 5)
-        {
-            player.GetComponent<InventoryManager>().Item5 = null;
-
-        }
-        else if (slot == 6)
-        {
-            player.GetComponent<InventoryManager>().Item6 = null;
-
-        }
-
     }
 
     void Update()

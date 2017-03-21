@@ -53,6 +53,8 @@ public class InventoryManager : MonoBehaviour {
 
     public void AddItem(Item item)
     {
+        if (GetComponent<NetworkedPlayerScript>().isAI)
+            return;
         ///*
         if (inventoryCount == 0)
             Item1 = item;
@@ -67,11 +69,7 @@ public class InventoryManager : MonoBehaviour {
         else if (inventoryCount == 5)
             Item6 = item;
             //*/
-
-
-        if (GetComponent<NetworkedPlayerScript>().isAI)
-            return;
-
+            
         if (item.type == Item.ItemType.sword)
             GetComponent<NetworkedPlayerScript>().attackDamge += 20;
         else if (item.type == Item.ItemType.shield)
@@ -127,6 +125,7 @@ public class InventoryManager : MonoBehaviour {
 
         }
         inventoryCount--;
+        Debug.Log("removing item from slot " + slot);
     }
 	
 	private void Update ()
@@ -145,6 +144,7 @@ public class InventoryManager : MonoBehaviour {
             {
                 Item1.Consume(GetComponent<NetworkedPlayerScript>());
                 Item1 = null;
+                inventoryCount--;
             }
         }
         if (Input.GetKeyDown("2"))
@@ -153,6 +153,7 @@ public class InventoryManager : MonoBehaviour {
             {
                 Item2.Consume(GetComponent<NetworkedPlayerScript>());
                 Item2 = null;
+                inventoryCount--;
             }
         }
         if (Input.GetKeyDown("3"))
@@ -161,6 +162,7 @@ public class InventoryManager : MonoBehaviour {
             {
                 Item3.Consume(GetComponent<NetworkedPlayerScript>());
                 Item3 = null;
+                inventoryCount--;
             }
         }
         if (Input.GetKeyDown("4"))
@@ -169,6 +171,7 @@ public class InventoryManager : MonoBehaviour {
             {
                 Item4.Consume(GetComponent<NetworkedPlayerScript>());
                 Item4 = null;
+                inventoryCount--;
             }
         }
         if (Input.GetKeyDown("5"))
@@ -177,6 +180,7 @@ public class InventoryManager : MonoBehaviour {
             {
                 Item5.Consume(GetComponent<NetworkedPlayerScript>());
                 Item5 = null;
+                inventoryCount--;
             }
         }
         if (Input.GetKeyDown("6"))
@@ -185,6 +189,7 @@ public class InventoryManager : MonoBehaviour {
             {
                 Item6.Consume(GetComponent<NetworkedPlayerScript>());
                 Item6 = null;
+                inventoryCount--;
             }
         }
 
