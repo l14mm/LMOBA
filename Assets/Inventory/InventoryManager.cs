@@ -122,8 +122,8 @@ public class InventoryManager : MonoBehaviour {
         else if (slot == 6)
         {
             Item6 = null;
-
         }
+        Item6 = null;
         inventoryCount--;
         Debug.Log("removing item from slot " + slot);
     }
