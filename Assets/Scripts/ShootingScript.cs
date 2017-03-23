@@ -2,6 +2,7 @@
 using UnityEngine.Networking;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 
 public class ShootingScript : NetworkBehaviour
 {
@@ -243,6 +244,30 @@ public class ShootingScript : NetworkBehaviour
             {
                 // If we are not in range to auto attack, move closer to target
                 //GetComponent<PlayerMovement>().waypoint = target.position;
+            }
+        }
+        if (Input.GetKey(KeyCode.E))
+        {
+            List<Transform> players = new List<Transform>();
+            Collider[] hitColliders = Physics.OverlapSphere(transform.position, 50);
+            for (int i = 0; i < hitColliders.Length; i++)
+            {
+                GameObject temp = hitColliders[i].gameObject;
+                if (temp.GetComponent<NetworkedPlayerScript>() && temp.GetComponent<NetworkedPlayerScript>().netId.Value != GetComponent<NetworkedPlayerScript>().netId.Value)
+                {
+                    players.Add(temp.transform);
+                }
+            }
+            for(int i = 0; i < players.Count; i++)
+            {
+                Vector3 dir = Vector3.MoveTowards(players[i].transform.position, transform.position, 10) - players[i].transform.position;
+                //dir *= 10;
+                //Vector3 dir = (transform.position - players[i].transform.position).normalized * 10;
+                Debug.Log("moving to me: " + dir);
+                //Debug.DrawLine(players[i].transform.position, players[i].transform.position + dir);
+                Debug.DrawRay(players[i].transform.position, dir, Color.red, 0.1f);
+                //players[i].GetComponent<Rigidbody>().AddForce(dir, ForceMode.Impulse);
+                players[i].TransformDirection(dir, ForceMode.Impulse);
             }
         }
     }
