@@ -53,7 +53,10 @@ public class ShootingScript : NetworkBehaviour
     private float blinkTimeValue = 0;
 
     public MeshRenderer attackRangeMesh;
-    public float tt = 0.2f;
+
+    public MeshRenderer orbPullMesh;
+    private float orbPullRange = 15;
+    public float orbPullStrength = 1;
 
     private void Awake()
     {
@@ -68,12 +71,14 @@ public class ShootingScript : NetworkBehaviour
             return;
 
         attackRangeMesh.enabled = false;
+        orbPullMesh.enabled = false;
     }
 
     public override void OnStartLocalPlayer()
     {
 
         attackRangeMesh.enabled = false;
+        orbPullMesh.enabled = false;
     }
 
     void Update()
@@ -154,13 +159,13 @@ public class ShootingScript : NetworkBehaviour
                     for (int i = 0; i < hitColliders.Length; i++)
                     {
                         GameObject temp = hitColliders[i].gameObject;
-                        if (temp.GetComponent<NetworkedPlayerScript>() && temp.GetComponent<NetworkedPlayerScript>().netId.Value != GetComponent<NetworkedPlayerScript>().netId.Value)
+                        if (temp.transform.parent && temp.transform.parent.GetComponent<NetworkedPlayerScript>() && temp.transform.parent.GetComponent<NetworkedPlayerScript>().netId.Value != GetComponent<NetworkedPlayerScript>().netId.Value)
                         {
-                            float distance = Vector3.Distance(transform.position, temp.transform.position);
+                            float distance = Vector3.Distance(transform.position, temp.transform.parent.position);
                             if (distance < closestDistance)
                             {
                                 closestDistance = distance;
-                                closestEnemy = temp.transform;
+                                closestEnemy = temp.transform.parent;
                             }
                         }
                     }
@@ -249,16 +254,14 @@ public class ShootingScript : NetworkBehaviour
         if (Input.GetKey(KeyCode.E))
         {
             //GetComponent<Rigidbody>().AddForce(transform.forward * 100 * Time.deltaTime, ForceMode.Impulse);
-            
+
+            orbPullMesh.transform.localScale = new Vector3(orbPullRange * 0.226f, 1, orbPullRange * 0.226f);
+            orbPullMesh.enabled = true;
             List<Transform> players = new List<Transform>();
-            Collider[] hitColliders = Physics.OverlapSphere(transform.position, 50);
-            //Debug.Log("length: " + hitColliders.Length);
+            Collider[] hitColliders = Physics.OverlapSphere(transform.position, orbPullRange);
             for (int i = 0; i < hitColliders.Length; i++)
             {
                 GameObject temp = hitColliders[i].gameObject;
-                //Debug.Log("name: " + temp.name);
-                //if (temp.transform.parent.GetComponent<NetworkedPlayerScript>()) Debug.Log("netid: " + temp.GetComponent<NetworkedPlayerScript>().netId.Value);
-                //if (temp.GetComponent<NetworkedPlayerScript>()) Debug.Log("my netid: " + GetComponent<NetworkedPlayerScript>().netId.Value);
                 if (temp.transform.parent && temp.transform.parent.GetComponent<NetworkedPlayerScript>() && temp.transform.parent.GetComponent<NetworkedPlayerScript>().netId.Value != GetComponent<NetworkedPlayerScript>().netId.Value)
                 {
                     players.Add(temp.transform.parent);
@@ -266,17 +269,14 @@ public class ShootingScript : NetworkBehaviour
             }
             for(int i = 0; i < players.Count; i++)
             {
-                Vector3 dir = Vector3.MoveTowards(players[i].transform.position, transform.position, 100 * Time.deltaTime) - players[i].transform.position;
-                //Vector3 dir = Vector3.MoveTowards(players[i].transform.position, transform.position, 100);
-                //GetComponent<Rigidbody>().AddForce(transform.forward * 0.01f * Time.deltaTime, ForceMode.Impulse);
-                //dir *= 10;
-                //Vector3 dir = (transform.position - players[i].transform.position).normalized * 10;
-                Debug.Log("moving to me: " + dir);
-                //Debug.DrawLine(players[i].transform.position, players[i].transform.position + dir);
-                Debug.DrawRay(players[i].transform.position, dir, Color.red, 0.1f);
+                Vector3 dir = Vector3.MoveTowards(players[i].transform.position, transform.position, 25 * orbPullStrength * Time.deltaTime) - players[i].transform.position;
+                //Debug.DrawRay(players[i].transform.position, dir, Color.red, 0.1f);
                 players[i].GetComponent<Rigidbody>().AddForce(dir, ForceMode.Impulse);
-                //players[i].TransformDirection(dir, ForceMode.Impulse);
             }
+        }
+        else
+        {
+            orbPullMesh.enabled = false;
         }
     }
 
