@@ -248,26 +248,34 @@ public class ShootingScript : NetworkBehaviour
         }
         if (Input.GetKey(KeyCode.E))
         {
+            //GetComponent<Rigidbody>().AddForce(transform.forward * 100 * Time.deltaTime, ForceMode.Impulse);
+            
             List<Transform> players = new List<Transform>();
             Collider[] hitColliders = Physics.OverlapSphere(transform.position, 50);
+            //Debug.Log("length: " + hitColliders.Length);
             for (int i = 0; i < hitColliders.Length; i++)
             {
                 GameObject temp = hitColliders[i].gameObject;
-                if (temp.GetComponent<NetworkedPlayerScript>() && temp.GetComponent<NetworkedPlayerScript>().netId.Value != GetComponent<NetworkedPlayerScript>().netId.Value)
+                //Debug.Log("name: " + temp.name);
+                //if (temp.transform.parent.GetComponent<NetworkedPlayerScript>()) Debug.Log("netid: " + temp.GetComponent<NetworkedPlayerScript>().netId.Value);
+                //if (temp.GetComponent<NetworkedPlayerScript>()) Debug.Log("my netid: " + GetComponent<NetworkedPlayerScript>().netId.Value);
+                if (temp.transform.parent && temp.transform.parent.GetComponent<NetworkedPlayerScript>() && temp.transform.parent.GetComponent<NetworkedPlayerScript>().netId.Value != GetComponent<NetworkedPlayerScript>().netId.Value)
                 {
-                    players.Add(temp.transform);
+                    players.Add(temp.transform.parent);
                 }
             }
             for(int i = 0; i < players.Count; i++)
             {
-                Vector3 dir = Vector3.MoveTowards(players[i].transform.position, transform.position, 10) - players[i].transform.position;
+                Vector3 dir = Vector3.MoveTowards(players[i].transform.position, transform.position, 100 * Time.deltaTime) - players[i].transform.position;
+                //Vector3 dir = Vector3.MoveTowards(players[i].transform.position, transform.position, 100);
+                //GetComponent<Rigidbody>().AddForce(transform.forward * 0.01f * Time.deltaTime, ForceMode.Impulse);
                 //dir *= 10;
                 //Vector3 dir = (transform.position - players[i].transform.position).normalized * 10;
                 Debug.Log("moving to me: " + dir);
                 //Debug.DrawLine(players[i].transform.position, players[i].transform.position + dir);
                 Debug.DrawRay(players[i].transform.position, dir, Color.red, 0.1f);
-                //players[i].GetComponent<Rigidbody>().AddForce(dir, ForceMode.Impulse);
-                players[i].TransformDirection(dir, ForceMode.Impulse);
+                players[i].GetComponent<Rigidbody>().AddForce(dir, ForceMode.Impulse);
+                //players[i].TransformDirection(dir, ForceMode.Impulse);
             }
         }
     }
