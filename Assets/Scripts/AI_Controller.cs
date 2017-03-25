@@ -100,6 +100,7 @@ public class AI_Controller : NetworkBehaviour
             if (timer >= wanderTimer)
             {
                 Vector3 newPos = RandomNavSphere(transform.position, wanderRadius, -1);
+                Debug.Log("wanderpos: " + newPos);
                 agent.SetDestination(newPos);
                 timer = 0;
             }
@@ -198,13 +199,13 @@ public class AI_Controller : NetworkBehaviour
         {
             GameObject temp = hitColliders[i].gameObject;
             //if (temp.tag == "Player" && temp.GetComponent<NetworkedPlayerScript>().netId != netId && temp.GetComponent<NetworkedPlayerScript>().isAI)
-            if (temp.tag == "Player" && temp.GetComponent<NetworkedPlayerScript>().netId != netId && temp.GetComponent<NetworkedPlayerScript>().team != GetComponent<NetworkedPlayerScript>().team)
+            if (temp.transform.parent && temp.transform.parent.tag == "Player" && temp.transform.parent.GetComponent<NetworkedPlayerScript>().netId != netId && temp.transform.parent.GetComponent<NetworkedPlayerScript>().team != GetComponent<NetworkedPlayerScript>().team)
             {
                 float distance = Vector3.Distance(transform.position, temp.transform.position);
                 if(distance < closestDistance)
                 {
                     closestDistance = distance;
-                    target = temp.transform;
+                    target = temp.transform.parent;
 
                     RaycastHit hit;
                     Vector3 rayDirection = target.position - transform.position;
