@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerSelection : MonoBehaviour {
 
     private NetworkedPlayerScript currentlySelected = null;
+    private BaseScript baseSelected = null;
 
 	void Update ()
     {
@@ -20,6 +21,17 @@ public class PlayerSelection : MonoBehaviour {
             {
                 currentlySelected.DeSelect();
                 currentlySelected = null;
+            }
+
+            if (hit.transform.GetComponent<BaseScript>())
+            {
+                baseSelected = hit.transform.GetComponent<BaseScript>();
+                baseSelected.Select();
+            }
+            else if (baseSelected)
+            {
+                baseSelected.DeSelect();
+                baseSelected = null;
             }
         }
     }
