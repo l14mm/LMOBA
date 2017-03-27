@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerSelection : MonoBehaviour {
 
     private NetworkedPlayerScript currentlySelected = null;
-    private BaseScript baseSelected = null;
+    private HoverMaterialScript baseSelected = null;
 
 	void Update ()
     {
@@ -25,7 +25,7 @@ public class PlayerSelection : MonoBehaviour {
 
             if (hit.transform.GetComponent<BaseScript>())
             {
-                baseSelected = hit.transform.GetComponent<BaseScript>();
+                baseSelected = hit.transform.GetComponent<HoverMaterialScript>();
                 baseSelected.Select();
             }
             else if (baseSelected)

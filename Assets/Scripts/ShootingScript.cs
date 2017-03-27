@@ -232,6 +232,10 @@ public class ShootingScript : NetworkBehaviour
                 {
                     target = hit.transform;
                 }
+                else if (hit.transform.GetComponent<BaseScript>())
+                {
+                    target = hit.transform;
+                }
             }
         }
         if(target)

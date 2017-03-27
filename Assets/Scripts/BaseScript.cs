@@ -7,9 +7,6 @@ using UnityEngine;
 public class BaseScript : NetworkBehaviour
 {
 
-    public Material defaultMat;
-    public Material selectedMat;
-
     public Transform healthBar;
     [SyncVar]
     public float maxHealth;
@@ -38,15 +35,5 @@ public class BaseScript : NetworkBehaviour
         healthBar.transform.forward = Vector3.up;
         //healthBar.transform.position = transform.position + Vector3.forward;
         healthBar.localScale = new Vector3(((health * 100) / maxHealth) * 0.005f, 0.2f, 1);
-    }
-
-    public void Select()
-    {
-        GetComponent<Renderer>().material = selectedMat;
-    }
-
-    public void DeSelect()
-    {
-        GetComponent<Renderer>().material = defaultMat;
     }
 }
