@@ -75,6 +75,8 @@ public class NetworkedPlayerScript : NetworkBehaviour
 
     public MeshRenderer viewVisualization;
 
+    public Animator anim;
+
     void Awake()
     {
         renderers = GetComponentsInChildren<Renderer>();
@@ -189,12 +191,12 @@ public class NetworkedPlayerScript : NetworkBehaviour
     {
         // Set player name and color of model
         nameTag.text = playerName;
-        skin.GetComponent<Renderer>().material.color = playerColour;
+        //skin.GetComponent<Renderer>().material.color = playerColour;
 
         if (health > maxHealth) health = maxHealth;
         // Healthbar
         healthBar.transform.forward = Vector3.up;
-        healthBar.transform.position = transform.position + Vector3.forward;
+        healthBar.transform.position = transform.position + Vector3.forward * 3;
         healthBar.localScale = new Vector3(((health * 100) / maxHealth) * 0.005f, 0.2f, 1);
 
         if (isLocalPlayer)

@@ -2111,6 +2111,52 @@ Transform:
   m_Father: {fileID: 862286114}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &549051445
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4923987351173088, guid: caad8f3f5a2a2164dabc4388dc7d3344, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923987351173088, guid: caad8f3f5a2a2164dabc4388dc7d3344, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: -0.792
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923987351173088, guid: caad8f3f5a2a2164dabc4388dc7d3344, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923987351173088, guid: caad8f3f5a2a2164dabc4388dc7d3344, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923987351173088, guid: caad8f3f5a2a2164dabc4388dc7d3344, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923987351173088, guid: caad8f3f5a2a2164dabc4388dc7d3344, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923987351173088, guid: caad8f3f5a2a2164dabc4388dc7d3344, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923987351173088, guid: caad8f3f5a2a2164dabc4388dc7d3344, type: 2}
+      propertyPath: m_RootOrder
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1670424436303280, guid: caad8f3f5a2a2164dabc4388dc7d3344, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: caad8f3f5a2a2164dabc4388dc7d3344, type: 2}
+  m_IsPrefabParent: 0
 --- !u!4 &567043418 stripped
 Transform:
   m_PrefabParentObject: {fileID: 400000, guid: 12f0ed80d834e6246b96b9cf113fedc3, type: 3}
@@ -3610,7 +3656,8 @@ MonoBehaviour:
   m_ScriptCRCCheck: 1
   m_MaxDelay: 0.01
   m_LogLevel: 2
-  m_PlayerPrefab: {fileID: 196972, guid: 65c3b5643599ed543bfe71c145121290, type: 2}
+  m_PlayerPrefab: {fileID: 1670424436303280, guid: caad8f3f5a2a2164dabc4388dc7d3344,
+    type: 2}
   m_AutoCreatePlayer: 1
   m_PlayerSpawnMethod: 1
   m_OfflineScene: 

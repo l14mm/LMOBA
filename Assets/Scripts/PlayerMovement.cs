@@ -53,8 +53,12 @@ public class PlayerMovement : NetworkBehaviour {
             if (Physics.Raycast(GetComponent<NetworkedPlayerScript>().myCamera.ScreenPointToRay(Input.mousePosition), out hit))
             {
                 if(hit.transform.tag == "Floor")
-                {
+                {   
                     waypoint = hit.point;
+                    if(GetComponent<NetworkedPlayerScript>().anim)
+                    {
+                        GetComponent<NetworkedPlayerScript>().anim.SetTrigger("IdleToJog");
+                    }
                     // If we click somewhere else on the map, we want to remove our target
                     if(GetComponent<ShootingScript>().target)
                     {
