@@ -12,6 +12,9 @@ public class PlayerMovement : NetworkBehaviour {
     [HideInInspector]
     public Vector3 waypoint;
 
+    private Vector3 lastPosition;
+    public bool isMoving = false;
+
     private void Start ()
     {
         controller = GetComponent<CharacterController>();
@@ -23,6 +26,23 @@ public class PlayerMovement : NetworkBehaviour {
     {
         if (!isLocalPlayer)
             return;
+
+        if(transform.position == lastPosition)
+        {
+            if (isMoving && GetComponent<NetworkedPlayerScript>().anim)
+            {
+                isMoving = false;
+                GetComponent<NetworkedPlayerScript>().anim.SetTrigger("JogToIdle");
+            }
+        }
+        else
+        {
+            if (!isMoving && GetComponent<NetworkedPlayerScript>().anim)
+            {
+                isMoving = true;
+                GetComponent<NetworkedPlayerScript>().anim.SetTrigger("IdleToJog");
+            }
+        }
 
         if(GetComponent<ShootingScript>().target)
         {
@@ -55,10 +75,6 @@ public class PlayerMovement : NetworkBehaviour {
                 if(hit.transform.tag == "Floor")
                 {   
                     waypoint = hit.point;
-                    if(GetComponent<NetworkedPlayerScript>().anim)
-                    {
-                        GetComponent<NetworkedPlayerScript>().anim.SetTrigger("IdleToJog");
-                    }
                     // If we click somewhere else on the map, we want to remove our target
                     if(GetComponent<ShootingScript>().target)
                     {
@@ -67,6 +83,8 @@ public class PlayerMovement : NetworkBehaviour {
                 }
             }
         }
+
+        lastPosition = transform.position;
     }
 
     private void OnDrawGizmos()
