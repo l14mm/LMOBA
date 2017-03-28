@@ -1384,7 +1384,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1964424246055404}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.06, z: 0}
+  m_LocalPosition: {x: 0.82, y: 3.7, z: -0.242}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4923987351173088}
@@ -1730,7 +1730,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1179878227064930}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: -0.00000016292068}
-  m_LocalPosition: {x: 0.52, y: 1.58, z: 0.013}
+  m_LocalPosition: {x: 0.52, y: 6.06, z: 0.013}
   m_LocalScale: {x: 0.2, y: 0.2, z: 1}
   m_Children: []
   m_Father: {fileID: 4923987351173088}
@@ -2351,7 +2351,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1670424436303280}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.792, z: 0}
+  m_LocalPosition: {x: 0.1795044, y: -0.9934039, z: -4.6319885}
   m_LocalScale: {x: 0.9, y: 0.9, z: 0.9}
   m_Children:
   - {fileID: 4355916075062918}
@@ -2992,7 +2992,7 @@ Animator:
   m_GameObject: {fileID: 1670424436303280}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: f092f6ae566cf824ab953428df148815, type: 2}
+  m_Controller: {fileID: 0}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -3061,6 +3061,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 2
   waypoint: {x: 0, y: 0, z: 0}
+  isMoving: 0
 --- !u!114 &114212505520466048
 MonoBehaviour:
   m_ObjectHideFlags: 1

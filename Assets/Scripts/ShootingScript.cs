@@ -332,6 +332,12 @@ public class ShootingScript : NetworkBehaviour
         //if (Time.time > lastCastTime + castDelay)
         if (fireballTimeValue <= 0 && !isCastingSpell)
         {
+
+            if (GetComponent<NetworkedPlayerScript>().anim)
+            {
+                GetComponent<NetworkedPlayerScript>().anim.Play("CreateFire");
+            }
+
             isCastingSpell = true;
             fireScale = 0.5f;
             fire = Instantiate(p_fire, t_shoot.position, t_shoot.rotation, transform);
@@ -359,6 +365,11 @@ public class ShootingScript : NetworkBehaviour
             return;
 
         Destroy(fire);
+
+        if(GetComponent<NetworkedPlayerScript>().anim)
+        {
+            GetComponent<NetworkedPlayerScript>().anim.Play("CreateFireball");
+        }
 
         RaycastHit hit;
         if (Physics.Raycast(GetComponent<NetworkedPlayerScript>().myCamera.ScreenPointToRay(Input.mousePosition), out hit))
