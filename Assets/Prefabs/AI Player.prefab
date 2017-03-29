@@ -51,6 +51,7 @@ GameObject:
   - component: {fileID: 114289564807392812}
   - component: {fileID: 114946041514784480}
   - component: {fileID: 114120989981188258}
+  - component: {fileID: 65806448202073958}
   m_Layer: 14
   m_Name: AI Player
   m_TagString: Player
@@ -459,6 +460,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
+--- !u!65 &65806448202073958
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1214999885310466}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 5.680088, z: 1}
+  m_Center: {x: 0, y: 0.45096213, z: 0}
 --- !u!65 &65988538174717854
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -469,8 +482,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 3.7270076, z: 1}
+  m_Center: {x: 0, y: 1.3635035, z: 0}
 --- !u!82 &82271548860433512
 AudioSource:
   m_ObjectHideFlags: 1
@@ -585,6 +598,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 2
   waypoint: {x: 0, y: 0, z: 0}
+  isMoving: 0
 --- !u!114 &114068738455251542
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -698,7 +712,8 @@ MonoBehaviour:
   p_BlinkLight: {fileID: 1104383894011408, guid: c6ec315a33d00c64eb99cc7a4c64558b,
     type: 2}
   attackRangeMesh: {fileID: 0}
-  tt: 0.2
+  orbPullMesh: {fileID: 0}
+  orbPullStrength: 1
 --- !u!114 &114581609748477834
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -733,6 +748,7 @@ MonoBehaviour:
   skin: {fileID: 1842820440059432}
   nameTag: {fileID: 102655862597414786}
   healthBar: {fileID: 4585689218367896}
+  nameBar: {fileID: 4800495399148128}
   hitScreenAlpha: 0
   tabCanvas: {fileID: 0}
   playerName: 
@@ -761,6 +777,7 @@ MonoBehaviour:
   materialTeam2: {fileID: 2100000, guid: cc6533618889efb45a1932185410857e, type: 2}
   myRenderer: {fileID: 23773400970278974}
   viewVisualization: {fileID: 23170638886254364}
+  anim: {fileID: 0}
 --- !u!114 &114946041514784480
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -1729,13 +1729,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1179878227064930}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: -0.00000016292068}
-  m_LocalPosition: {x: 0.52, y: 6.06, z: 0.013}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 6, z: 0}
+  m_LocalScale: {x: 0.20000015, y: 0.20000009, z: 1}
   m_Children: []
   m_Father: {fileID: 4923987351173088}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4404370371394844
 Transform:
   m_ObjectHideFlags: 1
@@ -1896,7 +1896,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1962857303610800}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 5.294, z: -0.5}
+  m_LocalPosition: {x: 0, y: 5.35, z: 0}
   m_LocalScale: {x: 0.5, y: 0.54574376, z: 1}
   m_Children: []
   m_Father: {fileID: 4923987351173088}
@@ -3011,7 +3011,7 @@ TextMesh:
   m_OffsetZ: 0
   m_CharacterSize: 1
   m_LineSpacing: 1
-  m_Anchor: 0
+  m_Anchor: 1
   m_Alignment: 1
   m_TabSize: 4
   m_FontSize: 0
@@ -3105,9 +3105,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f65cdf85b2185b4fb9e2b63c986ebc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skin: {fileID: 0}
+  skin: {fileID: 1179878227064930}
   nameTag: {fileID: 102254131676872414}
   healthBar: {fileID: 4532737566730612}
+  nameBar: {fileID: 4355916075062918}
   hitScreenAlpha: 0
   tabCanvas: {fileID: 0}
   playerName: 
