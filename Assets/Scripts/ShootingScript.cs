@@ -210,7 +210,12 @@ public class ShootingScript : NetworkBehaviour
         }
         if (Input.GetKeyUp(KeyCode.Q))
         {
-            CreateFireBall();
+            RaycastHit hit;
+            if (Physics.Raycast(GetComponent<NetworkedPlayerScript>().myCamera.ScreenPointToRay(Input.mousePosition), out hit))
+            {
+                Vector3 pos = (new Vector3(hit.point.x, t_shoot.transform.position.y, hit.point.z));
+                CreateFireBall(pos);
+            }
         }
         // Flash
         if (Input.GetKeyDown(KeyCode.F))
@@ -257,8 +262,6 @@ public class ShootingScript : NetworkBehaviour
         }
         if (Input.GetKey(KeyCode.E))
         {
-            //GetComponent<Rigidbody>().AddForce(transform.forward * 100 * Time.deltaTime, ForceMode.Impulse);
-
             orbPullMesh.transform.localScale = new Vector3(orbPullRange * 0.226f, 1, orbPullRange * 0.226f);
             orbPullMesh.enabled = true;
             List<Transform> players = new List<Transform>();
@@ -274,7 +277,6 @@ public class ShootingScript : NetworkBehaviour
             for(int i = 0; i < players.Count; i++)
             {
                 Vector3 dir = Vector3.MoveTowards(players[i].transform.position, transform.position, 25 * orbPullStrength * Time.deltaTime) - players[i].transform.position;
-                //Debug.DrawRay(players[i].transform.position, dir, Color.red, 0.1f);
                 players[i].GetComponent<Rigidbody>().AddForce(dir, ForceMode.Impulse);
             }
         }
@@ -329,7 +331,6 @@ public class ShootingScript : NetworkBehaviour
 
     public void CreateFire()
     {
-        //if (Time.time > lastCastTime + castDelay)
         if (fireballTimeValue <= 0 && !isCastingSpell)
         {
 
@@ -342,7 +343,6 @@ public class ShootingScript : NetworkBehaviour
             fireScale = 0.5f;
             fire = Instantiate(p_fire, t_shoot.position, t_shoot.rotation, transform);
             GetComponent<UnityEngine.AI.NavMeshAgent>().speed *= 0.5f;
-            //lastCastTime = Time.time;
         }
     }
 
@@ -359,41 +359,25 @@ public class ShootingScript : NetworkBehaviour
         }
     }
 
-    public void CreateFireBall()
+    public void CreateFireBall(Vector3 pos)
     {
         if (!fire)
             return;
 
-        Destroy(fire);
 
         if(GetComponent<NetworkedPlayerScript>().anim)
         {
             GetComponent<NetworkedPlayerScript>().anim.Play("CreateFireball");
         }
 
-        RaycastHit hit;
-        if (Physics.Raycast(GetComponent<NetworkedPlayerScript>().myCamera.ScreenPointToRay(Input.mousePosition), out hit))
-        {
-            t_shoot.LookAt(new Vector3(hit.point.x, t_shoot.transform.position.y, hit.point.z));
-        }
+        t_shoot.LookAt(new Vector3(pos.x, t_shoot.transform.position.y, pos.z));
 
-        fireball = Instantiate(p_fireball, t_shoot.position, t_shoot.rotation, null);
-        fireball.transform.localScale = new Vector3(fireScale, fireScale, fireScale);
-        fireball.GetComponent<FireballScript>().Remove();
-        fireball.GetComponent<FireballScript>().creator = GetComponent<NetworkedPlayerScript>();
-        GetComponent<UnityEngine.AI.NavMeshAgent>().speed *= 2.0f;
-        fireballTimeValue = 2;
-        isCastingSpell = false;
+        Invoke("FireBallDelay", 0.5f);
     }
 
-    public void CreateFireBallAI(Vector3 pos)
+    private void FireBallDelay()
     {
-        if (!fire)
-            return;
-
         Destroy(fire);
-
-        t_shoot.LookAt(new Vector3(pos.x, t_shoot.transform.position.y, pos.z));
 
         fireball = Instantiate(p_fireball, t_shoot.position, t_shoot.rotation, null);
         fireball.transform.localScale = new Vector3(fireScale, fireScale, fireScale);

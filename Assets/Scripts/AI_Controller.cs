@@ -243,7 +243,7 @@ public class AI_Controller : NetworkBehaviour
             shootingScript.CreateFire();
             yield return new WaitForSeconds(0.5f);
             //Debug.Log("create fireball");
-            shootingScript.CreateFireBallAI(estimatedPosition);
+            shootingScript.CreateFireBall(estimatedPosition);
         }
     }
 
