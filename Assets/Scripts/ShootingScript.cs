@@ -336,7 +336,8 @@ public class ShootingScript : NetworkBehaviour
 
             if (GetComponent<NetworkedPlayerScript>().anim)
             {
-                GetComponent<NetworkedPlayerScript>().anim.Play("CreateFire");
+                //GetComponent<NetworkedPlayerScript>().anim.Play("CreateFire");
+                GetComponent<NetworkedPlayerScript>().anim.SetTrigger("CreateFire");
             }
 
             isCastingSpell = true;
@@ -367,7 +368,8 @@ public class ShootingScript : NetworkBehaviour
 
         if(GetComponent<NetworkedPlayerScript>().anim)
         {
-            GetComponent<NetworkedPlayerScript>().anim.Play("CreateFireball");
+            //GetComponent<NetworkedPlayerScript>().anim.Play("CreateFireball");
+            GetComponent<NetworkedPlayerScript>().anim.SetTrigger("CreateFireball");
         }
 
         t_shoot.LookAt(new Vector3(pos.x, t_shoot.transform.position.y, pos.z));
@@ -386,6 +388,11 @@ public class ShootingScript : NetworkBehaviour
         GetComponent<UnityEngine.AI.NavMeshAgent>().speed *= 2.0f;
         fireballTimeValue = 2;
         isCastingSpell = false;
+
+        if (GetComponent<NetworkedPlayerScript>().anim)
+        {
+            GetComponent<NetworkedPlayerScript>().anim.SetTrigger("FireballEnd");
+        }
     }
 
     private void OnDrawGizmos()
