@@ -206,6 +206,11 @@ public class ShootingScript : NetworkBehaviour
         }
         if (Input.GetKey(KeyCode.Q))
         {
+            RaycastHit hit;
+            if (Physics.Raycast(GetComponent<NetworkedPlayerScript>().myCamera.ScreenPointToRay(Input.mousePosition), out hit))
+            {
+                transform.LookAt(new Vector3(hit.point.x, transform.position.y, hit.point.z));
+            }
             IncreaseFire();
         }
         if (Input.GetKeyUp(KeyCode.Q))

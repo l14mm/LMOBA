@@ -43,6 +43,11 @@ public class PlayerMovement : NetworkBehaviour {
                 GetComponent<NetworkedPlayerScript>().anim.SetTrigger("IdleToJog");
             }
         }
+        if (GetComponent<ShootingScript>().isCastingSpell)
+        {
+            //agent.Stop();
+            //agent.speed = 0;
+        }
 
         if(GetComponent<ShootingScript>().target)
         {
@@ -52,7 +57,7 @@ public class PlayerMovement : NetworkBehaviour {
                 agent.SetDestination(GetComponent<ShootingScript>().target.position);
             }
         }
-        else if (GetComponent<ShootingScript>().isCasting)
+        else if (GetComponent<ShootingScript>().isCasting || GetComponent<ShootingScript>().isCastingSpell)
         {
             agent.SetDestination(transform.position);
             agent.updateRotation = false;
