@@ -41,6 +41,8 @@ public class ShootingScript : NetworkBehaviour
     public bool isCasting = false;
 
     public GameObject p_Lightning;
+    private Text lightningTimer;
+    private RawImage lightningIcon;
     private float lightningStartTime;
     private float lightningCastTime = 1;
     private bool lightningCasting = false;
@@ -55,6 +57,8 @@ public class ShootingScript : NetworkBehaviour
     public MeshRenderer attackRangeMesh;
 
     public MeshRenderer orbPullMesh;
+    private Text orbPullTimer;
+    private RawImage orbPullIcon;
     private float orbPullRange = 15;
     public float orbPullStrength = 1;
 
@@ -62,8 +66,17 @@ public class ShootingScript : NetworkBehaviour
     {
         blinkTimer = GameObject.Find("BlinkTimer").GetComponent<Text>();
         blinkIcon = GameObject.Find("BlinkIcon").GetComponent<RawImage>();
+
         fireballTimer = GameObject.Find("FireballTimer").GetComponent<Text>();
         fireballIcon = GameObject.Find("FireballIcon").GetComponent<RawImage>();
+
+        lightningTimer = GameObject.Find("LightningTimer").GetComponent<Text>();
+        lightningIcon = GameObject.Find("LightningIcon").GetComponent<RawImage>();
+        lightningTimer.enabled = false;
+
+        orbPullTimer = GameObject.Find("OrbPullTimer").GetComponent<Text>();
+        orbPullIcon = GameObject.Find("OrbPullIcon").GetComponent<RawImage>();
+        orbPullTimer.enabled = false;
 
         autoRange = 10;
 
@@ -267,6 +280,7 @@ public class ShootingScript : NetworkBehaviour
         }
         if (Input.GetKey(KeyCode.E))
         {
+            GetComponent<NetworkedPlayerScript>().mana -= 1;
             orbPullMesh.transform.localScale = new Vector3(orbPullRange * 0.226f, 1, orbPullRange * 0.226f);
             orbPullMesh.enabled = true;
             List<Transform> players = new List<Transform>();
@@ -326,6 +340,11 @@ public class ShootingScript : NetworkBehaviour
     {
         if (Time.time > lastAutoTime + autoDelay)
         {
+            if (GetComponent<NetworkedPlayerScript>().anim)
+            {
+                GetComponent<NetworkedPlayerScript>().anim.SetTrigger("AutoAttack");
+            }
+
             GameObject autoAttack = Instantiate(p_AutoAttack, t_shoot.position, t_shoot.rotation, null);
             autoAttack.GetComponent<AutoAttackScript>().target = targetT;
             autoAttack.GetComponent<AutoAttackScript>().damage = GetComponent<NetworkedPlayerScript>().attackDamge;
