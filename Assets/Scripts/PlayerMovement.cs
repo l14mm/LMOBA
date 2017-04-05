@@ -24,8 +24,6 @@ public class PlayerMovement : NetworkBehaviour {
 	
 	void Update ()
     {
-        if (!isLocalPlayer)
-            return;
 
         if(transform.position == lastPosition)
         {
@@ -43,6 +41,10 @@ public class PlayerMovement : NetworkBehaviour {
                 GetComponent<NetworkedPlayerScript>().anim.SetTrigger("IdleToJog");
             }
         }
+
+        if (!isLocalPlayer)
+            return;
+
         if (GetComponent<ShootingScript>().isCastingSpell)
         {
             //agent.Stop();

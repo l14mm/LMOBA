@@ -25,7 +25,7 @@ public class AutoAttackScript : NetworkBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.transform.parent && other.transform.parent.tag == "Player" && other.GetComponentInParent<NetworkedPlayerScript>().netId == creator.netId)
+        if ( other.tag == "Player" && other.GetComponent<NetworkedPlayerScript>().netId == creator.netId)
         {
             //Debug.Log("auto hit 1st");
         }
@@ -33,9 +33,9 @@ public class AutoAttackScript : NetworkBehaviour
         {
             //Debug.Log("auto hit same");
         }
-        else if (other.transform.parent && other.transform.parent.tag == "Player" && other.GetComponentInParent<NetworkedPlayerScript>().netId != creator.netId)
+        else if (other.tag == "Player" && other.GetComponent<NetworkedPlayerScript>().netId != creator.netId)
         {
-            other.GetComponentInParent<NetworkedPlayerScript>().RpcResolveHit(damage);
+            other.GetComponent<NetworkedPlayerScript>().RpcResolveHit(damage);
             //Debug.Log("auto hit enemy");
             Destroy(gameObject);
         }

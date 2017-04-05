@@ -23,7 +23,7 @@ public class PlayerSelection : MonoBehaviour {
                 currentlySelected = null;
             }
 
-            if (hit.transform.GetComponent<BaseScript>())
+            if (hit.transform.GetComponent<HoverMaterialScript>())
             {
                 baseSelected = hit.transform.GetComponent<HoverMaterialScript>();
                 baseSelected.Select();

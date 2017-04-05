@@ -172,13 +172,13 @@ public class ShootingScript : NetworkBehaviour
                     for (int i = 0; i < hitColliders.Length; i++)
                     {
                         GameObject temp = hitColliders[i].gameObject;
-                        if (temp.transform.parent && temp.transform.parent.GetComponent<NetworkedPlayerScript>() && temp.transform.parent.GetComponent<NetworkedPlayerScript>().netId.Value != GetComponent<NetworkedPlayerScript>().netId.Value)
+                        if (temp.GetComponent<NetworkedPlayerScript>() && temp.GetComponent<NetworkedPlayerScript>().netId.Value != GetComponent<NetworkedPlayerScript>().netId.Value)
                         {
-                            float distance = Vector3.Distance(transform.position, temp.transform.parent.position);
+                            float distance = Vector3.Distance(transform.position, temp.transform.position);
                             if (distance < closestDistance)
                             {
                                 closestDistance = distance;
-                                closestEnemy = temp.transform.parent;
+                                closestEnemy = temp.transform;
                             }
                         }
                     }
@@ -288,9 +288,9 @@ public class ShootingScript : NetworkBehaviour
             for (int i = 0; i < hitColliders.Length; i++)
             {
                 GameObject temp = hitColliders[i].gameObject;
-                if (temp.transform.parent && temp.transform.parent.GetComponent<NetworkedPlayerScript>() && temp.transform.parent.GetComponent<NetworkedPlayerScript>().netId.Value != GetComponent<NetworkedPlayerScript>().netId.Value)
+                if (temp.GetComponent<NetworkedPlayerScript>() && temp.GetComponent<NetworkedPlayerScript>().netId.Value != GetComponent<NetworkedPlayerScript>().netId.Value)
                 {
-                    players.Add(temp.transform.parent);
+                    players.Add(temp.transform);
                 }
             }
             for(int i = 0; i < players.Count; i++)

@@ -1842,6 +1842,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultMat: {fileID: 2100000, guid: 8782e6048021cf745ac08052352c8a58, type: 2}
   selectedMat: {fileID: 2100000, guid: 1494807b83540c04aa027302a292c4ff, type: 2}
+  models: []
 --- !u!1 &444288825
 GameObject:
   m_ObjectHideFlags: 0
@@ -5724,6 +5725,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultMat: {fileID: 2100000, guid: 8782e6048021cf745ac08052352c8a58, type: 2}
   selectedMat: {fileID: 2100000, guid: 1494807b83540c04aa027302a292c4ff, type: 2}
+  models: []
 --- !u!114 &1368317557
 MonoBehaviour:
   m_ObjectHideFlags: 0
