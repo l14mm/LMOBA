@@ -42,8 +42,6 @@ public class PlayerMovement : NetworkBehaviour {
             }
         }
 
-        if (!isLocalPlayer)
-            return;
 
         if (GetComponent<ShootingScript>().isCastingSpell)
         {
@@ -74,7 +72,11 @@ public class PlayerMovement : NetworkBehaviour {
 
             agent.SetDestination(waypoint);
         }
-        if (Input.GetMouseButton(1))
+
+        //if (!isLocalPlayer)
+            //return;
+
+        if (isLocalPlayer && Input.GetMouseButton(1))
         {
             RaycastHit hit;
             if (Physics.Raycast(GetComponent<NetworkedPlayerScript>().myCamera.ScreenPointToRay(Input.mousePosition), out hit))

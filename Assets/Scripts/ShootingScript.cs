@@ -345,6 +345,7 @@ public class ShootingScript : NetworkBehaviour
                 GetComponent<NetworkedPlayerScript>().anim.SetTrigger("AutoAttack");
             }
 
+            transform.LookAt(new Vector3(t_shoot.position.x, transform.position.y, t_shoot.position.z));
             GameObject autoAttack = Instantiate(p_AutoAttack, t_shoot.position, t_shoot.rotation, null);
             autoAttack.GetComponent<AutoAttackScript>().target = targetT;
             autoAttack.GetComponent<AutoAttackScript>().damage = GetComponent<NetworkedPlayerScript>().attackDamge;

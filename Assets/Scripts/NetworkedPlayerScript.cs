@@ -78,6 +78,8 @@ public class NetworkedPlayerScript : NetworkBehaviour
 
     public Animator anim;
 
+
+
     void Awake()
     {
         renderers = GetComponentsInChildren<Renderer>();

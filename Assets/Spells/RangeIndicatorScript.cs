@@ -36,6 +36,8 @@ public class RangeIndicatorScript : MonoBehaviour {
     {
         if (Input.GetKey(KeyCode.Q) && transform.parent.GetComponent<ShootingScript>().fireballTimeValue <= 0)
         {
+            if (!transform.parent.GetComponent<NetworkedPlayerScript>().myCamera)
+                return;
             //material.color = new Color(transform.parent.GetComponent<ShootingScript>().fireScale / 2, 0.3f, 0.3f, 1);
             //material.color = new Color(1, 0, 0, 1);
             //Debug.Log(material.color);

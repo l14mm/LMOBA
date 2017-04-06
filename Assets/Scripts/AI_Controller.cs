@@ -123,6 +123,13 @@ public class AI_Controller : NetworkBehaviour
                 agent.SetDestination(previousPosition);
                 transform.LookAt(previousPosition);
             }
+            if(target)
+            {
+                if (Vector3.Distance(transform.position, target.transform.position) > 20)
+                {
+                    target = null;
+                }
+            }
             // We only want to shoot if we can see the player (the line of sight is clear)
             if (target)
             {
@@ -205,7 +212,7 @@ public class AI_Controller : NetworkBehaviour
                 if(distance < closestDistance)
                 {
                     closestDistance = distance;
-                    target = temp.transform;
+                    target = temp.transform ;
 
                     RaycastHit hit;
                     Vector3 rayDirection = target.position - transform.position;
