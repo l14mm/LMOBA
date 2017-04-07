@@ -2800,6 +2800,8 @@ MonoBehaviour:
   speed: 2
   waypoint: {x: 0, y: 0, z: 0}
   isMoving: 0
+  rotationTarget: {x: 0, y: 0, z: 0}
+  rotationSpeed: 500
 --- !u!114 &114260996590452858
 MonoBehaviour:
   m_ObjectHideFlags: 1

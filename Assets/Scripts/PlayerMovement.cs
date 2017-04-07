@@ -15,17 +15,31 @@ public class PlayerMovement : NetworkBehaviour {
     private Vector3 lastPosition;
     public bool isMoving = false;
 
+    [HideInInspector]
+    public Vector3 rotationTarget;
+    public float rotationSpeed = 500;
+    private Quaternion targetRotation;
+
     private void Start ()
     {
         controller = GetComponent<CharacterController>();
         agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
         waypoint = transform.position;
+        
+        rotationTarget = Vector3.zero;
     }
 	
 	void Update ()
     {
+        // Smooth rotation
+        agent.updateRotation = false;
+        Vector3 updatedTarget = new Vector3(rotationTarget.x, transform.position.y, rotationTarget.z);
+        if (updatedTarget != transform.position)
+            targetRotation = Quaternion.LookRotation(updatedTarget - transform.position);
+        if((Vector3.Angle(transform.forward, (updatedTarget - transform.position))) > 5)
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
 
-        if(transform.position == lastPosition)
+        if (transform.position == lastPosition)
         {
             if (isMoving && GetComponent<NetworkedPlayerScript>().anim)
             {
@@ -67,8 +81,8 @@ public class PlayerMovement : NetworkBehaviour {
         }
         else if(waypoint != null && waypoint != transform.position)
         {
-            if(!agent.updateRotation)
-                agent.updateRotation = true;
+            //if(!agent.updateRotation)
+                //agent.updateRotation = true;
 
             agent.SetDestination(waypoint);
         }
@@ -84,6 +98,7 @@ public class PlayerMovement : NetworkBehaviour {
                 if(hit.transform.tag == "Floor")
                 {   
                     waypoint = hit.point;
+                    rotationTarget = hit.point;
                     // If we click somewhere else on the map, we want to remove our target
                     if(GetComponent<ShootingScript>().target)
                     {
@@ -100,7 +115,8 @@ public class PlayerMovement : NetworkBehaviour {
     {
         Gizmos.color = Color.red;
         Gizmos.DrawSphere(waypoint, 0.5f);
-        if(GetComponent<NetworkedPlayerScript>().myCamera)
+        //Gizmos.DrawSphere(rotationTarget, 1);
+        if (GetComponent<NetworkedPlayerScript>().myCamera)
             Gizmos.DrawLine(GetComponent<NetworkedPlayerScript>().myCamera.transform.position, waypoint);
     }
 }

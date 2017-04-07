@@ -96,6 +96,7 @@ public class ShootingScript : NetworkBehaviour
 
     void Update()
     {
+        t_shoot.transform.forward = transform.forward;
 
         if (isLocalPlayer)  blinkTimer.text = (Mathf.Ceil(blinkTimeValue)).ToString();
         if (blinkTimeValue > 0)
@@ -222,10 +223,13 @@ public class ShootingScript : NetworkBehaviour
             RaycastHit hit;
             if (Physics.Raycast(GetComponent<NetworkedPlayerScript>().myCamera.ScreenPointToRay(Input.mousePosition), out hit))
             {
-                transform.LookAt(new Vector3(hit.point.x, transform.position.y, hit.point.z));
+                //transform.LookAt(new Vector3(hit.point.x, transform.position.y, hit.point.z));
+                GetComponent<PlayerMovement>().rotationTarget = hit.point;
+                //Debug.DrawLine(transform.position, hit.point);
             }
             IncreaseFire();
         }
+
         if (Input.GetKeyUp(KeyCode.Q))
         {
             RaycastHit hit;
@@ -345,7 +349,8 @@ public class ShootingScript : NetworkBehaviour
                 GetComponent<NetworkedPlayerScript>().anim.SetTrigger("AutoAttack");
             }
 
-            transform.LookAt(new Vector3(t_shoot.position.x, transform.position.y, t_shoot.position.z));
+            //transform.LookAt(new Vector3(t_shoot.position.x, transform.position.y, t_shoot.position.z));
+            GetComponent<PlayerMovement>().rotationTarget = t_shoot.position;
             GameObject autoAttack = Instantiate(p_AutoAttack, t_shoot.position, t_shoot.rotation, null);
             autoAttack.GetComponent<AutoAttackScript>().target = targetT;
             autoAttack.GetComponent<AutoAttackScript>().damage = GetComponent<NetworkedPlayerScript>().attackDamge;
@@ -369,6 +374,7 @@ public class ShootingScript : NetworkBehaviour
             fireScale = 0.5f;
             fire = Instantiate(p_fire, t_shoot.position, t_shoot.rotation, transform);
             GetComponent<UnityEngine.AI.NavMeshAgent>().speed *= 0.5f;
+            fire.transform.parent = t_shoot;
         }
     }
 
@@ -380,7 +386,7 @@ public class ShootingScript : NetworkBehaviour
         if (fire != null && fireScale < 2 && GetComponent<NetworkedPlayerScript>().mana > 0)
         {
             GetComponent<NetworkedPlayerScript>().mana -= 0.5f;
-            fireScale += Time.deltaTime * 0.5f;
+            fireScale += Time.deltaTime * 0.1f;
             fire.transform.localScale = new Vector3(fireScale, fireScale, fireScale);
         }
     }
@@ -397,7 +403,8 @@ public class ShootingScript : NetworkBehaviour
             GetComponent<NetworkedPlayerScript>().anim.SetTrigger("CreateFireball");
         }
 
-        t_shoot.LookAt(new Vector3(pos.x, t_shoot.transform.position.y, pos.z));
+        //t_shoot.LookAt(new Vector3(pos.x, t_shoot.transform.position.y, pos.z));
+
 
         Invoke("FireBallDelay", 0.5f);
     }
