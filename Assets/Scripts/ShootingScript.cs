@@ -395,16 +395,12 @@ public class ShootingScript : NetworkBehaviour
     {
         if (!fire)
             return;
-
-
+        
         if(GetComponent<NetworkedPlayerScript>().anim)
         {
             //GetComponent<NetworkedPlayerScript>().anim.Play("CreateFireball");
             GetComponent<NetworkedPlayerScript>().anim.SetTrigger("CreateFireball");
         }
-
-        //t_shoot.LookAt(new Vector3(pos.x, t_shoot.transform.position.y, pos.z));
-
 
         Invoke("FireBallDelay", 0.5f);
     }
@@ -413,6 +409,7 @@ public class ShootingScript : NetworkBehaviour
     {
         Destroy(fire);
 
+        t_shoot.forward = transform.forward;
         fireball = Instantiate(p_fireball, t_shoot.position, t_shoot.rotation, null);
         fireball.transform.localScale = new Vector3(fireScale, fireScale, fireScale);
         fireball.GetComponent<FireballScript>().Remove();

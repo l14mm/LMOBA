@@ -42,7 +42,7 @@ public class AI_Controller : NetworkBehaviour
 
         shootingScript = GetComponent<ShootingScript>();
         StartCoroutine(FindTarget());
-        state = State.attack;
+        state = State.wander;
 
         timer = wanderTimer;
     }
@@ -100,8 +100,10 @@ public class AI_Controller : NetworkBehaviour
             if (timer >= wanderTimer)
             {
                 Vector3 newPos = RandomNavSphere(transform.position, wanderRadius, -1);
-                Debug.Log("wanderpos: " + newPos);
+                //Debug.Log("wanderpos: " + newPos + agent.stoppingDistance);
                 agent.SetDestination(newPos);
+                GetComponent<PlayerMovement>().rotationTarget = newPos;
+                //Debug.Log("set destination wander");
                 timer = 0;
             }
 
@@ -121,6 +123,7 @@ public class AI_Controller : NetworkBehaviour
             {
                 agent.stoppingDistance = 1;
                 agent.SetDestination(previousPosition);
+                GetComponent<PlayerMovement>().rotationTarget = previousPosition;
                 transform.LookAt(previousPosition);
             }
             if(target)
@@ -172,10 +175,11 @@ public class AI_Controller : NetworkBehaviour
                 else
                 {
                     
-                if (moveRight) avoidDirection *= -1;
-                agent.SetDestination(transform.position + avoidDirection);
-                //transform.LookAt(target.position);
-                transform.LookAt(transform.position + avoidDirection);
+                    if (moveRight) avoidDirection *= -1;
+                    agent.SetDestination(transform.position + avoidDirection);
+                    GetComponent<PlayerMovement>().rotationTarget = transform.position + avoidDirection;
+                    //transform.LookAt(target.position);
+                    transform.LookAt(transform.position + avoidDirection);
                 }
             }
             else

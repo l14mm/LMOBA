@@ -36,8 +36,11 @@ public class PlayerMovement : NetworkBehaviour {
         Vector3 updatedTarget = new Vector3(rotationTarget.x, transform.position.y, rotationTarget.z);
         if (updatedTarget != transform.position)
             targetRotation = Quaternion.LookRotation(updatedTarget - transform.position);
-        if((Vector3.Angle(transform.forward, (updatedTarget - transform.position))) > 5)
+        if((Vector3.Angle(transform.forward, (updatedTarget - transform.position))) > 0)
+        {
             transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+        }
+
 
         if (transform.position == lastPosition)
         {
@@ -77,9 +80,9 @@ public class PlayerMovement : NetworkBehaviour {
             agent.updateRotation = false;
             
             // Lerp rotation to face target
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(GetComponent<ShootingScript>().autoTarget - transform.position), Time.deltaTime * 10);
+            //transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(GetComponent<ShootingScript>().autoTarget - transform.position), Time.deltaTime * 10);
         }
-        else if(waypoint != null && waypoint != transform.position)
+        else if(waypoint != null && waypoint != transform.position && !GetComponent<NetworkedPlayerScript>().isAI)
         {
             //if(!agent.updateRotation)
                 //agent.updateRotation = true;

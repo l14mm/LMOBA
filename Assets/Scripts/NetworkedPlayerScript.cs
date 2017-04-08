@@ -199,9 +199,9 @@ public class NetworkedPlayerScript : NetworkBehaviour
         healthBar.transform.forward = Vector3.up;
         //healthBar.transform.position = transform.position + Vector3.forward * 3;
         healthBar.localScale = new Vector3(((health * 100) / maxHealth) * 0.005f, 0.2f, 1);
-
-
+        
         nameBar.transform.forward = Vector3.down;
+
         if(myCamera)
         {
             //nameBar.transform.LookAt(myCamera.transform);
