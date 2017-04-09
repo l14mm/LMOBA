@@ -1166,7 +1166,7 @@ MonoBehaviour:
   - {fileID: 1847110365}
   - {fileID: 1230351784}
   - {fileID: 634885612}
-  numAI: 1
+  numAI: 3
   playerList: []
 --- !u!114 &217345358
 MonoBehaviour:
@@ -8161,7 +8161,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294017023
+    m_Bits: 4291919839
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: bf3a6320bb1bb7241be0614eb6b3b37b, type: 2}
   m_TargetDisplay: 0

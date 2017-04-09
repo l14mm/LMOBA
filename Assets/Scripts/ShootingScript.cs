@@ -13,6 +13,7 @@ public class ShootingScript : NetworkBehaviour
 
     [HideInInspector]
     public bool isCastingSpell = false;
+    private bool isThrowingFireball = false;
 
     public GameObject p_fireball;
     public GameObject p_fire;
@@ -363,14 +364,13 @@ public class ShootingScript : NetworkBehaviour
     {
         if (fireballTimeValue <= 0 && !isCastingSpell)
         {
-
+            isCastingSpell = true;
             if (GetComponent<NetworkedPlayerScript>().anim)
             {
                 //GetComponent<NetworkedPlayerScript>().anim.Play("CreateFire");
                 GetComponent<NetworkedPlayerScript>().anim.SetTrigger("CreateFire");
             }
 
-            isCastingSpell = true;
             fireScale = 0.5f;
             fire = Instantiate(p_fire, t_shoot.position, t_shoot.rotation, transform);
             GetComponent<UnityEngine.AI.NavMeshAgent>().speed *= 0.5f;
@@ -393,10 +393,12 @@ public class ShootingScript : NetworkBehaviour
 
     public void CreateFireBall(Vector3 pos)
     {
-        if (!fire)
+        if (!fire || isThrowingFireball)
             return;
-        
-        if(GetComponent<NetworkedPlayerScript>().anim)
+
+        isThrowingFireball = true;
+
+        if (GetComponent<NetworkedPlayerScript>().anim)
         {
             //GetComponent<NetworkedPlayerScript>().anim.Play("CreateFireball");
             GetComponent<NetworkedPlayerScript>().anim.SetTrigger("CreateFireball");
@@ -417,6 +419,7 @@ public class ShootingScript : NetworkBehaviour
         GetComponent<UnityEngine.AI.NavMeshAgent>().speed *= 2.0f;
         fireballTimeValue = 2;
         isCastingSpell = false;
+        isThrowingFireball = false;
 
         if (GetComponent<NetworkedPlayerScript>().anim)
         {
