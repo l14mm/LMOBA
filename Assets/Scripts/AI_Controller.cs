@@ -114,6 +114,7 @@ public class AI_Controller : NetworkBehaviour
         {
             if(target)
             {
+                Debug.Log("1");
                 // Stop just outside of auto attack range
                 agent.stoppingDistance = shootingScript.autoRange;
                 //agent.SetDestination(target.position);
@@ -121,21 +122,25 @@ public class AI_Controller : NetworkBehaviour
             }
             if (Vector3.Distance(transform.position, previousPosition) > 1)
             {
+                Debug.Log("2");
                 agent.stoppingDistance = 1;
                 agent.SetDestination(previousPosition);
                 GetComponent<PlayerMovement>().rotationTarget = previousPosition;
-                transform.LookAt(previousPosition);
+                //transform.LookAt(previousPosition);
+                GetComponent<PlayerMovement>().rotationTarget = previousPosition;
             }
             if(target)
             {
                 if (Vector3.Distance(transform.position, target.transform.position) > 20)
                 {
+                    Debug.Log("3");
                     target = null;
                 }
             }
             // We only want to shoot if we can see the player (the line of sight is clear)
             if (target)
             {
+                Debug.Log("4");
                 float distanceToTarget = Vector3.Distance(transform.position, target.transform.position);
                 if (distanceToTarget < shootingScript.autoRange)
                 {
@@ -143,6 +148,7 @@ public class AI_Controller : NetworkBehaviour
                 }
                 else
                 {
+                    Debug.Log("5");
                     RaycastHit hit;
                     Vector3 rayDirection = target.position - transform.position;
                     if (Physics.Raycast(transform.position, rayDirection, out hit))
@@ -151,6 +157,7 @@ public class AI_Controller : NetworkBehaviour
                         {
                             // enemy can see the player!
                             StartCoroutine(LookShootFireball());
+                            Debug.Log("firing");
                         }
                         else
                         {
@@ -160,6 +167,8 @@ public class AI_Controller : NetworkBehaviour
                     }
                 }
             }
+            else
+                state = State.wander;
         }
         else if(state == State.avoid)
         {
@@ -174,12 +183,12 @@ public class AI_Controller : NetworkBehaviour
                 }
                 else
                 {
-                    
                     if (moveRight) avoidDirection *= -1;
                     agent.SetDestination(transform.position + avoidDirection);
                     GetComponent<PlayerMovement>().rotationTarget = transform.position + avoidDirection;
                     //transform.LookAt(target.position);
-                    transform.LookAt(transform.position + avoidDirection);
+                    //transform.LookAt(transform.position + avoidDirection);
+                    GetComponent<PlayerMovement>().rotationTarget = transform.position + avoidDirection;
                 }
             }
             else
@@ -249,12 +258,16 @@ public class AI_Controller : NetworkBehaviour
             // Calculate where target will be
             Vector3 estimatedPosition = target.position + target.forward * Vector3.Distance(transform.position, target.position + target.forward) * 0.15f;
             //Debug.Log("is casting: " + shootingScript.isCasting);
-            transform.LookAt(estimatedPosition);
+            //transform.LookAt(estimatedPosition);
+            agent.speed = 0;
+            GetComponent<PlayerMovement>().rotationTarget = estimatedPosition;
             //Debug.Log("create fire");
             shootingScript.CreateFire();
             yield return new WaitForSeconds(0.5f);
             //Debug.Log("create fireball");
+            GetComponent<PlayerMovement>().rotationTarget = estimatedPosition;
             shootingScript.CreateFireBall(estimatedPosition);
+            agent.speed = 1;
         }
     }
 

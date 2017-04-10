@@ -266,7 +266,7 @@ public class ShootingScript : NetworkBehaviour
                 }
             }
         }
-        if(target)
+        if(target && target.GetComponent<NetworkedPlayerScript>().team != GetComponent<NetworkedPlayerScript>().team)
         {
             if (Vector3.Distance(transform.position, target.position) < autoRange)
             {
@@ -274,7 +274,6 @@ public class ShootingScript : NetworkBehaviour
                 AutoAttack(target);
                 autoTarget = target.position;
                 StartCoroutine(StopCasting(0.5f));
-                //
                 target = null;
             }
             else
@@ -293,7 +292,8 @@ public class ShootingScript : NetworkBehaviour
             for (int i = 0; i < hitColliders.Length; i++)
             {
                 GameObject temp = hitColliders[i].gameObject;
-                if (temp.GetComponent<NetworkedPlayerScript>() && temp.GetComponent<NetworkedPlayerScript>().netId.Value != GetComponent<NetworkedPlayerScript>().netId.Value)
+                if (temp.GetComponent<NetworkedPlayerScript>() && temp.GetComponent<NetworkedPlayerScript>().netId.Value != GetComponent<NetworkedPlayerScript>().netId.Value
+                    && temp.GetComponent<NetworkedPlayerScript>().team != GetComponent<NetworkedPlayerScript>().team)
                 {
                     players.Add(temp.transform);
                 }
