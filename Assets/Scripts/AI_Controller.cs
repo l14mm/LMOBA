@@ -41,7 +41,8 @@ public class AI_Controller : NetworkBehaviour
         agent.updatePosition = true;
 
         shootingScript = GetComponent<ShootingScript>();
-        StartCoroutine(FindTarget());
+        // Old find target, using field of view list now
+        //StartCoroutine(FindTarget());
         state = State.wander;
 
         timer = wanderTimer;
@@ -107,7 +108,14 @@ public class AI_Controller : NetworkBehaviour
                 timer = 0;
             }
 
-            StartCoroutine(FindTarget());
+            // Get a target
+            if (GetComponent<FieldOfView>().visibleEnemies.Count > 0)
+            {
+                target = GetComponent<FieldOfView>().visibleEnemies[0];
+                state = State.attack;
+            }
+
+            //StartCoroutine(FindTarget());
 
         }
         else if (state == State.attack)
@@ -140,7 +148,7 @@ public class AI_Controller : NetworkBehaviour
             // We only want to shoot if we can see the player (the line of sight is clear)
             if (target)
             {
-                Debug.Log("4");
+                //Debug.Log("4");
                 float distanceToTarget = Vector3.Distance(transform.position, target.transform.position);
                 if (distanceToTarget < shootingScript.autoRange)
                 {
@@ -148,7 +156,8 @@ public class AI_Controller : NetworkBehaviour
                 }
                 else
                 {
-                    Debug.Log("5");
+                    //Debug.Log("5");
+                    /*
                     RaycastHit hit;
                     Vector3 rayDirection = target.position - transform.position;
                     if (Physics.Raycast(transform.position, rayDirection, out hit))
@@ -164,6 +173,17 @@ public class AI_Controller : NetworkBehaviour
                             // there is something obstructing the view
                             state = State.wander;
                         }
+                    }
+                    */
+                    if(GetComponent<FieldOfView>().visibleEnemies.Contains(target))
+                    {
+                        StartCoroutine(LookShootFireball());
+                        Debug.Log("firing");
+                    }
+                    else
+                    {
+                        target = null;
+                        state = State.wander;
                     }
                 }
             }

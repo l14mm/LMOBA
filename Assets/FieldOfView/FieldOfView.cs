@@ -21,6 +21,8 @@ public class FieldOfView : MonoBehaviour
     public MeshFilter viewMeshFilter;
     Mesh viewMesh;
 
+    public List<Transform> visibleEnemies = new List<Transform>();
+
     private void Start()
     {
         viewMesh = new Mesh();
@@ -47,6 +49,7 @@ public class FieldOfView : MonoBehaviour
     void FindVisibleTargets()
     {
         visibleTargets.Clear();
+        visibleEnemies.Clear();
         Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, viewRadius, targetMask);
 
         for(int i = 0; i < targetsInViewRadius.Length; i++)
@@ -60,6 +63,11 @@ public class FieldOfView : MonoBehaviour
                 if(!Physics.Raycast(transform.position, dirToTarget, dstToTarget, obstacleMask))
                 {
                     visibleTargets.Add(target);
+                    if(target.GetComponent<NetworkedPlayerScript>().netId != GetComponent<NetworkedPlayerScript>().netId &&
+                        target.GetComponent<NetworkedPlayerScript>().team != GetComponent<NetworkedPlayerScript>().team)
+                    {
+                        visibleEnemies.Add(target);
+                    }
                 }
             }
         }
