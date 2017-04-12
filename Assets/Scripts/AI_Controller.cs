@@ -101,7 +101,7 @@ public class AI_Controller : NetworkBehaviour
             if (timer >= wanderTimer)
             {
                 Vector3 newPos = RandomNavSphere(transform.position, wanderRadius, -1);
-                //Debug.Log("wanderpos: " + newPos + agent.stoppingDistance);
+                //Debug.Log("wanderpos: " + newPos + ", stop dist: " + agent.stoppingDistance);
                 agent.SetDestination(newPos);
                 GetComponent<PlayerMovement>().rotationTarget = newPos;
                 //Debug.Log("set destination wander");
@@ -122,7 +122,7 @@ public class AI_Controller : NetworkBehaviour
         {
             if(target)
             {
-                Debug.Log("1");
+                //Debug.Log("1");
                 // Stop just outside of auto attack range
                 agent.stoppingDistance = shootingScript.autoRange;
                 //agent.SetDestination(target.position);
@@ -130,25 +130,18 @@ public class AI_Controller : NetworkBehaviour
             }
             if (Vector3.Distance(transform.position, previousPosition) > 1)
             {
-                Debug.Log("2");
-                agent.stoppingDistance = 1;
-                agent.SetDestination(previousPosition);
-                GetComponent<PlayerMovement>().rotationTarget = previousPosition;
-                //transform.LookAt(previousPosition);
-                GetComponent<PlayerMovement>().rotationTarget = previousPosition;
-            }
-            if(target)
-            {
-                if (Vector3.Distance(transform.position, target.transform.position) > 20)
+                //Debug.Log("2");
+                // Dont interrupt movement or rotation if casting a spell
+                if (!shootingScript.isCastingSpell)
                 {
-                    Debug.Log("3");
-                    target = null;
+                    agent.stoppingDistance = 1;
+                    agent.SetDestination(previousPosition);
+                    GetComponent<PlayerMovement>().rotationTarget = previousPosition;
                 }
             }
             // We only want to shoot if we can see the player (the line of sight is clear)
             if (target)
             {
-                //Debug.Log("4");
                 float distanceToTarget = Vector3.Distance(transform.position, target.transform.position);
                 if (distanceToTarget < shootingScript.autoRange)
                 {
@@ -178,7 +171,7 @@ public class AI_Controller : NetworkBehaviour
                     if(GetComponent<FieldOfView>().visibleEnemies.Contains(target))
                     {
                         StartCoroutine(LookShootFireball());
-                        Debug.Log("firing");
+                        //Debug.Log("firing");
                     }
                     else
                     {

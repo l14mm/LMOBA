@@ -4,34 +4,25 @@ using UnityEngine;
 
 public class PlayerSelection : MonoBehaviour {
 
-    private NetworkedPlayerScript currentlySelected = null;
-    private HoverMaterialScript baseSelected = null;
+    private HoverMaterialScript currentlySelected = null;
 
 	void Update ()
     {
         RaycastHit hit;
         if (Physics.Raycast(GetComponent<NetworkedPlayerScript>().myCamera.ScreenPointToRay(Input.mousePosition), out hit))
         {
-            if(hit.transform.GetComponent<NetworkedPlayerScript>())
+            if (hit.transform.GetComponent<HoverMaterialScript>())
             {
-                currentlySelected = hit.transform.GetComponent<NetworkedPlayerScript>();
+                if (hit.transform.GetComponent<NetworkedPlayerScript>() &&
+                    hit.transform.GetComponent<NetworkedPlayerScript>().team == GetComponent<NetworkedPlayerScript>().team)
+                    return;
+                currentlySelected = hit.transform.GetComponent<HoverMaterialScript>();
                 currentlySelected.Select();
             }
-            else if(currentlySelected)
+            else if (currentlySelected)
             {
                 currentlySelected.DeSelect();
                 currentlySelected = null;
-            }
-
-            if (hit.transform.GetComponent<HoverMaterialScript>())
-            {
-                baseSelected = hit.transform.GetComponent<HoverMaterialScript>();
-                baseSelected.Select();
-            }
-            else if (baseSelected)
-            {
-                baseSelected.DeSelect();
-                baseSelected = null;
             }
         }
     }
