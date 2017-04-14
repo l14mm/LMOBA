@@ -2748,9 +2748,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultMat: {fileID: 2100000, guid: 2abceb512354e06448045b082250dbed, type: 2}
-  selectedMat: {fileID: 2100000, guid: fb64ab8a7fc1e7b48b941621c19da21e, type: 2}
+  _selectedMat: {fileID: 2100000, guid: 7d99e42d8b1803247a7698a95d8e5c1b, type: 2}
   models:
   - {fileID: 137234426722303010}
+  outlineColour: {r: 1, g: 0, b: 0, a: 1}
+  outlineWidth: 0.33
 --- !u!114 &114106252235969764
 MonoBehaviour:
   m_ObjectHideFlags: 1
