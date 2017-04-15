@@ -256,7 +256,8 @@ public class ShootingScript : NetworkBehaviour
             RaycastHit hit;
             if (Physics.Raycast(GetComponent<NetworkedPlayerScript>().myCamera.ScreenPointToRay(Input.mousePosition), out hit))
             {
-                if (hit.transform.GetComponent<NetworkedPlayerScript>() && hit.transform.GetComponent<NetworkedPlayerScript>().netId != netId)
+                if (hit.transform.GetComponent<NetworkedPlayerScript>() && hit.transform.GetComponent<NetworkedPlayerScript>().netId != netId
+                    && target.GetComponent<NetworkedPlayerScript>().team != GetComponent<NetworkedPlayerScript>().team)
                 {
                     target = hit.transform;
                 }
@@ -264,9 +265,13 @@ public class ShootingScript : NetworkBehaviour
                 {
                     target = hit.transform;
                 }
+                else if (hit.transform.GetComponent<TowerScript>())
+                {
+                    target = hit.transform;
+                }
             }
         }
-        if(target && target.GetComponent<NetworkedPlayerScript>().team != GetComponent<NetworkedPlayerScript>().team)
+        if(target)
         {
             if (Vector3.Distance(transform.position, target.position) < autoRange)
             {

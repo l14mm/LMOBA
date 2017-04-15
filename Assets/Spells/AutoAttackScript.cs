@@ -19,13 +19,14 @@ public class AutoAttackScript : NetworkBehaviour
         {
             transform.LookAt(target);
             //transform.position = Vector3.Lerp(transform.position, target.position, 0.01f);
-            transform.position = Vector3.MoveTowards(transform.position, target.position, 0.1f * speed);
+            transform.position = Vector3.MoveTowards(transform.position, new Vector3(target.position.x, 1, target.position.z), 0.1f * speed);
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if ( other.tag == "Player" && other.GetComponent<NetworkedPlayerScript>().netId == creator.netId)
+        //Debug.Log(other.tag);
+        if (other.tag == "Player" && other.GetComponent<NetworkedPlayerScript>().netId == creator.netId)
         {
             //Debug.Log("auto hit 1st");
         }
@@ -36,6 +37,18 @@ public class AutoAttackScript : NetworkBehaviour
         else if (other.tag == "Player" && other.GetComponent<NetworkedPlayerScript>().netId != creator.netId)
         {
             other.GetComponent<NetworkedPlayerScript>().RpcResolveHit(damage);
+            //Debug.Log("auto hit enemy");
+            Destroy(gameObject);
+        }
+        else if (other.tag == "Tower")
+        {
+            //Debug.Log("auto hit tower");
+            other.GetComponent<TowerScript>().RpcResolveHit(damage);
+            Destroy(gameObject);
+        }
+        else if (other.tag == "Base")
+        {
+            other.GetComponent<BaseScript>().RpcResolveHit(damage);
             //Debug.Log("auto hit enemy");
             Destroy(gameObject);
         }
