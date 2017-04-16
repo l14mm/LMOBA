@@ -63,6 +63,8 @@ public class ShootingScript : NetworkBehaviour
     private float orbPullRange = 15;
     public float orbPullStrength = 1;
 
+    public GameObject p_Ultimate;
+
     private void Awake()
     {
         blinkTimer = GameObject.Find("BlinkTimer").GetComponent<Text>();
@@ -248,6 +250,15 @@ public class ShootingScript : NetworkBehaviour
             {
                 Vector3 direction = (hit.point - transform.position);
                 Blink(direction);
+            }
+        }
+        // Ultimate
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            RaycastHit hit;
+            if (Physics.Raycast(GetComponent<NetworkedPlayerScript>().myCamera.ScreenPointToRay(Input.mousePosition), out hit))
+            {
+                Instantiate(p_Ultimate, t_shoot.position, t_shoot.rotation, null);
             }
         }
         if (Input.GetMouseButtonDown(1))
