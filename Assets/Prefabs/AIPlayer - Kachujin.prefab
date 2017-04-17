@@ -2894,7 +2894,7 @@ MonoBehaviour:
   attackRangeMesh: {fileID: 23655050115996068}
   orbPullMesh: {fileID: 23979061544148240}
   orbPullStrength: 1
-  p_Ultimate: {fileID: 1283299247263150, guid: c73321ed3edb4db4497b71164056a4e6, type: 2}
+  p_Ultimate: {fileID: 1210522973714800, guid: 2f740af4f37683444b57a558a06067cf, type: 2}
 --- !u!114 &114735372497077938
 MonoBehaviour:
   m_ObjectHideFlags: 1

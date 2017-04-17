@@ -188,19 +188,23 @@ public class NetworkedPlayerScript : NetworkBehaviour
             mana += 0.05f;
     }
 
-    void Update()
+    void LateUpdate()
     {
         // Set player name and color of model
         nameTag.text = playerName;
         //skin.GetComponent<Renderer>().material.color = playerColour;
+
+        nameBar.transform.forward = Vector3.down;
 
         if (health > maxHealth) health = maxHealth;
         // Healthbar
         healthBar.transform.forward = Vector3.up;
         //healthBar.transform.position = transform.position + Vector3.forward * 3;
         healthBar.localScale = new Vector3(((health * 100) / maxHealth) * 0.005f, 0.2f, 1);
-        
-        nameBar.transform.forward = Vector3.down;
+    }
+
+    void Update()
+    {
 
         if(myCamera)
         {

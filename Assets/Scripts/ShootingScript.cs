@@ -258,7 +258,9 @@ public class ShootingScript : NetworkBehaviour
             RaycastHit hit;
             if (Physics.Raycast(GetComponent<NetworkedPlayerScript>().myCamera.ScreenPointToRay(Input.mousePosition), out hit))
             {
-                Instantiate(p_Ultimate, t_shoot.position, t_shoot.rotation, null);
+                FireFancy(hit.point);
+                
+                //Instantiate(p_Ultimate, t_shoot.position, t_shoot.rotation, null);
             }
         }
         if (Input.GetMouseButtonDown(1))
@@ -323,6 +325,23 @@ public class ShootingScript : NetworkBehaviour
         else
         {
             orbPullMesh.enabled = false;
+        }
+    }
+
+    public void FireFancy(Vector3 point)
+    {
+        if (Time.time > lastAutoTime + autoDelay)
+        {
+            if (GetComponent<NetworkedPlayerScript>().anim)
+            {
+                GetComponent<NetworkedPlayerScript>().anim.SetTrigger("AutoAttack");
+            }
+
+            GetComponent<PlayerMovement>().rotationTarget = point;
+            GameObject autoAttack = Instantiate(p_Ultimate, t_shoot.position, t_shoot.rotation, null);
+            autoAttack.GetComponent<FancyScript>().damage = GetComponent<NetworkedPlayerScript>().attackDamge;
+            autoAttack.GetComponent<FancyScript>().creator = GetComponent<NetworkedPlayerScript>();
+            lastAutoTime = Time.time;
         }
     }
 
