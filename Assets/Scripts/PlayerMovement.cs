@@ -31,6 +31,7 @@ public class PlayerMovement : NetworkBehaviour {
 	
 	void Update ()
     {
+        agent.speed = GetComponent<NetworkedPlayerScript>().speed;
         // Smooth rotation
         agent.updateRotation = false;
         Vector3 updatedTarget = new Vector3(rotationTarget.x, transform.position.y, rotationTarget.z);

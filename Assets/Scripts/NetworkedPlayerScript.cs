@@ -44,6 +44,8 @@ public class NetworkedPlayerScript : NetworkBehaviour
     public float armour;
     [SyncVar]
     public float money;
+    [SyncVar]
+    public float speed;
     private Text moneyText;
 
     [SyncVar]
@@ -89,6 +91,7 @@ public class NetworkedPlayerScript : NetworkBehaviour
         attackDamge = 10;
         armour = 10;
         money = 100;
+        speed = 3.5f;
 
         healthBarHUD = GameObject.Find("HealthHUD").GetComponent<Transform>();
         healthText = GameObject.Find("HealthText").GetComponent<Text>();

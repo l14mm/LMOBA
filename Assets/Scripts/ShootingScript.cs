@@ -258,7 +258,7 @@ public class ShootingScript : NetworkBehaviour
             RaycastHit hit;
             if (Physics.Raycast(GetComponent<NetworkedPlayerScript>().myCamera.ScreenPointToRay(Input.mousePosition), out hit))
             {
-                FireFancy(hit.point);
+                StartCoroutine(FireFancy(hit.point));
                 
                 //Instantiate(p_Ultimate, t_shoot.position, t_shoot.rotation, null);
             }
@@ -328,20 +328,24 @@ public class ShootingScript : NetworkBehaviour
         }
     }
 
-    public void FireFancy(Vector3 point)
+    public IEnumerator FireFancy(Vector3 point)
     {
         if (Time.time > lastAutoTime + autoDelay)
         {
+            isCastingSpell = true;
             if (GetComponent<NetworkedPlayerScript>().anim)
             {
                 GetComponent<NetworkedPlayerScript>().anim.SetTrigger("AutoAttack");
             }
 
             GetComponent<PlayerMovement>().rotationTarget = point;
+            // Wait until fully rotated and animation is finished until we fire spell
+            yield return new WaitForSeconds(0.25f);
             GameObject autoAttack = Instantiate(p_Ultimate, t_shoot.position, t_shoot.rotation, null);
             autoAttack.GetComponent<FancyScript>().damage = GetComponent<NetworkedPlayerScript>().attackDamge;
             autoAttack.GetComponent<FancyScript>().creator = GetComponent<NetworkedPlayerScript>();
             lastAutoTime = Time.time;
+            isCastingSpell = false;
         }
     }
 

@@ -7,7 +7,7 @@ public class Item : MonoBehaviour {
 
     public enum ItemType
     {
-        sword, shield, healthPotion, manaPotion
+        sword, shield, healthPotion, manaPotion, boots,
     }
 
     public Sprite sprite;

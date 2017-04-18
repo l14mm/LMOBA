@@ -23,6 +23,7 @@ public class InventoryManager : MonoBehaviour {
 
     private Text attackDamgeText;
     private Text armourText;
+    private Text speedText;
 
     public Item startingItem1;
     public Item startingItem2;
@@ -46,7 +47,8 @@ public class InventoryManager : MonoBehaviour {
 
         attackDamgeText = GameObject.Find("AttackDamageValue").GetComponent<Text>();
         armourText = GameObject.Find("ArmourValue").GetComponent<Text>();
-        
+        speedText = GameObject.Find("SpeedValue").GetComponent<Text>();
+
         AddItem(startingItem1);
         AddItem(startingItem2);
     }
@@ -74,6 +76,10 @@ public class InventoryManager : MonoBehaviour {
             GetComponent<NetworkedPlayerScript>().attackDamge += 20;
         else if (item.type == Item.ItemType.shield)
             GetComponent<NetworkedPlayerScript>().armour += 20;
+        else if (item.type == Item.ItemType.boots)
+            GetComponent<NetworkedPlayerScript>().speed += 5;
+
+
 
         inventoryCount++;
     }
@@ -132,6 +138,7 @@ public class InventoryManager : MonoBehaviour {
     {
         attackDamgeText.text = GetComponent<NetworkedPlayerScript>().attackDamge.ToString();
         armourText.text = GetComponent<NetworkedPlayerScript>().armour.ToString();
+        speedText.text = GetComponent<NetworkedPlayerScript>().speed.ToString();
 
         if (Input.GetKeyDown(KeyCode.B))
         {
