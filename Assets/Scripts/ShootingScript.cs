@@ -270,7 +270,7 @@ public class ShootingScript : NetworkBehaviour
             if (Physics.Raycast(GetComponent<NetworkedPlayerScript>().myCamera.ScreenPointToRay(Input.mousePosition), out hit))
             {
                 if (hit.transform.GetComponent<NetworkedPlayerScript>() && hit.transform.GetComponent<NetworkedPlayerScript>().netId != netId
-                    && target.GetComponent<NetworkedPlayerScript>().team != GetComponent<NetworkedPlayerScript>().team)
+                    && hit.transform.GetComponent<NetworkedPlayerScript>().team != GetComponent<NetworkedPlayerScript>().team)
                 {
                     target = hit.transform;
                 }

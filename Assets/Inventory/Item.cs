@@ -10,10 +10,12 @@ public class Item : MonoBehaviour {
         sword, shield, healthPotion, manaPotion, boots,
     }
 
+    public float stat_AttackDamage = 0;
+    public float stat_Armour = 0;
+    public float stat_Speed = 0;
+
     public Sprite sprite;
     public ItemType type;
-    public float attack;
-    public float armour;
 
     public bool isConsumable = false;
 

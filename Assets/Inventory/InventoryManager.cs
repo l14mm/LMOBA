@@ -71,15 +71,10 @@ public class InventoryManager : MonoBehaviour {
         else if (inventoryCount == 5)
             Item6 = item;
             //*/
-            
-        if (item.type == Item.ItemType.sword)
-            GetComponent<NetworkedPlayerScript>().attackDamge += 20;
-        else if (item.type == Item.ItemType.shield)
-            GetComponent<NetworkedPlayerScript>().armour += 20;
-        else if (item.type == Item.ItemType.boots)
-            GetComponent<NetworkedPlayerScript>().speed += 5;
 
-
+        GetComponent<NetworkedPlayerScript>().attackDamge += item.stat_AttackDamage;
+        GetComponent<NetworkedPlayerScript>().armour += item.stat_Armour;
+        GetComponent<NetworkedPlayerScript>().speed += item.stat_Speed;
 
         inventoryCount++;
     }
@@ -88,6 +83,9 @@ public class InventoryManager : MonoBehaviour {
     {
         if (slot == 1)
         {
+            GetComponent<NetworkedPlayerScript>().attackDamge -= Item1.stat_AttackDamage;
+            GetComponent<NetworkedPlayerScript>().armour -= Item1.stat_Armour;
+            GetComponent<NetworkedPlayerScript>().speed -= Item1.stat_Speed;
             Item1 = null;
             Item1 = Item2;
             Item2 = Item3;
@@ -97,33 +95,41 @@ public class InventoryManager : MonoBehaviour {
         }
         else if (slot == 2)
         {
+            GetComponent<NetworkedPlayerScript>().attackDamge -= Item2.stat_AttackDamage;
+            GetComponent<NetworkedPlayerScript>().armour -= Item2.stat_Armour;
+            GetComponent<NetworkedPlayerScript>().speed -= Item2.stat_Speed;
             Item2 = null;
             Item2 = Item3;
             Item3 = Item4;
             Item4 = Item5;
             Item5 = Item6;
-
         }
         else if (slot == 3)
         {
+            GetComponent<NetworkedPlayerScript>().attackDamge -= Item3.stat_AttackDamage;
+            GetComponent<NetworkedPlayerScript>().armour -= Item3.stat_Armour;
+            GetComponent<NetworkedPlayerScript>().speed -= Item3.stat_Speed;
             Item3 = null;
             Item3 = Item4;
             Item4 = Item5;
             Item5 = Item6;
-
         }
         else if (slot == 4)
         {
+            GetComponent<NetworkedPlayerScript>().attackDamge -= Item4.stat_AttackDamage;
+            GetComponent<NetworkedPlayerScript>().armour -= Item4.stat_Armour;
+            GetComponent<NetworkedPlayerScript>().speed -= Item4.stat_Speed;
             Item4 = null;
             Item4 = Item5;
             Item5 = Item6;
-
         }
         else if (slot == 5)
         {
+            GetComponent<NetworkedPlayerScript>().attackDamge -= Item5.stat_AttackDamage;
+            GetComponent<NetworkedPlayerScript>().armour -= Item5.stat_Armour;
+            GetComponent<NetworkedPlayerScript>().speed -= Item5.stat_Speed;
             Item5 = null;
             Item5 = Item6;
-
         }
         else if (slot == 6)
         {

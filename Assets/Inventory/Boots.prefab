@@ -51,8 +51,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f13f605b9410264688e0e808b5a8056, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stat_AttackDamage: 0
+  stat_Armour: 0
+  stat_Speed: 3
   sprite: {fileID: 21300000, guid: d3113e06137f37442b7cf3318e4ef080, type: 3}
   type: 4
-  attack: 0
-  armour: 0
   isConsumable: 0
