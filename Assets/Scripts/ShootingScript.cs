@@ -330,7 +330,7 @@ public class ShootingScript : NetworkBehaviour
 
     public IEnumerator FireFancy(Vector3 point)
     {
-        if (Time.time > lastAutoTime + autoDelay)
+        if (Time.time > lastAutoTime + autoDelay && !isCastingSpell)
         {
             isCastingSpell = true;
             if (GetComponent<NetworkedPlayerScript>().anim)

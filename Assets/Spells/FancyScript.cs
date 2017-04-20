@@ -50,6 +50,7 @@ public class FancyScript : NetworkBehaviour
         else
         {
             //Destroy(gameObject);
+            OnHit();
         }
     }
 
