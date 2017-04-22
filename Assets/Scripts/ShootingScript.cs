@@ -382,7 +382,7 @@ public class ShootingScript : NetworkBehaviour
 
     public void AutoAttack(Transform targetT)
     {
-        if (Time.time > lastAutoTime + autoDelay)
+        if (Time.time > lastAutoTime + autoDelay && !isCasting && !isCastingSpell)
         {
             if (GetComponent<NetworkedPlayerScript>().anim)
             {
