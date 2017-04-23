@@ -158,6 +158,11 @@ public class InventoryManager : MonoBehaviour {
                 Item1.Consume(GetComponent<NetworkedPlayerScript>());
                 Item1 = null;
                 inventoryCount--;
+                Item1 = Item2;
+                Item2 = Item3;
+                Item3 = Item4;
+                Item4 = Item5;
+                Item5 = Item6;
             }
         }
         if (Input.GetKeyDown("2"))
@@ -167,6 +172,10 @@ public class InventoryManager : MonoBehaviour {
                 Item2.Consume(GetComponent<NetworkedPlayerScript>());
                 Item2 = null;
                 inventoryCount--;
+                Item2 = Item3;
+                Item3 = Item4;
+                Item4 = Item5;
+                Item5 = Item6;
             }
         }
         if (Input.GetKeyDown("3"))
@@ -176,6 +185,9 @@ public class InventoryManager : MonoBehaviour {
                 Item3.Consume(GetComponent<NetworkedPlayerScript>());
                 Item3 = null;
                 inventoryCount--;
+                Item3 = Item4;
+                Item4 = Item5;
+                Item5 = Item6;
             }
         }
         if (Input.GetKeyDown("4"))
@@ -185,6 +197,8 @@ public class InventoryManager : MonoBehaviour {
                 Item4.Consume(GetComponent<NetworkedPlayerScript>());
                 Item4 = null;
                 inventoryCount--;
+                Item4 = Item5;
+                Item5 = Item6;
             }
         }
         if (Input.GetKeyDown("5"))
@@ -194,6 +208,7 @@ public class InventoryManager : MonoBehaviour {
                 Item5.Consume(GetComponent<NetworkedPlayerScript>());
                 Item5 = null;
                 inventoryCount--;
+                Item5 = Item6;
             }
         }
         if (Input.GetKeyDown("6"))
