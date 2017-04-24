@@ -11,7 +11,7 @@ public class ShootingScript : NetworkBehaviour
     public GameObject _impactPrefab;
     public Transform cameraTransform;
 
-    [HideInInspector]
+    //[HideInInspector]
     public bool isCastingSpell = false;
     private bool isThrowingFireball = false;
 
@@ -38,7 +38,7 @@ public class ShootingScript : NetworkBehaviour
     public float autoRange { get; private set; }
     //[HideInInspector]
     public Transform target = null;
-    [HideInInspector]
+    //[HideInInspector]
     public bool isCasting = false;
 
     public GameObject p_Lightning;
@@ -288,7 +288,6 @@ public class ShootingScript : NetworkBehaviour
         {
             if (Vector3.Distance(transform.position, target.position) < autoRange)
             {
-                isCasting = true;
                 AutoAttack(target);
                 autoTarget = target.position;
                 StartCoroutine(StopCasting(0.5f));
@@ -384,13 +383,14 @@ public class ShootingScript : NetworkBehaviour
     {
         if (Time.time > lastAutoTime + autoDelay && !isCasting && !isCastingSpell)
         {
+            isCasting = true;
             if (GetComponent<NetworkedPlayerScript>().anim)
             {
                 GetComponent<NetworkedPlayerScript>().anim.SetTrigger("AutoAttack");
             }
 
             //transform.LookAt(new Vector3(t_shoot.position.x, transform.position.y, t_shoot.position.z));
-            GetComponent<PlayerMovement>().rotationTarget = t_shoot.position;
+            GetComponent<PlayerMovement>().rotationTarget = targetT.position;
             GameObject autoAttack = Instantiate(p_AutoAttack, t_shoot.position, t_shoot.rotation, null);
             autoAttack.GetComponent<AutoAttackScript>().target = targetT;
             autoAttack.GetComponent<AutoAttackScript>().damage = GetComponent<NetworkedPlayerScript>().attackDamge;
