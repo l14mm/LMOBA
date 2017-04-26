@@ -17,6 +17,7 @@ TagManager:
   - FogOfWar
   - Tower
   - Base
+  - Minion
   layers:
   - Default
   - TransparentFX

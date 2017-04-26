@@ -23,6 +23,8 @@ public class MinionMovement : NetworkBehaviour
 
     public int team = 1;
 
+    public MeshRenderer viewVisualization;
+
     public enum MinionState
     {
         wander,
@@ -42,6 +44,34 @@ public class MinionMovement : NetworkBehaviour
         state = MinionState.wander;
 
         timer = wanderTimer;
+
+        SetTeam(team);
+    }
+    public void SetTeam(int _team)
+    {
+        team = _team;
+        if (_team == 1)
+        {
+            //myRenderer.material.color = Color.red;
+            //myRenderer.material.SetColor("_EmissionColor", Color.red);
+            //myRenderer.material = materialTeam1;
+            // Add layer to culling mask, leave everything else alone
+            //if (!isAI)
+                //myCamera.GetComponent<CameraController>().fowCamera.cullingMask |= (1 << LayerMask.NameToLayer("FogOfWarTeam1"));
+            // Set layer for fow area
+            viewVisualization.gameObject.layer = LayerMask.NameToLayer("FogOfWarTeam1");
+
+        }
+        else if (_team == 2)
+        {
+            //myRenderer.material.color = Color.blue;
+            //myRenderer.material.SetColor("_EmissionColor", Color.blue);
+            //myRenderer.material = materialTeam2;
+            //if (!isAI)
+                //myCamera.GetComponent<CameraController>().fowCamera.cullingMask |= (1 << LayerMask.NameToLayer("FogOfWarTeam2"));
+            viewVisualization.gameObject.layer = LayerMask.NameToLayer("FogOfWarTeam2");
+
+        }
     }
 
     private void Update()
@@ -54,7 +84,7 @@ public class MinionMovement : NetworkBehaviour
         for (int i = 0; i < hitColliders.Length; i++)
         {
             GameObject temp = hitColliders[i].gameObject;
-            if (temp.tag == "DangerSpell" && temp.GetComponent<FireballScript>().creator.netId.Value != GetComponent<NetworkedPlayerScript>().netId.Value)
+            if (temp.tag == "DangerSpell" && temp.GetComponent<FireballScript>().creator.netId != netId)
             {
                 // Check if spell will hit us
                 Vector3 spellDirection = temp.transform.forward.normalized;
@@ -92,7 +122,7 @@ public class MinionMovement : NetworkBehaviour
                 Vector3 newPos = RandomNavSphere(transform.position, wanderRadius, -1);
                 //Debug.Log("wanderpos: " + newPos + ", stop dist: " + agent.stoppingDistance);
                 agent.SetDestination(newPos);
-                GetComponent<PlayerMovement>().rotationTarget = newPos;
+                //GetComponent<PlayerMovement>().rotationTarget = newPos;
                 //Debug.Log("set destination wander");
                 timer = 0;
             }
@@ -166,7 +196,7 @@ public class MinionMovement : NetworkBehaviour
         {
             GameObject temp = hitColliders[i].gameObject;
             //if (temp.tag == "Player" && temp.GetComponent<NetworkedPlayerScript>().netId != netId && temp.GetComponent<NetworkedPlayerScript>().isAI)
-            if (temp.tag == "Player" && temp.GetComponent<NetworkedPlayerScript>().netId != netId && temp.GetComponent<NetworkedPlayerScript>().team != team)
+            if (temp.tag == "Minion" && temp.GetComponent<MinionMovement>().netId != netId && temp.GetComponent<MinionMovement>().team != team)
             {
                 float distance = Vector3.Distance(transform.position, temp.transform.position);
                 if (distance < closestDistance)
