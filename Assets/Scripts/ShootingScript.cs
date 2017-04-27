@@ -64,9 +64,15 @@ public class ShootingScript : NetworkBehaviour
     public float orbPullStrength = 1;
 
     public GameObject p_Ultimate;
+    private Text ultimateTimer;
+    private RawImage ultimateIcon;
+    private float ultimateTimeValue = 0;
 
     private void Awake()
     {
+        ultimateTimer = GameObject.Find("UltimateTimer").GetComponent<Text>();
+        ultimateIcon = GameObject.Find("UltimateIcon").GetComponent<RawImage>();
+
         blinkTimer = GameObject.Find("BlinkTimer").GetComponent<Text>();
         blinkIcon = GameObject.Find("BlinkIcon").GetComponent<RawImage>();
 
@@ -100,6 +106,25 @@ public class ShootingScript : NetworkBehaviour
     void Update()
     {
         t_shoot.transform.forward = transform.forward;
+
+        if (isLocalPlayer) ultimateTimer.text = (Mathf.Ceil(ultimateTimeValue)).ToString();
+        if (ultimateTimeValue > 0)
+        {
+            ultimateTimeValue -= Time.deltaTime;
+            if (isLocalPlayer)
+            {
+                ultimateTimer.enabled = true;
+                ultimateIcon.color = new Color(0.1f, 0.1f, 0.1f, 1);
+            }
+        }
+        else
+        {
+            if (isLocalPlayer)
+            {
+                ultimateIcon.color = new Color(1, 1, 1, 1);
+                ultimateTimer.enabled = false;
+            }
+        }
 
         if (isLocalPlayer)  blinkTimer.text = (Mathf.Ceil(blinkTimeValue)).ToString();
         if (blinkTimeValue > 0)
@@ -329,7 +354,7 @@ public class ShootingScript : NetworkBehaviour
 
     public IEnumerator FireFancy(Vector3 point)
     {
-        if (Time.time > lastAutoTime + autoDelay && !isCastingSpell)
+        if (ultimateTimeValue <= 0 && !isCastingSpell)
         {
             isCastingSpell = true;
             if (GetComponent<NetworkedPlayerScript>().anim)
@@ -343,7 +368,7 @@ public class ShootingScript : NetworkBehaviour
             GameObject autoAttack = Instantiate(p_Ultimate, t_shoot.position, t_shoot.rotation, null);
             autoAttack.GetComponent<FancyScript>().damage = GetComponent<NetworkedPlayerScript>().attackDamge;
             autoAttack.GetComponent<FancyScript>().creator = GetComponent<NetworkedPlayerScript>();
-            lastAutoTime = Time.time;
+            ultimateTimeValue = 5;
             isCastingSpell = false;
         }
     }
